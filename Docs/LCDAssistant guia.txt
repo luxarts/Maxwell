@@ -1,0 +1,6 @@
+Byte orientation: Horizontal
+Width: 128
+Height: 64
+Include size: No
+Size endianness: Little
+Pixels/byte: 8
