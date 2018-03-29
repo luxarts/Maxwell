@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MaxWIFI</title>
+	<script type="text/javascript" src="main.js"></script>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+
+	<p>X: <span id="posX"></span></p>
+	<p>Y: <span id="posY"></span></p>
+	<p>Z: <span id="posZ"></span></p>
+	<input type="button" value="Home" onclick="home()">
+	
+	<table id="joy">
+		<!-- Eje X -->
+		<input type="button" value="10"    class="padButton mm10 xaxis"   onclick="moveX(10)">
+		<input type="button" value="1"     class="padButton mm1 xaxis"    onclick="moveX(1)">
+		<input type="button" value="0.1"   class="padButton mm01 xaxis"   onclick="moveX(0.1)">
+		<input type="button" value="0.01"  class="padButton mm001 xaxis"  onclick="moveX(0.01)">
+		<input type="button" value="-0.01" class="padButton mm-001 xaxis" onclick="moveX(-0.01)">
+		<input type="button" value="-0.1"  class="padButton mm-01 xaxis"  onclick="moveX(-0.1)">
+		<input type="button" value="-1"    class="padButton mm-1 xaxis"   onclick="moveX(-1)">
+		<input type="button" value="-10"   class="padButton mm-10 xaxis"  onclick="moveX(-10)">
+
+		<!-- Eje Y -->
+		<input type="button" value="10"    class="padButton mm10 yaxis"   onclick="moveY(10)">
+		<input type="button" value="1"     class="padButton mm1 yaxis"    onclick="moveY(1)">
+		<input type="button" value="0.1"   class="padButton mm01 yaxis"   onclick="moveY(0.1)">
+		<input type="button" value="0.01"  class="padButton mm001 yaxis"  onclick="moveY(0.01)">
+		<input type="button" value="-0.01" class="padButton mm-001 yaxis" onclick="moveY(-0.01)">
+		<input type="button" value="-0.1"  class="padButton mm-01 yaxis"  onclick="moveY(-0.1)">
+		<input type="button" value="-1"    class="padButton mm-1 yaxis"   onclick="moveY(-1)">
+		<input type="button" value="-10"   class="padButton mm-10 yaxis"  onclick="moveY(-10)">
+
+		<!-- Eje Z -->
+		<input type="button" value="10"    class="padButton mm10 zaxis"   onclick="moveZ(10)">
+		<input type="button" value="1"     class="padButton mm1 zaxis"    onclick="moveZ(1)">
+		<input type="button" value="0.1"   class="padButton mm01 zaxis"   onclick="moveZ(0.1)">
+		<input type="button" value="0.01"  class="padButton mm001 zaxis"  onclick="moveZ(0.01)">
+		<input type="button" value="-0.01" class="padButton mm-001 zaxis" onclick="moveZ(-0.01)">
+		<input type="button" value="-0.1"  class="padButton mm-01 zaxis"  onclick="moveZ(-0.1)">
+		<input type="button" value="-1"    class="padButton mm-1 zaxis"   onclick="moveZ(-1)">
+		<input type="button" value="-10"   class="padButton mm-10 zaxis"  onclick="moveZ(-10)">
+	</table>
+
+	<input type="text" id="peticion">
+	<input type="button" value="Enviar" onclick="enviarPeticion()">
+</body>
+</html>
