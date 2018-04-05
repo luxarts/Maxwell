@@ -3293,7 +3293,7 @@ int UIDisplay::executeAction(unsigned int action, bool allowMoves) {
             break;
         case UI_ACTION_SET_ORIGIN:
             if(!allowMoves) return UI_ACTION_SET_ORIGIN;
-            Printer::setOrigin(0, 0, 0);
+            Printer::setOrigin(-Printer::currentPosition[X_AXIS], -Printer::currentPosition[Y_AXIS], -Printer::currentPosition[Z_AXIS]);//MaxwellEdit. Original-> Printer::setOrigin(0,0,0);
             break;
         case UI_ACTION_TOGGLE_JAMCONTROL:
             Printer::setJamcontrolDisabled(!Printer::isJamcontrolDisabled());
