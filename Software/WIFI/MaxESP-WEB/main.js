@@ -72,7 +72,7 @@ function enviarComando(cmd){
 	document.getElementById('posY').innerHTML = posY;
 	document.getElementById('posZ').innerHTML = posZ;
 	console.log(cmd);
-	/*client.get(cmd, function(response) {
+	client.get(cmd, function(response) {
 		console.log("Respuesta: "+response);
-	});*/
+	});
 }
