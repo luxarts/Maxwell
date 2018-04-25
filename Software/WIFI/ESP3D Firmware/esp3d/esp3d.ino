@@ -168,22 +168,22 @@ void setup()
 //main loop
 void loop()
 {
-    //be sure wifi is on to proceed wifi function
-     if (WiFi.getMode()!=WIFI_OFF ) {
+  //be sure wifi is on to proceed wifi function
+  if (WiFi.getMode()!=WIFI_OFF ) {
 #ifdef CAPTIVE_PORTAL_FEATURE
-        if (WiFi.getMode()!=WIFI_STA ) {
-            dnsServer.processNextRequest();
-        }
+    if (WiFi.getMode()!=WIFI_STA ) {
+      dnsServer.processNextRequest();
+    }
 #endif
 //web requests
-        web_interface->web_server.handleClient();
+    web_interface->web_server.handleClient();
 #ifdef TCP_IP_DATA_FEATURE
-        BRIDGE::processFromTCP2Serial();
+    BRIDGE::processFromTCP2Serial();
 #endif
-    }
-        BRIDGE::processFromSerial2TCP();
-    //in case of restart requested
-    if (web_interface->restartmodule) {
-        CONFIG::esp_restart();
-    }
+  }
+  BRIDGE::processFromSerial2TCP();
+  //in case of restart requested
+  if (web_interface->restartmodule) {
+    CONFIG::esp_restart();
+  }
 }
