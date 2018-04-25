@@ -90,7 +90,7 @@ bool COMMAND::isadmin(String & cmd_params)
     }
     adminpassword = get_param(cmd_params,"pwd=", true);
     if (!sadminPassword.equals(adminpassword)) {
-        LOG("Not allowed\r\n")
+        LOG("Not identified from command line\r\n")
         return false;
     } else {
         return true;
@@ -118,15 +118,32 @@ bool COMMAND::isuser(String & cmd_params)
 bool COMMAND::execute_command(int cmd,String cmd_params, tpipe output, level_authenticate_type auth_level)
 {
     bool response = true;
-#ifdef AUTHENTICATION_FEATURE
     level_authenticate_type auth_type = auth_level;
+#ifdef AUTHENTICATION_FEATURE
     if (isadmin(cmd_params)) {
         auth_type = LEVEL_ADMIN;
+        LOG("admin identified\r\n");
     }
     if (isuser(cmd_params) && (auth_type != LEVEL_ADMIN)) {
         auth_type = LEVEL_USER;
+          LOG("user identified\r\n");
     }
-
+#ifdef DEBUG_ESP3D
+    if ( auth_type == LEVEL_ADMIN)  
+        {
+            LOG("admin identified\r\n");
+        }
+    else  {
+        if( auth_type == LEVEL_USER)  
+            {
+                LOG("user identified\r\n");
+            }
+        else  
+            {
+                LOG("guest identified\r\n");
+            }
+        }
+#endif
 #endif
     //manage parameters
     byte mode = 254;
@@ -390,7 +407,7 @@ bool COMMAND::execute_command(int cmd,String cmd_params, tpipe output, level_aut
     break;
 #ifdef DIRECT_PIN_FEATURE
     //Get/Set pin value
-    //[ESP201]P<pin> V<value>
+    //[ESP201]P<pin> V<value> [PULLUP=YES RAW=YES]pwd=<admin password>
     case 201:
         parameter = get_param(cmd_params,"", true);
 #ifdef AUTHENTICATION_FEATURE
@@ -1132,6 +1149,7 @@ bool COMMAND::execute_command(int cmd,String cmd_params, tpipe output, level_aut
                 if (!plain)BRIDGE::print(F("\"}"), output);
             }
         if (!plain)BRIDGE::print(F("]}"), output);
+        else BRIDGE::print(F("\n"), output);
         WiFi.scanDelete();
 	}
 	break;
@@ -1217,38 +1235,39 @@ bool COMMAND::execute_command(int cmd,String cmd_params, tpipe output, level_aut
         if (currentfile) {//if file open success
             //flush to be sure send buffer is empty
             ESP_SERIAL_OUT.flush();
-            //read content
-            String currentline = currentfile.readString();
             //until no line in file
-            while (currentline.length() >0) {
-                int ESPpos = currentline.indexOf("[ESP");
-                if (ESPpos>-1) {
-                    //is there the second part?
-                    int ESPpos2 = currentline.indexOf("]",ESPpos);
-                    if (ESPpos2>-1) {
-                        //Split in command and parameters
-                        String cmd_part1=currentline.substring(ESPpos+4,ESPpos2);
-                        String cmd_part2="";
-                        //is there space for parameters?
-                        if (ESPpos2<currentline.length()) {
-                            cmd_part2=currentline.substring(ESPpos2+1);
+            while (currentfile.available()) {
+                String currentline = currentfile.readStringUntil('\n');
+                currentline.replace("\n","");
+                currentline.replace("\r","");
+                if (currentline.length() > 0) {
+                    int ESPpos = currentline.indexOf("[ESP");
+                    if (ESPpos>-1) {
+                        //is there the second part?
+                        int ESPpos2 = currentline.indexOf("]",ESPpos);
+                        if (ESPpos2>-1) {
+                            //Split in command and parameters
+                            String cmd_part1=currentline.substring(ESPpos+4,ESPpos2);
+                            String cmd_part2="";
+                            //is there space for parameters?
+                            if (ESPpos2<currentline.length()) {
+                                cmd_part2=currentline.substring(ESPpos2+1);
+                            }
+                            //if command is a valid number then execute command
+                            if(cmd_part1.toInt()!=0) {
+                                execute_command(cmd_part1.toInt(),cmd_part2,NO_PIPE, auth_type);
+                            }
+                            //if not is not a valid [ESPXXX] command ignore it
                         }
-                        //if command is a valid number then execute command
-                        if(cmd_part1.toInt()!=0) {
-                            execute_command(cmd_part1.toInt(),cmd_part2,NO_PIPE);
-                        }
-                        //if not is not a valid [ESPXXX] command ignore it
+                    } else {
+                        //send line to serial
+                        ESP_SERIAL_OUT.println(currentline);
+                        //flush to be sure send buffer is empty
+                        delay(0);
+                        ESP_SERIAL_OUT.flush();
                     }
-                } else {
-                    //send line to serial
-                    ESP_SERIAL_OUT.println(currentline);
-                    //flush to be sure send buffer is empty
-                    delay(0);
-                    ESP_SERIAL_OUT.flush();
+                 delay(0);   
                 }
-                currentline="";
-                //read next line if any
-                currentline = currentfile.readString();
             }
             currentfile.close();
             BRIDGE::println(OK_CMD_MSG, output);
@@ -1505,8 +1524,8 @@ if (CONFIG::GetFirmwareTarget()  == SMOOTHIEWARE) {
 void COMMAND::read_buffer_serial(uint8_t *b, size_t len)
 {
     for (long i = 0; i< len; i++) {
-        read_buffer_serial(*b);
-        *b++;
+        read_buffer_serial(b[i]);
+       //*b++;
     }
 }
 

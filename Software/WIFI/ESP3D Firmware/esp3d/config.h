@@ -88,7 +88,7 @@ extern HardwareSerial Serial2;
 #define CAPTIVE_PORTAL_FEATURE
 
 //AUTHENTICATION_FEATURE: protect pages by login password
-#define AUTHENTICATION_FEATURE
+//#define AUTHENTICATION_FEATURE
 
 //WEB_UPDATE_FEATURE: allow to flash fw using web UI
 #define WEB_UPDATE_FEATURE
@@ -186,7 +186,7 @@ extern "C" {
 #endif
 #include "wificonf.h"
 //version and sources location
-#define FW_VERSION "0.9.99"
+#define FW_VERSION "0.9.102"
 #define REPOSITORY "https://github.com/luc-github/ESP3D"
 
 typedef enum {
@@ -268,11 +268,11 @@ typedef enum {
 
 //default values
 #define DEFAULT_WIFI_MODE			AP_MODE
-const char DEFAULT_AP_SSID []  PROGMEM =		"Impresora Maxwell";
+const char DEFAULT_AP_SSID []  PROGMEM =		"Maxwell3D";
 const char DEFAULT_AP_PASSWORD [] PROGMEM =	"maxwellpass";
-const char DEFAULT_STA_SSID []  PROGMEM =		"";
-const char DEFAULT_STA_PASSWORD [] PROGMEM =	"";
-const byte DEFAULT_STA_IP_MODE  = 		  STATIC_IP_MODE;
+const char DEFAULT_STA_SSID []  PROGMEM =		"ASD";
+const char DEFAULT_STA_PASSWORD [] PROGMEM =	"ASD";
+const byte DEFAULT_STA_IP_MODE  = 				STATIC_IP_MODE;
 const byte DEFAULT_AP_IP_MODE = 				STATIC_IP_MODE;
 const byte DEFAULT_IP_VALUE[]   =	        {192, 168, 0, 99};
 const byte DEFAULT_MASK_VALUE[]  =	        {255, 255, 255, 0};
@@ -292,14 +292,14 @@ const int DEFAULT_DATA_PORT =			8888;
 const int  DEFAULT_XY_FEEDRATE=1000;
 const int  DEFAULT_Z_FEEDRATE	=100;
 const int  DEFAULT_E_FEEDRATE=400;
-const char DEFAULT_ADMIN_PWD []  PROGMEM = "mwpass";
-const char DEFAULT_USER_PWD []  PROGMEM =	"userpass";
-const char DEFAULT_ADMIN_LOGIN []  PROGMEM = "admin";
-const char DEFAULT_USER_LOGIN []  PROGMEM =	"usuario";
+const char DEFAULT_ADMIN_PWD []  PROGMEM =	"admin";
+const char DEFAULT_USER_PWD []  PROGMEM =	"user";
+const char DEFAULT_ADMIN_LOGIN []  PROGMEM =	"admin";
+const char DEFAULT_USER_LOGIN []  PROGMEM =	"user";
 const char DEFAULT_TIME_SERVER1 []  PROGMEM =	"time.nist.gov";
 const char DEFAULT_TIME_SERVER2 []  PROGMEM =	"0.pool.ntp.org";
 const char DEFAULT_TIME_SERVER3 []  PROGMEM =	"1.pool.ntp.org";
-#define DEFAULT_TIME_ZONE			1
+#define DEFAULT_TIME_ZONE			0
 #define DEFAULT_TIME_DST			0
 #define DEFAULT_PRIMARY_SD  1
 #define DEFAULT_SECONDARY_SD 2
@@ -374,7 +374,7 @@ const uint16_t Setting[][2] = {
 #define MAX_TRY 2000
 
 //sizes
-#define EEPROM_SIZE				1024 //max is 1024
+#define EEPROM_SIZE				512 //max is 1024
 #define MAX_SSID_LENGTH				32
 #define MIN_SSID_LENGTH				1
 #define MAX_PASSWORD_LENGTH 			64
@@ -425,7 +425,6 @@ public:
     static char * mac2str(uint8_t mac [WL_MAC_ADDR_LENGTH]);
     static byte split_ip (const char * ptr,byte * part);
     static void esp_restart();
-    static void flashfromSD(const char * Filename, int flashtype);
 private:
     static uint8_t FirmwareTarget;
 };

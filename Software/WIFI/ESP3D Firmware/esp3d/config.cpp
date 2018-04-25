@@ -43,7 +43,7 @@ HardwareSerial Serial2(2);
 uint8_t CONFIG::FirmwareTarget = UNKNOWN_FW;
 
 bool CONFIG::SetFirmwareTarget(uint8_t fw){
-    if ( fw >= 0 && fw <= MAX_FW_ID) {
+    if ( fw <= MAX_FW_ID) {
         FirmwareTarget = fw;
         return true;
     } else return false;
@@ -748,7 +748,7 @@ bool CONFIG::isHostnameValid(const char * hostname)
 bool CONFIG::isSSIDValid(const char * ssid)
 {
     //limited size
-    char c;
+    //char c;
     if (strlen(ssid)>MAX_SSID_LENGTH || strlen(ssid)<MIN_SSID_LENGTH) {
         return false;
     }
@@ -766,9 +766,12 @@ bool CONFIG::isSSIDValid(const char * ssid)
 bool CONFIG::isPasswordValid(const char * password)
 {
     //limited size
-    if ((strlen(password)>MAX_PASSWORD_LENGTH)||  (strlen(password)<MIN_PASSWORD_LENGTH)) {
+    if (strlen(password)>MAX_PASSWORD_LENGTH) {
         return false;
     }
+    #if MIN_PASSWORD_LENGTH > 0
+    if (strlen(password)<MIN_PASSWORD_LENGTH)) return false;
+    #endif 
     //no space allowed
     for (int i=0; i < strlen(password); i++)
         if (password[i] == ' ') {
@@ -1038,7 +1041,7 @@ bool CONFIG::check_update_presence( ){
         count = 0;
         String current_buffer;
         String current_line;
-        int pos;
+        //int pos;
         int temp_counter = 0;
        
         //pickup the list
@@ -1057,7 +1060,7 @@ bool CONFIG::check_update_presence( ){
                 while (current_buffer.indexOf("\n") !=-1) {
                     //remove the possible "\r"
                     current_buffer.replace("\r","");
-                    pos = current_buffer.indexOf("\n");
+                    //pos = current_buffer.indexOf("\n");
                     //get line
                     current_line = current_buffer.substring(0,current_buffer.indexOf("\n"));
                     //if line is command ack - just exit so save the time out period
@@ -1070,7 +1073,6 @@ bool CONFIG::check_update_presence( ){
                     if (current_line.indexOf("busy:") > -1 || current_line.indexOf("T:") > -1 || current_line.indexOf("B:") > -1) {
                         temp_counter++;
                     } else {
-                    
                     }
                     if (temp_counter > 5) {
                         break;
@@ -1185,39 +1187,51 @@ bool CONFIG::write_byte(int pos, const byte value)
 bool CONFIG::reset_config()
 {
     if(!CONFIG::write_string(EP_DATA_STRING,"")) {
+        LOG("EP_DATA_STRING\r\n");
         return false;
     }
     if(!CONFIG::write_byte(EP_WIFI_MODE,DEFAULT_WIFI_MODE)) {
+        LOG("EP_WIFI_MODE\r\n");
         return false;
     }
     if(!CONFIG::write_buffer(EP_BAUD_RATE,(const byte *)&DEFAULT_BAUD_RATE,INTEGER_LENGTH)) {
+        LOG("EP_BAUD_RATE\r\n");
         return false;
     }
     if(!CONFIG::write_string(EP_AP_SSID,FPSTR(DEFAULT_AP_SSID))) {
+        LOG("EP_AP_SSID\r\n");
         return false;
     }
     if(!CONFIG::write_string(EP_AP_PASSWORD,FPSTR(DEFAULT_AP_PASSWORD))) {
+        LOG("EP_AP_PASSWORD\r\n");
         return false;
     }
     if(!CONFIG::write_string(EP_STA_SSID,FPSTR(DEFAULT_STA_SSID))) {
+        LOG("EP_STA_SSID\r\n");
         return false;
     }
     if(!CONFIG::write_string(EP_STA_PASSWORD,FPSTR(DEFAULT_STA_PASSWORD))) {
+        LOG("EP_STA_PASSWORD\r\n");
         return false;
     }
     if(!CONFIG::write_byte(EP_AP_IP_MODE,DEFAULT_AP_IP_MODE)) {
+        LOG("EP_AP_IP_MODE\r\n");
         return false;
     }
     if(!CONFIG::write_byte(EP_STA_IP_MODE,DEFAULT_STA_IP_MODE)) {
+        LOG("EP_STA_IP_MODE\r\n");
         return false;
     }
     if(!CONFIG::write_buffer(EP_STA_IP_VALUE,DEFAULT_IP_VALUE,IP_LENGTH)) {
+        LOG("EP_STA_IP_VALUE\r\n");
         return false;
     }
     if(!CONFIG::write_buffer(EP_STA_MASK_VALUE,DEFAULT_MASK_VALUE,IP_LENGTH)) {
+        LOG("EP_STA_MASK_VALUE\r\n");
         return false;
     }
     if(!CONFIG::write_buffer(EP_STA_GATEWAY_VALUE,DEFAULT_GATEWAY_VALUE,IP_LENGTH)) {
+        LOG("EP_STA_GATEWAY_VALUE\r\n");
         return false;
     }
     if(!CONFIG::write_byte(EP_STA_PHY_MODE,DEFAULT_PHY_MODE)) {
@@ -1248,9 +1262,11 @@ bool CONFIG::reset_config()
         return false;
     }
     if(!CONFIG::write_buffer(EP_WEB_PORT,(const byte *)&DEFAULT_WEB_PORT,INTEGER_LENGTH)) {
+        LOG("EP_WEB_PORT\r\n");
         return false;
     }
     if(!CONFIG::write_buffer(EP_DATA_PORT,(const byte *)&DEFAULT_DATA_PORT,INTEGER_LENGTH)) {
+        LOG("EP_DATA_PORT\r\n");
         return false;
     }
     if(!CONFIG::write_byte(EP_REFRESH_PAGE_TIME,DEFAULT_REFRESH_PAGE_TIME)) {
@@ -1369,22 +1385,23 @@ void CONFIG::print_config(tpipe output, bool plaintext)
     BRIDGE::print(formatBytes(ESP.getFlashChipSize()).c_str(), output);
     if (!plaintext)BRIDGE::print(F("\","), output);
     else BRIDGE::print(F("\n"), output);
-#ifdef ARDUINO_ARCH_ESP8266    
+#ifdef ARDUINO_ARCH_ESP8266 
+    fs::FSInfo info;
+    SPIFFS.info(info);
     if (!plaintext)BRIDGE::print(F("\"update_size\":\""), output);
     else BRIDGE::print(F("Available Size for update: "), output);
     uint32_t  flashsize = ESP.getFlashChipSize();
     if (flashsize > 1024 * 1024) flashsize = 1024 * 1024;
-    BRIDGE::print(formatBytes(flashsize - ESP.getSketchSize()).c_str(), output);
+    BRIDGE::print(formatBytes(flashsize - ESP.getSketchSize()-info.totalBytes).c_str(), output);
     if (!plaintext)BRIDGE::print(F("\","), output);
     else {
-        if ((flashsize - ESP.getSketchSize()) > (flashsize / 2)) BRIDGE::println(F("(Ok)"), output);
-        else BRIDGE::print(F("(Not enough)"), output);
+        if ((flashsize - ESP.getSketchSize()-info.totalBytes) > (ESP.getSketchSize())) BRIDGE::println(F("(Ok)"), output);
+        else BRIDGE::println(F("(Not enough)"), output);
         }
 
     if (!plaintext)BRIDGE::print(F("\"spiffs_size\":\""), output);
     else BRIDGE::print(F("Available Size for SPIFFS: "), output);
-    fs::FSInfo info;
-    SPIFFS.info(info);
+   
     BRIDGE::print(formatBytes(info.totalBytes).c_str(), output);
     if (!plaintext)BRIDGE::print(F("\","), output);
     else BRIDGE::print(F("\n"), output);
@@ -1456,9 +1473,9 @@ void CONFIG::print_config(tpipe output, bool plaintext)
 #endif
     if (!plaintext)BRIDGE::print(F("\"phy_mode\":\""), output);
     else BRIDGE::print(F("Phy Mode: "), output);
-    if (PhyMode == WIFI_PHY_MODE_11G )BRIDGE::print(F("11g"), output);
-    else if (PhyMode == WIFI_PHY_MODE_11B )BRIDGE::print(F("11b"), output);
-    else if (PhyMode == WIFI_PHY_MODE_11N )BRIDGE::print(F("11n"), output);
+    if (PhyMode == (WIFI_PHY_MODE_11G))BRIDGE::print(F("11g"), output);
+    else if (PhyMode == (WIFI_PHY_MODE_11B))BRIDGE::print(F("11b"), output);
+    else if (PhyMode == (WIFI_PHY_MODE_11N))BRIDGE::print(F("11n"), output);
     else BRIDGE::print(F("???"), output);
     if (!plaintext)BRIDGE::print(F("\","), output);
     else BRIDGE::print(F("\n"), output);
