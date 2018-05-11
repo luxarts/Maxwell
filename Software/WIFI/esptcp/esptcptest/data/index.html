@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript">
+	var HttpClient = function() {
+		this.get = function(aUrl, aCallback) {
+			if(window.XMLHttpRequest) anHttpRequest = new XMLHttpRequest();
+			else anHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			
+			anHttpRequest.onreadystatechange = function() { 
+				if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+				aCallback(anHttpRequest.responseText);
+			}
+			anHttpRequest.open("GET", aUrl, true);           
+			anHttpRequest.send(null);
+		}
+	}
+	var client = new HttpClient();
+
+	function enviarPeticion(){
+		var peticion = document.getElementById('peticion').value;
+		client.get(peticion, function(response) {
+			console.log("Respuesta: " + response);
+		});
+	}
+</script>
+</head>
+<body>
+	<input type="text" id="peticion"><input type="button" value="Enviar petición" onclick="enviarPeticion()">
+</body>
+</html>
