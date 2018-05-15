@@ -46,7 +46,23 @@ bool handleFileRead(String path){
   return false;
 }
 
+void handle_web_root(){
+  String path = "/index.html";
+  String contentType = getContentType(path);
+  String pathWithGz = path + ".gz";
+  
+  if(SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)){
+    if(SPIFFS.exists(pathWithGz)) path += ".gz";
+    FS_FILE file = SPIFFS.open(path, SPIFFS_FILE_READ);
+    webserver.streamFile(file, contentType);
+    file.close();
+    return;
+  }
+}
+
 void webserverSetup(){
+  webserver.on("/", HTTP_ANY, handle_web_root);
+  
   webserver.onNotFound([](){
     webserver.sendHeader("Connection", "close");
     webserver.sendHeader("Access-Control-Allow-Origin","*");

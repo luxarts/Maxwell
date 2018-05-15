@@ -12,7 +12,6 @@
 static char * STA_SSID  = "Skynet";
 static char * STA_PASSWORD = "lu29ni06";
 
-
 //WiFiServer dataserver(8888);
 
 void setup() {

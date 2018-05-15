@@ -60,6 +60,12 @@
 #define FAN_THERMO_MAX_TEMP 60
 #define FAN_THERMO_THERMISTOR_PIN -1
 #define FAN_THERMO_THERMISTOR_TYPE 1
+#undef X_MIN_PIN
+#define X_MIN_PIN -1
+#undef Y_MIN_PIN
+#define Y_MIN_PIN -1
+#undef Z_MIN_PIN
+#define Z_MIN_PIN -1
 #undef X_MAX_PIN
 #define X_MAX_PIN ORIG_X_MIN_PIN
 #undef Y_MAX_PIN
@@ -85,7 +91,7 @@
 #define DECOUPLING_TEST_MAX_HOLD_VARIANCE 20
 #define DECOUPLING_TEST_MIN_TEMP_RISE 1
 #define KILL_IF_SENSOR_DEFECT 0
-#define RETRACT_ON_PAUSE 5
+#define RETRACT_ON_PAUSE 7
 #define PAUSE_START_COMMANDS ""
 #define PAUSE_END_COMMANDS ""
 #define SHARED_EXTRUDER_HEATER 0
@@ -98,7 +104,7 @@
 #define EXT0_HEATER_PIN HEATER_0_PIN
 #define EXT0_STEP_PIN ORIG_E0_STEP_PIN
 #define EXT0_DIR_PIN ORIG_E0_DIR_PIN
-#define EXT0_INVERSE 1
+#define EXT0_INVERSE 0
 #define EXT0_ENABLE_PIN ORIG_E0_ENABLE_PIN
 #define EXT0_ENABLE_ON 0
 #define EXT0_MIRROR_STEPPER 0
@@ -190,10 +196,10 @@
 #define HEATED_BED_PID_MAX 255
 #define HEATED_BED_DECOUPLE_TEST_PERIOD 300000
 #define MIN_EXTRUDER_TEMP 170
-#define MAXTEMP 270
+#define MAXTEMP 285
 #define MIN_DEFECT_TEMPERATURE 0
 #define MAX_DEFECT_TEMPERATURE 300
-#define MILLISECONDS_PREHEAT_TIME 30000
+#define MILLISECONDS_PREHEAT_TIME 20000
 
 // ##########################################################################################
 // ##                             Laser configuration                                      ##
@@ -342,10 +348,13 @@ It also can add a delay to wait for spindle to run on full speed.
 #define Z_HOME_DIR 1
 #define X_MAX_LENGTH 200
 #define Y_MAX_LENGTH 200
-#define Z_MAX_LENGTH 153.2
+#define Z_MAX_LENGTH 550
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
+#define PARK_POSITION_X 0
+#define PARK_POSITION_Y 20
+#define PARK_POSITION_Z_RAISE 20
 
 
 #define DISTORTION_CORRECTION 0
@@ -374,21 +383,21 @@ It also can add a delay to wait for spindle to run on full speed.
 #define EXACT_DELTA_MOVES 1
 
 // Delta settings
-#define DELTA_DIAGONAL_ROD 206 // mm
+#define DELTA_DIAGONAL_ROD 338 // mm
 #define DELTA_ALPHA_A 210
 #define DELTA_ALPHA_B 330
 #define DELTA_ALPHA_C 90
 #define DELTA_RADIUS_CORRECTION_A 0
 #define DELTA_RADIUS_CORRECTION_B 0
 #define DELTA_RADIUS_CORRECTION_C 0
-#define DELTA_DIAGONAL_CORRECTION_A 4.206
-#define DELTA_DIAGONAL_CORRECTION_B 0.815
-#define DELTA_DIAGONAL_CORRECTION_C 1.662
+#define DELTA_DIAGONAL_CORRECTION_A 0
+#define DELTA_DIAGONAL_CORRECTION_B 0
+#define DELTA_DIAGONAL_CORRECTION_C 0
 #define END_EFFECTOR_HORIZONTAL_OFFSET 0
 #define CARRIAGE_HORIZONTAL_OFFSET 0
-#define DELTA_MAX_RADIUS 90
-#define ROD_RADIUS 108.2
-#define PRINTER_RADIUS 108.2
+#define DELTA_MAX_RADIUS 150
+#define ROD_RADIUS 160
+#define PRINTER_RADIUS 160
 #define DELTA_HOME_ON_POWER 0
 #define STEP_COUNTER
 #define DELTA_X_ENDSTOP_OFFSET_STEPS 0
@@ -584,7 +593,7 @@ WARNING: Servos can draw a considerable amount of current. Make sure your system
 #define LANGUAGE_CZ_ACTIVE 0
 #define LANGUAGE_PL_ACTIVE 0
 #define LANGUAGE_TR_ACTIVE 0
-#define UI_PRINTER_NAME "Skyprint"
+#define UI_PRINTER_NAME "Maxwell"
 #define UI_PRINTER_COMPANY ""
 #define UI_PAGES_DURATION 2000
 #define UI_SPEEDDEPENDENT_POSITIONING 0
@@ -611,11 +620,11 @@ Values must be in range 1..255
 #define BEEPER_SHORT_SEQUENCE 2,2
 #define BEEPER_LONG_SEQUENCE 8,8
 #define UI_SET_MIN_HEATED_BED_TEMP  30
-#define UI_SET_MAX_HEATED_BED_TEMP 120
+#define UI_SET_MAX_HEATED_BED_TEMP 140
 #define UI_SET_MIN_EXTRUDER_TEMP   170
-#define UI_SET_MAX_EXTRUDER_TEMP   260
+#define UI_SET_MAX_EXTRUDER_TEMP   280
 #define UI_SET_EXTRUDER_FEEDRATE 2
-#define UI_SET_EXTRUDER_RETRACT_DISTANCE 3
+#define UI_SET_EXTRUDER_RETRACT_DISTANCE 5
 
 
 #define NUM_MOTOR_DRIVERS 0
@@ -660,7 +669,7 @@ Values must be in range 1..255
             "heaterPin": "HEATER_0_PIN",
             "maxFeedrate": 60,
             "startFeedrate": 20,
-            "invert": "1",
+            "invert": "0",
             "invertEnable": "0",
             "acceleration": 100,
             "watchPeriod": 1,
@@ -759,7 +768,7 @@ Values must be in range 1..255
     "zMinPos": 0,
     "xLength": 200,
     "yLength": 200,
-    "zLength": 153.2,
+    "zLength": 550,
     "alwaysCheckEndstops": "0",
     "disableX": "0",
     "disableY": "0",
@@ -773,15 +782,15 @@ Values must be in range 1..255
     "zEndstopBack": 2,
     "deltaSegmentsPerSecondPrint": 180,
     "deltaSegmentsPerSecondTravel": 150,
-    "deltaDiagonalRod": 206,
-    "deltaHorizontalRadius": 108.2,
+    "deltaDiagonalRod": 338,
+    "deltaHorizontalRadius": 160,
     "deltaAlphaA": 210,
     "deltaAlphaB": 330,
     "deltaAlphaC": 90,
-    "deltaDiagonalCorrA": 4.206,
-    "deltaDiagonalCorrB": 0.815,
-    "deltaDiagonalCorrC": 1.662,
-    "deltaMaxRadius": 90,
+    "deltaDiagonalCorrA": 0,
+    "deltaDiagonalCorrB": 0,
+    "deltaDiagonalCorrC": 0,
+    "deltaMaxRadius": 150,
     "deltaFloorSafetyMarginMM": 15,
     "deltaRadiusCorrA": 0,
     "deltaRadiusCorrB": 0,
@@ -855,7 +864,7 @@ Values must be in range 1..255
     "extrudeMaxLength": 150,
     "homeOrder": "HOME_ORDER_ZXY",
     "featureController": 1,
-    "uiPrinterName": "Skyprint",
+    "uiPrinterName": "Maxwell",
     "uiPrinterCompany": "",
     "uiPagesDuration": 2000,
     "uiHeadline": "",
@@ -870,11 +879,11 @@ Values must be in range 1..255
     "uiKeyMinRepeat": 50,
     "featureBeeper": "0",
     "uiMinHeatedBed": 30,
-    "uiMaxHeatedBed": 120,
+    "uiMaxHeatedBed": 140,
     "uiMinEtxruderTemp": 170,
-    "uiMaxExtruderTemp": 260,
+    "uiMaxExtruderTemp": 280,
     "uiExtruderFeedrate": 2,
-    "uiExtruderRetractDistance": 3,
+    "uiExtruderRetractDistance": 5,
     "uiSpeeddependentPositioning": "0",
     "maxBedTemperature": 130,
     "bedSensorType": 1,
@@ -937,7 +946,7 @@ Values must be in range 1..255
     "skipM109Within": 2,
     "extruderFanCoolTemp": 50,
     "minTemp": 170,
-    "maxTemp": 270,
+    "maxTemp": 285,
     "minDefectTemp": 0,
     "maxDefectTemp": 300,
     "arcSupport": "1",
@@ -989,9 +998,9 @@ Values must be in range 1..255
     "xEndstopRetestFactor": 3,
     "yEndstopRetestFactor": 3,
     "zEndstopRetestFactor": 3,
-    "xMinPin": "ORIG_X_MIN_PIN",
-    "yMinPin": "ORIG_Y_MIN_PIN",
-    "zMinPin": "ORIG_Z_MIN_PIN",
+    "xMinPin": -1,
+    "yMinPin": -1,
+    "zMinPin": -1,
     "xMaxPin": "ORIG_X_MIN_PIN",
     "yMaxPin": "ORIG_X_MAX_PIN",
     "zMaxPin": "ORIG_Y_MIN_PIN",
@@ -1014,7 +1023,7 @@ Values must be in range 1..255
     "axisCompTanXY": 0,
     "axisCompTanXZ": 0,
     "axisCompTanYZ": 0,
-    "retractOnPause": 5,
+    "retractOnPause": 7,
     "pauseStartCommands": "",
     "pauseEndCommands": "",
     "distortionCorrection": "0",
@@ -1229,7 +1238,7 @@ Values must be in range 1..255
     "moveXWhenHomed": "0",
     "moveYWhenHomed": "0",
     "moveZWhenHomed": "0",
-    "preheatTime": 30000,
+    "preheatTime": 20000,
     "multiZEndstopHoming": "0",
     "z2MinMaxPin": -1,
     "z2MinMaxEndstop": 0,
@@ -1276,6 +1285,9 @@ Values must be in range 1..255
     "microstepE0": 16,
     "microstepE1": 16,
     "microstepE2": 16,
+    "parkPosX": 0,
+    "parkPosY": 0,
+    "parkPosZ": 20,
     "uiAnimation": "0",
     "uiPresetBedTempPLA": 60,
     "uiPresetBedABS": 110,
@@ -1290,7 +1302,7 @@ Values must be in range 1..255
     "hasUser1": false,
     "hasUser2": false,
     "numExtruder": 1,
-    "version": 100,
+    "version": 100.2,
     "primaryPortName": "Serial"
 }
 ========== End configuration string ==========

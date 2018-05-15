@@ -6,29 +6,45 @@
 	<title></title>
 	<script type="text/javascript">
 	var HttpClient = function() {
-		this.get = function(aUrl, aCallback) {
-			if(window.XMLHttpRequest) anHttpRequest = new XMLHttpRequest();
-			else anHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		this.get = function(url, callback) {
+			if(window.XMLHttpRequest) peticionHttp = new XMLHttpRequest();
+			else peticionHttp = new ActiveXObject("Microsoft.XMLHTTP");
 			
-			anHttpRequest.onreadystatechange = function() { 
-				if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-				aCallback(anHttpRequest.responseText);
+			peticionHttp.onreadystatechange = function() { 
+				if (peticionHttp.readyState == 4 && peticionHttp.status == 200)
+				callback(peticionHttp.responseText);
 			}
-			anHttpRequest.open("GET", aUrl, true);           
-			anHttpRequest.send(null);
+			peticionHttp.open("GET", url, true);           
+			peticionHttp.send(null);
 		}
 	}
 	var client = new HttpClient();
 
 	function enviarPeticion(){
 		var peticion = document.getElementById('peticion').value;
-		client.get(peticion, function(response) {
-			console.log("Respuesta: " + response);
+		client.get(peticion, function(respuesta) {
+			console.log("Respuesta: " + respuesta);
+		});
+	}
+	function enviarComando(){
+		var peticion = document.getElementById('peticion').value;
+		client.get("cmd=" + peticion, function(respuesta) {
+			console.log("Respuesta: " + respuesta);
 		});
 	}
 </script>
 </head>
 <body>
-	<input type="text" id="peticion"><input type="button" value="Enviar petición" onclick="enviarPeticion()">
+	<table>
+		<tr>
+			<td><input type="text" id="peticion"></td>
+			<td><input type="button" value="Enviar petición" onclick="enviarPeticion()"></td>
+		</tr>
+		<tr>
+			<td><input type="text" id="comando"></td>
+			<td><input type="button" value="Enviar comando" onclick="enviarComando()"></td>
+		</tr>
+	</table>
+
 </body>
 </html>
