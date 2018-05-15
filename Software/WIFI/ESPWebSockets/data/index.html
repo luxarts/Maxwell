@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript">
+		var connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp'])
+
+		connection.onmessage = function (event){
+			document.getElementById('serverText').inlineHTML = event.data;
+		}
+
+		function sendCmd(cmd){
+			if(connection.readyState)
+				connection.send('MAX0 ' + cmd);
+		}
+	</script>
+	<meta charset="utf-8">
+	<title>Maxwell - Panel de control</title>
+</head>
+<body>
+	<input type="button"  value="Obtener valor" name="getValue" id="getData" onclick="sendCmd('M123')">
+	<p id="serverText">Algo</p>
+</body>
+</html>
