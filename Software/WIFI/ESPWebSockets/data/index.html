@@ -1,19 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script type="text/javascript">
-		var connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp'])
-
-		connection.onmessage = function (event){
-			document.getElementById('serverText').innerHTML = event.data;
-		}
-
-		function sendCmd(cmd){
-			if(connection.readyState)
-				connection.send('!MAX123 ' + cmd);
-		}
-	</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script type="text/javascript" src="main.js"></script>
 	<title>Maxwell - Panel de control</title>
 </head>
 <body>
