@@ -5,19 +5,19 @@
 		var connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp'])
 
 		connection.onmessage = function (event){
-			document.getElementById('serverText').inlineHTML = event.data;
+			document.getElementById('serverText').innerHTML = event.data;
 		}
 
 		function sendCmd(cmd){
 			if(connection.readyState)
-				connection.send('MAX0 ' + cmd);
+				connection.send('!MAX123 ' + cmd);
 		}
 	</script>
 	<meta charset="utf-8">
 	<title>Maxwell - Panel de control</title>
 </head>
 <body>
-	<input type="button"  value="Obtener valor" name="getValue" id="getData" onclick="sendCmd('M123')">
+	<input type="button"  value="Obtener valor" name="getValue" id="getData" onclick="sendCmd('M456')">
 	<p id="serverText">Algo</p>
 </body>
 </html>
