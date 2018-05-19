@@ -18,12 +18,12 @@ var eepromNew = {
 	towerYendstop:0,
 	towerZendstop:0
 };
+var debugServer=false;
 var connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp'])
 
 connection.onmessage = function (event){
-	document.getElementById("serverResponse").innerHTML = event.data;
+	if(debugServer)console.log("Server>>"+event.data)
 	eepromCheck(event.data);
-
 }
 
 function sendCmd(cmd){
@@ -91,13 +91,13 @@ function eepromCheck(epr){
 /*
 	
 EPR:3 11 80.0000 Steps per mm
-EPR:3 153 140.0 Z max length [mm]
-EPR:3 881 206.000 Diagonal rod length [mm]
+EPR:3 153 155.0 Z max length [mm]
+EPR:3 881 200.000 Diagonal rod length [mm]
 EPR:3 885 100.000 Horizontal rod radius at 0,0 [mm]
 EPR:3 925 81.000 Max printable radius [mm]
-EPR:1 893 0 Tower X endstop offset [steps]
-EPR:1 895 0 Tower Y endstop offset [steps]
-EPR:1 897 0 Tower Z endstop offset [steps]
+EPR:1 893 10 Tower X endstop offset [steps]
+EPR:1 895 20 Tower Y endstop offset [steps]
+EPR:1 897 30 Tower Z endstop offset [steps]
 	EPR:3 901 210.000 Alpha A(210):
 	EPR:3 905 330.000 Alpha B(330):
 	EPR:3 909 90.000 Alpha C(90):

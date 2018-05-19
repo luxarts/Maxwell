@@ -13,63 +13,92 @@
 		<li><a href="calib.html">Calibracion manual</a></li>
 		<li><a href="config.html">Configuracion</a></li>
 	</ul>
+	<div id="content">
+		<input type="text" id="cmdline" onkeypress="enter(event)"><input type="button" class="btn" value="Enviar" onclick="sendCmdLine();">
 
-	<table class="controlJog" cellspacing="0">
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><input type="button" value="50" onclick="mover('y',50)"></td>
-			<td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><input type="button" value="10" onclick="mover('y',10)"></td>
-			<td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><input type="button" value="1" onclick="mover('y',1)"></td>
-			<td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><input type="button" value="0.1" onclick="mover('y',0.1)"></td>
-			<td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<td><input type="button" value="50" onclick="mover('y',50)"></td>
-			<td><input type="button" value="10" onclick="mover('y',50)"></td>
-			<td><input type="button" value="1" onclick="mover('y',50)"></td>
-			<td><input type="button" value="0.1" onclick="mover('y',50)"></td>
-			<td><input type="button" value="Home" onclick="home()"></td>
-			<td><input type="button" value="-0.1" onclick="mover('y',50)"></td>
-			<td><input type="button" value="-1" onclick="mover('y',50)"></td>
-			<td><input type="button" value="-10" onclick="mover('y',50)"></td>
-			<td><input type="button" value="-50" onclick="mover('y',50)"></td>
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><input type="button" value="-0.1" onclick="mover('y',-0.1)"></td>
-			<td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><input type="button" value="-1" onclick="mover('y',-1)"></td>
-			<td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><input type="button" value="-10" onclick="mover('y',-10)"></td>
-			<td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td><input type="button" value="-50" onclick="mover('y',-50)"></td>
-			<td></td><td></td><td></td><td></td>
-		</tr>
-	</table>
+		<table class="controlJog" cellspacing="0">
+			<tr>
+				<td></td><td></td><td></td><td></td>
+				<td><input type="button" value="50" onclick="mover('y',50)"></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td><input type="button" value="50" onclick="mover('z',50)"></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td>
+				<td><input type="button" value="10" onclick="mover('y',10)"></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td><input type="button" value="10" onclick="mover('z',10)"></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td>
+				<td><input type="button" value="1" onclick="mover('y',1)"></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td><input type="button" value="1" onclick="mover('z',1)"></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td>
+				<td><input type="button" value="0.1" onclick="mover('y',0.1)"></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td><input type="button" value="0.1" onclick="mover('z',0.1)"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="-50" onclick="mover('x',-50)"></td>
+				<td><input type="button" value="-10" onclick="mover('x',-10)"></td>
+				<td><input type="button" value="-1" onclick="mover('x',-1)"></td>
+				<td><input type="button" value="-0.1" onclick="mover('x',-0.1)"></td>
+				<td><input type="button" value="Home" onclick="home()"></td>
+				<td><input type="button" value="0.1" onclick="mover('x',0.1)"></td>
+				<td><input type="button" value="1" onclick="mover('x',1)"></td>
+				<td><input type="button" value="10" onclick="mover('x',10)"></td>
+				<td><input type="button" value="50" onclick="mover('x',50)"></td>
+				<td></td>
+				<td><input type="text" value="Z"></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td>
+				<td><input type="button" value="-0.1" onclick="mover('y',-0.1)"></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td><input type="button" value="-0.1" onclick="mover('z',-0.1)"></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td>
+				<td><input type="button" value="-1" onclick="mover('y',-1)"></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td><input type="button" value="-1" onclick="mover('z',-1)"></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td>
+				<td><input type="button" value="-10" onclick="mover('y',-10)"></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td><input type="button" value="-10" onclick="mover('z',-10)"></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td>
+				<td><input type="button" value="-50" onclick="mover('y',-50)"></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td><input type="button" value="-50" onclick="mover('z',-50)"></td>
+			</tr>
+		</table>
 
-	<input type="button" class="btn" value="Obtener valor" name="getValue" id="getData" onclick="sendCmd('M456')">
-	<p id="serverText">Algo</p>
+		<table id="coordenadas">
+			<tr>
+				<td id="actualX">X: Sin referencia</td>
+			</tr>
+			<tr>
+				<td id="actualY">Y: Sin referencia</td>
+			</tr>
+			<tr>
+				<td id="actualZ">Z: Sin referencia</td>
+			</tr>
+			<tr>
+				<td><span id="fr">Velocidad: 150mm/s</span></td>
+			</tr>
+			<tr>
+				<td><input type="range" min="0" max="300" id="frSlider" oninput="changeFeedrate()"></td>
+			</tr>
+		</table> 
+	</div>
 	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="control.js"></script>
 </body>
 </html>

@@ -29,6 +29,7 @@ void setup(){
   //digitalWrite(LED, 0);
   Serial.begin(DEFAULT_BAUDRATE);
   Serial.println();
+  delay(INIT_DELAY);
   inputString.reserve(150);
   wifiSetup();
   spiffsSetup();

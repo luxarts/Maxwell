@@ -8,6 +8,7 @@ var calibPosY = [0,0,0,0];
 var calibPosZ = [-1,-1,-1,-1];
 var hommed = false;
 var debug = false;
+var feedrate = 0;
 
 var degreesToRadians = Math.PI / 180.0;
 
@@ -408,15 +409,13 @@ function setNewParameters() {
 }
 
 function calcular() {
-	disableButtons();
-	resetValues();
 	cargarVariables();
 	convertIncomingEndstops();
 	var rslt = DoDeltaCalibration();
 	convertOutgoingEndstops();
 	setNewParameters();
-	sendCmd("G28");
-	
+	disableButtons();
+	resetValues();
 }
 
 function generarPuntos(){
@@ -446,7 +445,7 @@ function cargarVariables(){
 	deltaParams = new DeltaParameters (
 		+eeprom.diagonalRodLength,
 		+eeprom.horizontalRodRadius,
-		+eeprom.zMaxLength+5,
+		+eeprom.zMaxLength,
 		+eeprom.towerXendstop,
 		+eeprom.towerYendstop,
 		+eeprom.towerZendstop,
@@ -480,15 +479,15 @@ function calibPos(pos){
 	document.getElementById("actualX").innerHTML = calibPosX[pos-1];
 	document.getElementById("actualY").innerHTML = calibPosY[pos-1];
 	document.getElementById("actualZ").innerHTML = actualZ;
-	sendCmd("G1 X"+calibPosX[pos-1]+" Y"+calibPosY[pos-1]+" Z15");
-	sendCmd("G1 X"+calibPosX[pos-1]+" Y"+calibPosY[pos-1]+" Z10");
+	sendCmd("G1 X"+calibPosX[pos-1]+" Y"+calibPosY[pos-1]+" Z15 F"+feedrate);
+	sendCmd("G1 X"+calibPosX[pos-1]+" Y"+calibPosY[pos-1]+" Z10 F"+feedrate);
 }
 function calibZ(zvalue){
 	actualZ=actualZ+zvalue;
 	actualZ=Math.round(actualZ*100)/100; //Redondea a 2 decimales
-	if(actualZ<0)actualZ=0;
-	sendCmd("G1 Z"+actualZ);
 	document.getElementById("actualZ").innerHTML = actualZ;
+	sendCmd("G1 S1 Z"+actualZ);
+	sendCmd("G1 S0"); //S1=Habilita numeros negativos, S0=Deshabilita numeros negativos
 }
 function calibGuardarPos(){
 	calibPosZ[actualCalibPos-1] = actualZ;
@@ -496,7 +495,6 @@ function calibGuardarPos(){
 	document.getElementById("P"+actualCalibPos).classList.add("btn-enabled");
 	enableSave();
 }
-
 function enableSave(){
 	if(calibPosZ[0] != -1 && calibPosZ[1] != -1 && calibPosZ[2] != -1 && calibPosZ[3] != -1){
 		document.getElementById("saveEeprom").disabled = false;

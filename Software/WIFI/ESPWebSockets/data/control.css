@@ -1,15 +1,16 @@
 .controlJog{
 	padding: 0;
-	margin: 0;
+	margin: 0px auto;
 }
 
-.controlJog tr td input[type=button]{
+.controlJog input{
+	text-align: center;
 	background: var(--color_s);
 	color: var(--color_onsl);
 	padding: 0;
 	margin: 0;
-	width: 40px;
-	height: 40px;
+	width: 35px;
+	height: 35px;
 	box-shadow: none;
 	display: block;
 	border: none
@@ -22,4 +23,13 @@
 .controlJog td{
 	padding: 0;
 	text-align: center;
+}
+.controlJog td:nth-child(10){
+	width: 35px;
+}
+#coordenadas{
+	padding: 0px;
+	margin: 0 auto;
+	width: 200px;
+	text-align: left;
 }
