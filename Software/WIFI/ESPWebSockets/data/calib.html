@@ -16,18 +16,18 @@
 	<h1>Herramienta de calibracion manual</h1>
 	<h2>Guía de calibración</h2>
 	<ol>
-		<li>Presionar el botón Cargar Configuración</li>
-		<li>Presionar el botón P1</li>
+		<li>Presionar el botón <span class="markedText">Cargar Configuración</span></li>
+		<li>Presionar el botón <span class="markedText">P1</span></li>
 		<li>Colocar una hoja de papel entre el nozzle y la cama</li>
-		<li>Presionar el botón Z1 hasta alcanzar la hoja pero SIN TOCARLA</li>
-		<li>Presionar el botón Z01 mientras se mueve ligeramente la hoja hasta notar el rozamiento del nozzle contra la misma</li>
-		<li>Presionar el botón Guardar Posicion</li>
-		<li>Repetir el proceso desde el paso 3 tres veces mas</li>
-		<li>Presionar el botón Guardar Configuración</li>
-		<li>Volver a realizar el proceso desde el principio para comprobar la calibracion</li>
+		<li>Presionar el botón <span class="markedText">-1</span> hasta alcanzar la hoja pero SIN TOCARLA</li>
+		<li>Presionar el botón <span class="markedText">-0.1</span> mientras se mueve ligeramente la hoja hasta notar el rozamiento del nozzle contra la misma</li>
+		<li>Presionar el botón <span class="markedText">Guardar Posición</span></li>
+		<li>Repetir el proceso desde el paso 3 con los demas puntos (<span class="markedText">P2</span>,<span class="markedText">P2</span> y <span class="markedText">P2</span>)</li>
+		<li>Presionar el botón <span class="markedText">Guardar Configuración</span></li>
+		<li>Volver a realizar el proceso una vez mas desde el principio para comprobar la calibración</li>
 	</ol>
 	<p>Nota: La presión del nozzle contra la hoja debe ser mínima y debe ser similar en todos los puntos de calibración.</p>
-	
+
 	<table id="panel">
 		<tr>
 			<td><input type="button" id="loadEeprom" class="btn" value="Cargar Configuración" onclick="enableButtons();loadEeprom();"></td>
@@ -47,7 +47,7 @@
 			<td><input type="button" id="Z-01" class="btn btn-disabled" value="-0.1" onclick="calibZ(-0.1)"></td>
 		</tr>
 		<tr>
-			<td><input type="button" id="guardarPos" class="btn btn-disabled" value="Guardar Posicion" onclick="calibGuardarPos()"></td>
+			<td><input type="button" id="guardarPos" class="btn btn-disabled" value="Guardar Posición" onclick="calibGuardarPos()"></td>
 			<td><input type="button" id="Z-1" class="btn btn-disabled" value="-1" onclick="calibZ(-1)"></td>
 		</tr>
 	</table>

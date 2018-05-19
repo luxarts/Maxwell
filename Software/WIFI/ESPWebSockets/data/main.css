@@ -20,10 +20,14 @@
 body{
 	font-family: arial;
 	font-size: 16px;
-	padding: 50px 20px 0 20px;
+	padding: 55px 20px 0 20px;
 	margin: 0;
 	background: white;
 	color: black;
+}
+.markedText{
+	color: var(--color_p);
+	font-weight: bold;
 }
 input[type="button"]{
 	margin: 5px;
@@ -32,6 +36,9 @@ input[type="button"]{
 	border-radius: 2px;
 	outline: none;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+}
+input[type="button"].btn-active{
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .6), 0 0px 15px 2px var(--color_s);
 }
 .btn{
 	opacity: 1;

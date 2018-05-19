@@ -6,7 +6,6 @@ var normalise=true;
 var calibPosX = [0,0,0,0];
 var calibPosY = [0,0,0,0];
 var calibPosZ = [-1,-1,-1,-1];
-var calibrated = [0,0,0,0];
 var hommed = false;
 var debug = false;
 
@@ -409,12 +408,15 @@ function setNewParameters() {
 }
 
 function calcular() {
+	disableButtons();
+	resetValues();
 	cargarVariables();
 	convertIncomingEndstops();
 	var rslt = DoDeltaCalibration();
 	convertOutgoingEndstops();
 	setNewParameters();
 	sendCmd("G28");
+	
 }
 
 function generarPuntos(){
@@ -470,6 +472,11 @@ function calibPos(pos){
 	}
 	actualCalibPos = pos;
 	actualZ=10;
+	document.getElementById("P1").classList.remove("btn-active");
+	document.getElementById("P2").classList.remove("btn-active");
+	document.getElementById("P3").classList.remove("btn-active");
+	document.getElementById("P4").classList.remove("btn-active");
+	document.getElementById("P"+pos).classList.add("btn-active");
 	document.getElementById("actualX").innerHTML = calibPosX[pos-1];
 	document.getElementById("actualY").innerHTML = calibPosY[pos-1];
 	document.getElementById("actualZ").innerHTML = actualZ;
@@ -515,5 +522,42 @@ function enableButtons(){
 	document.getElementById("P3").classList.remove("btn-disabled");
 	document.getElementById("P4").disabled = false;
 	document.getElementById("P4").classList.remove("btn-disabled");
-
+}
+function disableButtons(){
+	document.getElementById("Z1").disabled = true;
+	document.getElementById("Z1").classList.add("btn-disabled");
+	document.getElementById("Z01").disabled = true;
+	document.getElementById("Z01").classList.add("btn-disabled");
+	document.getElementById("Z-01").disabled = true;
+	document.getElementById("Z-01").classList.add("btn-disabled");
+	document.getElementById("Z-1").disabled = true;
+	document.getElementById("Z-1").classList.add("btn-disabled");
+	document.getElementById("guardarPos").disabled = true;
+	document.getElementById("guardarPos").classList.add("btn-disabled");
+	document.getElementById("P1").disabled = true;
+	document.getElementById("P1").classList.add("btn-disabled");
+	document.getElementById("P2").disabled = true;
+	document.getElementById("P2").classList.add("btn-disabled");
+	document.getElementById("P3").disabled = true;
+	document.getElementById("P3").classList.add("btn-disabled");
+	document.getElementById("P4").disabled = true;
+	document.getElementById("P4").classList.add("btn-disabled");
+	document.getElementById("saveEeprom").disabled = true;
+	document.getElementById("saveEeprom").classList.add("btn-disabled");
+}
+function resetValues(){
+	document.getElementById("P1").classList.remove("btn-active");
+	document.getElementById("P2").classList.remove("btn-active");
+	document.getElementById("P3").classList.remove("btn-active");
+	document.getElementById("P4").classList.remove("btn-active");
+	document.getElementById("P1").classList.remove("btn-enabled");
+	document.getElementById("P1").classList.add("btn");
+	document.getElementById("P2").classList.remove("btn-enabled");
+	document.getElementById("P2").classList.add("btn");
+	document.getElementById("P3").classList.remove("btn-enabled");
+	document.getElementById("P3").classList.add("btn");
+	document.getElementById("P4").classList.remove("btn-enabled");
+	document.getElementById("P4").classList.add("btn");
+	calibPosZ = [-1,-1,-1,-1];
+	hommed = false;
 }

@@ -1,0 +1,17 @@
+#config{
+	margin: 0 auto;
+	width: 30%;
+	background: lime;
+}
+#config td{
+	background: yellow;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+#config input{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
