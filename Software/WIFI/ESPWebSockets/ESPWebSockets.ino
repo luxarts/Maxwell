@@ -17,18 +17,19 @@
 #include <WebSocketsServer.h>
 #include "config.h"
 
-#define DEBUG
-#define LED 2
+//#define DEBUG
 
 ESP8266WebServer server(DEFAULT_WEB_PORT);// Puerto
 WebSocketsServer websocket = WebSocketsServer(DEFAULT_WS_PORT, "", "mwp");//Puerto, origen, protocolo
 
+String inputString = "";
+
 void setup(){
-  pinMode(LED, OUTPUT);
-  digitalWrite(LED, 0);
+  //pinMode(LED, OUTPUT);
+  //digitalWrite(LED, 0);
   Serial.begin(DEFAULT_BAUDRATE);
   Serial.println();
-
+  inputString.reserve(150);
   wifiSetup();
   spiffsSetup();
   serverSetup();
@@ -39,6 +40,26 @@ void setup(){
 void loop(){
   websocket.loop();
   server.handleClient();
+  processSerial();
+}
+
+void processSerial(){
+  static byte stringComplete=0;
+  
+  if(Serial.available()){
+    char inChar = (char)Serial.read();
+    if(inChar == '\n'){
+      stringComplete=1;
+    }
+    else{
+      inputString += inChar;  
+    }
+  }
+  if(stringComplete){
+    websocket.broadcastTXT(inputString);
+    stringComplete=0;
+    inputString="";
+  }
 }
 
 void processPayload(String payload, uint8_t num){
@@ -101,7 +122,6 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
     break;*/
     case WStype_TEXT:
       String payload_str = String((char*) payload);
-      Serial.println(payload_str);
       processPayload(payload_str, num);
     break;
   }
@@ -225,13 +245,13 @@ void wifiSetup(){
   }
   
   delay(1000);
-  if(MDNS.begin("maxwell")) {
-    Serial.println(F("M117 Web: maxwell.local"));
-    MDNS.addService("http", "tcp", DEFAULT_WEB_PORT);
-    MDNS.addService("ws", "tcp", DEFAULT_WS_PORT);
-  }
-  else{
+  //if(MDNS.begin("maxwell")) {
+  //  Serial.println(F("M117 Web: maxwell.local"));
+  //  MDNS.addService("http", "tcp", DEFAULT_WEB_PORT);
+  //  MDNS.addService("ws", "tcp", DEFAULT_WS_PORT);
+  //}
+  //else{
     Serial.print(F("M117 IP: "));
     Serial.println(WiFi.localIP());
-  }
+  //}
 }

@@ -10,7 +10,7 @@ String FIRMWARE_VERSION = "0.0.1";
 static const char DEFAULT_STA_IP[] PROGMEM = {192,168,0,90};
 static const char DEFAULT_STA_SUBNET[] PROGMEM = {192,168,0,90};
 
-static const char STA_SSID[] PROGMEM = "Skynet";
-static const char STA_PASSWORD[] PROGMEM = "lu29ni06";
+const char STA_SSID[] = "Skynet";
+const char STA_PASSWORD[] = "lu29ni06";
 
 #endif

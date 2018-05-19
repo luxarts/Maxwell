@@ -1,0 +1,25 @@
+.controlJog{
+	padding: 0;
+	margin: 0;
+}
+
+.controlJog tr td input[type=button]{
+	background: var(--color_s);
+	color: var(--color_onsl);
+	padding: 0;
+	margin: 0;
+	width: 40px;
+	height: 40px;
+	box-shadow: none;
+	display: block;
+	border: none
+}
+.controlJog tr td input[type=button]:hover{
+	background: var(--color_sd);
+	color: var(--color_onsd);
+	transition: background .2s;
+}
+.controlJog td{
+	padding: 0;
+	text-align: center;
+}

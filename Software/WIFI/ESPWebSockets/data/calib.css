@@ -1,0 +1,17 @@
+*{
+	font-family: Arial;
+	font-size: 16px;
+	background: white;
+	color: black;
+}
+#panel{
+	text-align: center;
+	margin: 0 auto;
+}
+#panel td{
+	padding: 10px 5px 10px 5px;
+}
+#coordenadas{
+
+}
+
