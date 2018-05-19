@@ -19,6 +19,7 @@ var eepromNew = {
 	towerZendstop:0
 };
 var debugServer=false;
+var eepromLoaded=false;
 var connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp'])
 
 connection.onmessage = function (event){
@@ -50,6 +51,7 @@ function saveEeprom(){
 }
 function loadEeprom(){
 	sendCmd("M205");
+	while(!eepromLoaded);
 }
 
 function eepromCheck(epr){
@@ -86,6 +88,7 @@ function eepromCheck(epr){
 			eeprom.towerZendstop = value;
 		break;
 	}
+	eepromLoaded = true;
 }
 
 /*

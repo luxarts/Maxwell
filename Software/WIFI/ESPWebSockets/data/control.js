@@ -43,3 +43,135 @@ function enter(event){
 	var x = event.which || event.keyCode;
 	if(x == 13)sendCmdLine();
 }
+
+function exhibicion(){
+	var angulo;
+	var modulo;
+
+	loadEeprom();
+	modulo=eeprom.maxPrintableRadius;
+
+//Levanta 10mm
+	posicion.z = 1;
+//Circulo
+	for(angulo=0;angulo<360;angulo++){
+		posicion.x = modulo*Math.cos(angulo*Math.PI/180).toFixed(2);
+		posicion.x = Math.round(posicion.x*100)/100;
+		posicion.y = modulo*Math.sin(angulo*Math.PI/180).toFixed(2);
+		posicion.y = Math.round(posicion.y*100)/100;
+		sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+	}
+//Cuadrado
+	for(angulo=45;angulo<=405;angulo+=90){
+		posicion.x = modulo*Math.cos(angulo*Math.PI/180).toFixed(2);
+		posicion.x = Math.round(posicion.x*100)/100;
+		posicion.y = modulo*Math.sin(angulo*Math.PI/180).toFixed(2);
+		posicion.y = Math.round(posicion.y*100)/100;
+		sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+	}
+//Cubo
+	posicion.z = modulo;
+	posicion.x = modulo*Math.cos(135*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(135*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = modulo;
+	posicion.x = modulo*Math.cos(45*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(45*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = 1;
+	posicion.x = modulo*Math.cos(135*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(135*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = modulo;
+	posicion.x = modulo*Math.cos(225*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(225*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = modulo;
+	posicion.x = modulo*Math.cos(135*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(135*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = 1;
+	posicion.x = modulo*Math.cos(225*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(225*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = modulo;
+	posicion.x = modulo*Math.cos(315*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(315*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = modulo;
+	posicion.x = modulo*Math.cos(225*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(225*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = 1;
+	posicion.x = modulo*Math.cos(315*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(315*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = modulo;
+	posicion.x = modulo*Math.cos(45*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(45*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = modulo;
+	posicion.x = modulo*Math.cos(315*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(315*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+	posicion.z = 1;
+	posicion.x = modulo*Math.cos(45*Math.PI/180).toFixed(2);
+	posicion.x = Math.round(posicion.x*100)/100;
+	posicion.y = modulo*Math.sin(45*Math.PI/180).toFixed(2);
+	posicion.y = Math.round(posicion.y*100)/100;
+	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+
+//Espiral CCW
+	for(angulo=0;angulo<360;angulo++){
+		posicion.x = modulo*Math.cos(angulo*Math.PI/180).toFixed(2);
+		posicion.x = Math.round(posicion.x*100)/100;
+		posicion.y = modulo*Math.sin(angulo*Math.PI/180).toFixed(2);
+		posicion.y = Math.round(posicion.y*100)/100;
+		posicion.z = angulo*modulo/360;
+		posicion.z = Math.round(posicion.z*100)/100;
+		sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+	}
+//Espiral CW
+	for(angulo=359;angulo>=0;angulo--){
+		posicion.x = modulo*Math.cos(angulo*Math.PI/180).toFixed(2);
+		posicion.x = Math.round(posicion.x*100)/100;
+		posicion.y = modulo*Math.sin(angulo*Math.PI/180).toFixed(2);
+		posicion.y = Math.round(posicion.y*100)/100;
+		posicion.z = angulo*modulo/360;
+		posicion.z = Math.round(posicion.z*100)/100;
+		sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
+	}
+}
