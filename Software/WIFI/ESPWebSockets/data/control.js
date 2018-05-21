@@ -19,6 +19,7 @@ function mover(eje, valor){
 	else if (eje == 'z'){
 		posicion.z+=valor;
 		posicion.z=Math.round(posicion.z*100)/100;
+		if(posicion.z<0)posicion.z=0;
 		document.getElementById("actualZ").innerHTML = "Z: "+posicion.z+"mm";
 	}
 	sendCmd("G1 X"+posicion.x+" Y"+posicion.y+" Z"+posicion.z+" F"+feedrate*60);
@@ -29,6 +30,9 @@ function changeFeedrate(){
 }
 function home(){
 	hommed = true;
+	posicion.x = 0;
+	posicion.y = 0;
+	posicion.z = 0;
 	document.getElementById("actualX").innerHTML = "X: "+posicion.x+"mm";
 	document.getElementById("actualY").innerHTML = "Y: "+posicion.y+"mm";
 	document.getElementById("actualZ").innerHTML = "Z: "+posicion.z+"mm";
@@ -48,7 +52,7 @@ function exhibicion(){
 	var angulo;
 	var modulo;
 
-	loadEeprom();
+	if(!loadEeprom())return;
 	modulo=eeprom.maxPrintableRadius;
 
 //Levanta 10mm

@@ -51,7 +51,8 @@ function saveEeprom(){
 }
 function loadEeprom(){
 	sendCmd("M205");
-	while(!eepromLoaded);
+	if(eepromLoaded)return true;
+	else return false;
 }
 
 function eepromCheck(epr){
