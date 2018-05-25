@@ -479,8 +479,8 @@ function calibPos(pos){
 	document.getElementById("actualX").innerHTML = calibPosX[pos-1];
 	document.getElementById("actualY").innerHTML = calibPosY[pos-1];
 	document.getElementById("actualZ").innerHTML = actualZ;
-	sendCmd("G1 X"+calibPosX[pos-1]+" Y"+calibPosY[pos-1]+" Z15 F"+feedrate);
-	sendCmd("G1 X"+calibPosX[pos-1]+" Y"+calibPosY[pos-1]+" Z10 F"+feedrate);
+	sendCmd("G1 X"+calibPosX[pos-1]+" Y"+calibPosY[pos-1]+" Z15 F"+feedrate*60);
+	sendCmd("G1 X"+calibPosX[pos-1]+" Y"+calibPosY[pos-1]+" Z10 F"+feedrate*60);
 }
 function calibZ(zvalue){
 	actualZ=actualZ+zvalue;

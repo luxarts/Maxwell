@@ -1,30 +1,33 @@
 var eeprom = {
-	stepsPermm:0,
-	zMaxLength:0,
-	diagonalRodLength:0,
-	horizontalRodRadius:0,
-	maxPrintableRadius:0,
-	towerXendstop:0,
-	towerYendstop:0,
-	towerZendstop:0
+	stepsPermm:null,
+	zMaxLength:null,
+	diagonalRodLength:null,
+	horizontalRodRadius:null,
+	maxPrintableRadius:null,
+	towerXendstop:null,
+	towerYendstop:null,
+	towerZendstop:null
 };
 var eepromNew = {
-	stepsPermm:0,
-	zMaxLength:0,
-	diagonalRodLength:0,
-	horizontalRodRadius:0,
-	maxPrintableRadius:0,
-	towerXendstop:0,
-	towerYendstop:0,
-	towerZendstop:0
+	stepsPermm:null,
+	zMaxLength:null,
+	diagonalRodLength:null,
+	horizontalRodRadius:null,
+	maxPrintableRadius:null,
+	towerXendstop:null,
+	towerYendstop:null,
+	towerZendstop:null
 };
 var debugServer=false;
 var eepromLoaded=false;
 var connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp'])
+var feedrate = 100;//100mm/s
+var fwuStatus = -1;
 
 connection.onmessage = function (event){
 	if(debugServer)console.log("Server>>"+event.data)
 	eepromCheck(event.data);
+	fwuCheck(event.data);
 }
 
 function sendCmd(cmd){
@@ -34,19 +37,26 @@ function sendCmd(cmd){
 	}
 }
 
+function fwuCheck(data){
+	var matches = data.match(/!MWP8 /);
+	if(matches ==null)return;
+
+	matches = data.match(/S\d/g);
+	if(matches[0] == "S1")fwuStatus=1;
+	else if(matches[0] == "S0")fwuStatus=0;
+}
+
 function saveEeprom(){
 	//zMaxLength
-	sendCmd("M206 T3 P153 X"+eepromNew.zMaxLength.toString());
+	if(eepromNew.zMaxLength != null)sendCmd("M206 T3 P153 X"+eepromNew.zMaxLength.toString());
 	//horizontalRodRadius
-	sendCmd("M206 T3 P885 X"+eepromNew.horizontalRodRadius.toString());//T=tipo P=posicion X=valor float
+	if(eepromNew.horizontalRodRadius != null)sendCmd("M206 T3 P885 X"+eepromNew.horizontalRodRadius.toString());//T=tipo P=posicion X=valor float
 	//towerXendstop
-	sendCmd("M206 T1 P893 S"+eepromNew.towerXendstop.toString());//T=tipo P=posicion S=valor int
+	if(eepromNew.towerXendstop != null)sendCmd("M206 T1 P893 S"+eepromNew.towerXendstop.toString());//T=tipo P=posicion S=valor int
 	//towerYendstop
-	sendCmd("M206 T1 P895 S"+eepromNew.towerYendstop.toString());
+	if(eepromNew.towerYendstop != null)sendCmd("M206 T1 P895 S"+eepromNew.towerYendstop.toString());
 	//towerZendstop
-	sendCmd("M206 T1 P897 S"+eepromNew.towerZendstop.toString());
-
-	//Verifica
+	if(eepromNew.towerZendstop != null)sendCmd("M206 T1 P897 S"+eepromNew.towerZendstop.toString());
 	loadEeprom();
 }
 function loadEeprom(){
@@ -87,21 +97,22 @@ function eepromCheck(epr){
 		break;
 		case 897:
 			eeprom.towerZendstop = value;
+			eepromLoaded = true;
 		break;
 	}
-	eepromLoaded = true;
 }
 
+window.onload = loadEeprom;//Carga eeprom
 /*
-	
-EPR:3 11 80.0000 Steps per mm
-EPR:3 153 155.0 Z max length [mm]
-EPR:3 881 200.000 Diagonal rod length [mm]
-EPR:3 885 100.000 Horizontal rod radius at 0,0 [mm]
-EPR:3 925 81.000 Max printable radius [mm]
-EPR:1 893 10 Tower X endstop offset [steps]
-EPR:1 895 20 Tower Y endstop offset [steps]
-EPR:1 897 30 Tower Z endstop offset [steps]
+	EPR:3 11 80.0000 Steps per mm
+	EPR:3 153 155.0 Z max length [mm]
+	EPR:3 881 200.000 Diagonal rod length [mm]
+	EPR:3 885 100.000 Horizontal rod radius at 0,0 [mm]
+	EPR:3 925 81.000 Max printable radius [mm]
+	EPR:1 893 10 Tower X endstop offset [steps]
+	EPR:1 895 20 Tower Y endstop offset [steps]
+	EPR:1 897 30 Tower Z endstop offset [steps]
+
 	EPR:3 901 210.000 Alpha A(210):
 	EPR:3 905 330.000 Alpha B(330):
 	EPR:3 909 90.000 Alpha C(90):

@@ -1,6 +1,6 @@
 var posicion = {x:0,y:0,z:0};
 var hommed = false;
-var feedrate = 150;
+feedrate = 150;
 
 function mover(eje, valor){
 	if(!hommed){
