@@ -1,12 +1,13 @@
 #config{
-	margin: 0 auto;
-	width: 30%;
-	background: lime;
+	background: var(--color_s);
+	color: var(--color_ons);
+	margin: 15px auto;
+	border-radius: 2px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 }
 #config td{
-	background: yellow;
 	margin: 0;
-	padding: 0;
+	padding: 4px;
 	text-align: left;
 }
 #config input{

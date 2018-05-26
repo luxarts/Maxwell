@@ -1,0 +1,14 @@
+form{
+	padding: 0;
+	margin: 0 auto;
+	width: 350px;
+}
+form input[type="file"]{
+	width: 95%;
+	margin: 20px auto;
+	padding: 0;
+}
+#status{
+	color: var(--color_s);
+	font-weight: bold;
+}

@@ -15,6 +15,7 @@
 #include <WiFiClient.h>
 #include <FS.h>
 #include <WebSocketsServer.h>
+//#include <ArduinoOTA.h>
 #include "config.h"
 
 //#define DEBUG
@@ -22,18 +23,21 @@
 ESP8266WebServer server(DEFAULT_WEB_PORT);// Puerto
 WebSocketsServer websocket = WebSocketsServer(DEFAULT_WS_PORT, "", "mwp");//Puerto, origen, protocolo
 
+File fsUploadFile;
 String inputString = "";
 
 void setup(){
   //pinMode(LED, OUTPUT);
   //digitalWrite(LED, 0);
+  WiFi.mode(WIFI_OFF);
+  delay(INIT_DELAY);
   Serial.begin(DEFAULT_BAUDRATE);
   Serial.println();
-  delay(INIT_DELAY);
   inputString.reserve(150);
   wifiSetup();
   spiffsSetup();
   serverSetup();
+  //OTASetup();
   websocket.begin();
   websocket.onEvent(webSocketEvent);
 }
@@ -42,6 +46,7 @@ void loop(){
   websocket.loop();
   server.handleClient();
   processSerial();
+  //ArduinoOTA.handle();
 }
 
 void processSerial(){
@@ -130,6 +135,9 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
 
 void serverSetup(){
   server.on(F("/"), HTTP_ANY, handleWebRoot);
+  server.on(F("/fwu.html"), HTTP_POST, []() {  // If a POST request is sent to the /edit.html address,
+    server.send(200, "text/plain", ""); 
+  }, handleFileUpload);
   
   server.onNotFound([](){
     server.sendHeader(F("Connection"), F("close"));
@@ -170,6 +178,37 @@ bool handleFileRead(String path){
   return false;
 }
 
+void handleFileUpload(){ // upload a new file to the SPIFFS
+  HTTPUpload& upload = server.upload();
+  String path;
+  if(upload.status == UPLOAD_FILE_START){
+    path = upload.filename;
+    if(!path.startsWith("/")) path = "/"+path;
+    if(!path.endsWith(".gz")) {                          // The file server always prefers a compressed version of a file 
+      String pathWithGz = path+".gz";                    // So if an uploaded file is not compressed, the existing compressed
+      if(SPIFFS.exists(pathWithGz))                      // version of that file must be deleted (if it exists)
+         SPIFFS.remove(pathWithGz);
+    }
+    //Serial.print("handleFileUpload Name: "); Serial.println(path);
+    fsUploadFile = SPIFFS.open(path, "w");            // Open the file for writing in SPIFFS (create if it doesn't exist)
+    path = String();
+  } else if(upload.status == UPLOAD_FILE_WRITE){
+    if(fsUploadFile)
+      fsUploadFile.write(upload.buf, upload.currentSize); // Write the received bytes to the file
+  } else if(upload.status == UPLOAD_FILE_END){
+    if(fsUploadFile) {                                    // If the file was successfully created
+      fsUploadFile.close();                               // Close the file again
+      //Serial.print("handleFileUpload Size: "); Serial.println(upload.totalSize);
+      server.sendHeader("Location","/fwu.html");      // Redirect the client to the success page
+      server.send(303);
+      websocket.broadcastTXT("!MWP8 S1");   
+    } else {
+      server.sendHeader("Location","/fwu.html");
+      server.send(303);
+      websocket.broadcastTXT("!MWP8 S0");
+    }
+  }
+}
 String getContentType(String filename){
   if(server.hasArg(F("download"))) return F("application/octet-stream");
   else if(filename.endsWith(F(".htm"))) return F("text/html");
@@ -256,3 +295,26 @@ void wifiSetup(){
     Serial.println(WiFi.localIP());
   //}
 }
+
+/*void OTASetup() { // Start the OTA service
+  ArduinoOTA.setHostname(OTA_NAME);
+  ArduinoOTA.setPassword(OTA_PASSWORD);
+
+  ArduinoOTA.onStart([]() {
+  });
+  ArduinoOTA.onEnd([]() {
+  });
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    Serial.printf("M117 Subiendo: %u%%\r\n", (progress / (total / 100)));
+  });
+  ArduinoOTA.onError([](ota_error_t error) {
+    Serial.printf("Error[%u]: ", error);
+    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+    else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+    else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+    else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+    else if (error == OTA_END_ERROR) Serial.println("End Failed");
+  });
+  ArduinoOTA.begin();
+}*/
+

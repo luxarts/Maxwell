@@ -33,7 +33,7 @@ body{
 	color: var(--color_p);
 	font-weight: bold;
 }
-input[type="button"]{
+input[type="button"], input[type="submit"]{
 	margin: 5px;
 	padding: 10px 15px 10px 15px;
 	border-width: 0;
