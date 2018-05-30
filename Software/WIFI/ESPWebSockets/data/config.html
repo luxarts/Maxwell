@@ -5,10 +5,10 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<link rel="stylesheet" type="text/css" href="config.css">
-	<title>Maxwell - Panel de control</title>
+	<title>Maxwell - Configuración</title>
 </head>
 <body>
-	<ul class="navbar">
+	<ul id="navbar" class="navbar-h">
 		<li><a href="index.html">Panel de control</a></li>
 		<li><a href="calib.html">Calibracion manual</a></li>
 		<li><a href="config.html">Configuracion</a></li>
@@ -59,6 +59,7 @@
 		</table>
 		<input type="button" class="btn" value="Cargar configuración" onclick="handleCargar()">
 		<input type="button" class="btn" value="Guardar configuración" onclick="handleGuardar()">
+		<input type="button" class="btn" value="Descargar configuración" onclick="downloadConfig()">
 	</div>
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="config.js"></script>

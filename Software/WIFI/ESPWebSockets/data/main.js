@@ -23,6 +23,31 @@ var eepromLoaded=false;
 var connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp'])
 var feedrate = 100;//100mm/s
 var fwuStatus = -1;
+var navbarWidth = 0;
+
+function getnavbarWidth(){
+	var navbarDOM = document.getElementById("navbar");
+	var liDOM = navbarDOM.getElementsByTagName("li");
+
+	for (var i=0 ; i < liDOM.length ; i++){
+		navbarWidth += liDOM[i].getElementsByTagName("a")[0].offsetWidth;//Obtiene el ancho de cada elemento
+	}
+	navbarCheck();
+}
+getnavbarWidth();
+
+function navbarCheck(){
+	var navbarDOM = document.getElementById("navbar");
+	if(document.body.offsetWidth <= navbarWidth){//Si es mas ancha la barra que la pantalla
+		navbarDOM.classList.remove("navbar-h");
+		navbarDOM.classList.add("navbar-v");
+	}
+	else{
+		navbarDOM.classList.remove("navbar-v");
+		navbarDOM.classList.add("navbar-h");
+	}
+}
+window.onresize = navbarCheck;
 
 connection.onmessage = function (event){
 	if(debugServer)console.log("Server>>"+event.data)
@@ -39,7 +64,7 @@ function sendCmd(cmd){
 
 function fwuCheck(data){
 	var matches = data.match(/!MWP8 /);
-	if(matches ==null)return;
+	if(matches == null)return;
 
 	matches = data.match(/S\d/g);
 	if(matches[0] == "S1")fwuStatus=1;
@@ -47,10 +72,14 @@ function fwuCheck(data){
 }
 
 function saveEeprom(){
+	//stepsPermm
+	if(eepromNew.stepsPermm != null)sendCmd("M206 T3 P11 X"+eepromNew.stepsPermm.toString());
 	//zMaxLength
 	if(eepromNew.zMaxLength != null)sendCmd("M206 T3 P153 X"+eepromNew.zMaxLength.toString());
 	//horizontalRodRadius
 	if(eepromNew.horizontalRodRadius != null)sendCmd("M206 T3 P885 X"+eepromNew.horizontalRodRadius.toString());//T=tipo P=posicion X=valor float
+	//maxPrintableRadius
+	if(eepromNew.maxPrintableRadius != null)sendCmd("M206 T3 P925 X"+eepromNew.maxPrintableRadius.toString());
 	//towerXendstop
 	if(eepromNew.towerXendstop != null)sendCmd("M206 T1 P893 S"+eepromNew.towerXendstop.toString());//T=tipo P=posicion S=valor int
 	//towerYendstop

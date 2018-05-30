@@ -9,13 +9,14 @@
 	color: var(--color_onsl);
 	padding: 0;
 	margin: 0;
-	width: 35px;
-	height: 35px;
+	width: 40px;
+	height: 40px;
 	box-shadow: none;
 	display: block;
-	border: none
+	border: none;
+	font-size: 14px;
 }
-.controlJog tr td input[type=button]:hover{
+.controlJog tr td input:hover{
 	background: var(--color_sd);
 	color: var(--color_onsd);
 	transition: background .2s;
@@ -25,7 +26,7 @@
 	text-align: center;
 }
 .controlJog td:nth-child(10){
-	width: 35px;
+	width: 40px;
 }
 #coordenadas{
 	padding: 0px;

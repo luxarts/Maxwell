@@ -27,19 +27,51 @@ File fsUploadFile;
 String inputString = "";
 
 void setup(){
-  //pinMode(LED, OUTPUT);
-  //digitalWrite(LED, 0);
+  uint8_t dots=0;
+  uint8_t hardReset=0;
+  unsigned long timeout;
+  
   WiFi.mode(WIFI_OFF);
   delay(INIT_DELAY);
+  pinMode(RESET_CONFIG_PIN,INPUT);
   Serial.begin(DEFAULT_BAUDRATE);
   Serial.println();
+
+  timeout=millis();
+
+  do{
+    Serial.print(F("M117 Iniciando WiFi"));
+    for(byte i=dots;i!=0;i--){
+      Serial.print(F("."));
+    }
+    Serial.println();
+    dots++;
+    if(dots==6)dots=0;
+    delay(200);
+    hardReset=digitalRead(RESET_CONFIG_PIN);
+  }while(millis()-timeout<RESET_DELAY && hardReset);
+  
+  //CONFIG_writeByte(EP_RESET_FLAG,0);
+  //Lee el RESET_FLAG de la EEPROM
+  if(!CONFIG_readByte(EP_RESET_FLAG) || !hardReset){//Reset flag = 0 => No se reseteó
+    CONFIG_reset();
+    Serial.println(F("M117 Config reset!"));
+    delay(1000);
+    ESP.restart();
+    while(1)delay(1);
+  }
+  
   inputString.reserve(150);
+
   wifiSetup();
+  delay(50);
   spiffsSetup();
-  serverSetup();
   //OTASetup();
+  delay(50);
   websocket.begin();
   websocket.onEvent(webSocketEvent);
+  delay(50);
+  serverSetup();
 }
 
 void loop(){
@@ -50,7 +82,7 @@ void loop(){
 }
 
 void processSerial(){
-  static byte stringComplete=0;
+  static uint8_t stringComplete=0;
   
   if(Serial.available()){
     char inChar = (char)Serial.read();
@@ -99,7 +131,7 @@ void processPayload(String payload, uint8_t num){
     case 3:
     break;
     //!MWP4: Envia version del FW
-      websocket.sendTXT(num,"!MWP4 " + FIRMWARE_VERSION);
+      //websocket.sendTXT(num,"!MWP4 " + FIRMWARE_VERSION);
     case 4:
     break;
     //!MWP5: Setea un parametro de la EEPROM. (ej. !MWP5 param=valor)
@@ -134,33 +166,18 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
 }
 
 void serverSetup(){
-  server.on(F("/"), HTTP_ANY, handleWebRoot);
-  server.on(F("/fwu.html"), HTTP_POST, []() {  // If a POST request is sent to the /edit.html address,
-    server.send(200, "text/plain", ""); 
-  }, handleFileUpload);
+  // If a POST request is sent to the /fwu.html address,
+  server.on("/fwu.html", HTTP_POST, [](){ server.send(200); }, handleFileUpload);
   
   server.onNotFound([](){
-    server.sendHeader(F("Connection"), F("close"));
-    server.sendHeader(F("Access-Control-Allow-Origin"),F("*"));
+    //server.sendHeader(F("Connection"), F("close"));
+    //server.sendHeader(F("Access-Control-Allow-Origin"),F("*"));
     if(!handleFileRead(server.uri())){
       server.send(404, F("text/plain"), F("FileNotFound"));
     }
   });
   
   server.begin();
-}
-
-void handleWebRoot(){
-  String path = "/index.html";
-  String contentType = getContentType(path);
-  String pathWithGz = path + ".gz";
-  
-  if(SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)){
-    if(SPIFFS.exists(pathWithGz)) path += ".gz";
-    File file = SPIFFS.open(path, "r");
-    server.streamFile(file, contentType);
-    file.close();
-  }
 }
 
 bool handleFileRead(String path){
@@ -179,6 +196,7 @@ bool handleFileRead(String path){
 }
 
 void handleFileUpload(){ // upload a new file to the SPIFFS
+  //Serial.println("Upload handler!");
   HTTPUpload& upload = server.upload();
   String path;
   if(upload.status == UPLOAD_FILE_START){
@@ -201,14 +219,13 @@ void handleFileUpload(){ // upload a new file to the SPIFFS
       //Serial.print("handleFileUpload Size: "); Serial.println(upload.totalSize);
       server.sendHeader("Location","/fwu.html");      // Redirect the client to the success page
       server.send(303);
-      websocket.broadcastTXT("!MWP8 S1");   
     } else {
-      server.sendHeader("Location","/fwu.html");
+      server.sendHeader("Location","/fwu.html");      // Redirect the client to the success page
       server.send(303);
-      websocket.broadcastTXT("!MWP8 S0");
     }
   }
 }
+
 String getContentType(String filename){
   if(server.hasArg(F("download"))) return F("application/octet-stream");
   else if(filename.endsWith(F(".htm"))) return F("text/html");
@@ -245,16 +262,20 @@ void spiffsSetup(){
 #endif
 }
 
-void wifiSetup(){
-  byte dots = 0;
+bool wifiSetupSTA(){
+  uint8_t dots = 0;
   unsigned long timeout=0;
+  char STA_SSID[MAX_STA_SSID+1];
+  char STA_PASSWORD[MAX_STA_PASSWORD+1];
   
-  IPAddress sta_ip(DEFAULT_STA_IP[0],DEFAULT_STA_IP[1],DEFAULT_STA_IP[2],DEFAULT_STA_IP[3]);
-  IPAddress sta_gateway(DEFAULT_STA_IP[0],DEFAULT_STA_IP[1],DEFAULT_STA_IP[2],DEFAULT_STA_IP[3]);
-  IPAddress sta_subnet(DEFAULT_STA_SUBNET[0],DEFAULT_STA_SUBNET[1],DEFAULT_STA_SUBNET[2],DEFAULT_STA_SUBNET[3]);
+  IPAddress sta_ip(D_STA_IP[0],D_STA_IP[1],D_STA_IP[2],D_STA_IP[3]);
+  IPAddress sta_gateway(D_STA_IP[0],D_STA_IP[1],D_STA_IP[2],D_STA_IP[3]);
+  IPAddress sta_subnet(D_STA_MASK[0],D_STA_MASK[1],D_STA_MASK[2],D_STA_MASK[3]);
 
   WiFi.hostname(F("Maxwell3D"));
   WiFi.mode(WIFI_STA);
+  CONFIG_readString(EP_STA_SSID, STA_SSID, MAX_STA_SSID);//Lee la el SSID desde la eeprom
+  CONFIG_readString(EP_STA_PASSWORD, STA_PASSWORD, MAX_STA_PASSWORD);//Lee la el SSID desde la eeprom
   WiFi.begin(STA_SSID, STA_PASSWORD);
   WiFi.config(sta_ip, sta_gateway, sta_subnet);
   
@@ -271,50 +292,56 @@ void wifiSetup(){
     delay(250);
   }
   switch(WiFi.status()){
-    case WL_CONNECTED:  Serial.println(F("M117 Conectado!"));
+    case WL_CONNECTED:
+      Serial.println(F("M117 Conectado!"));
+      delay(1000);
     break;
-    case WL_NO_SSID_AVAIL:  Serial.println(F("M117 La red no existe"));
-                            return;
+    case WL_NO_SSID_AVAIL:  
+      Serial.println(F("M117 La red no existe"));
+      delay(1000);
+      return false;
     break;
-    case WL_CONNECT_FAILED: Serial.println(F("M117 Contraseña incorrecta"));
-                            return;
+    case WL_CONNECT_FAILED:
+      Serial.println(F("M117 Contraseña incorrecta"));
+      delay(1000);
+      return false;
     break;
-    default: Serial.println(F("M117 No se pudo conectar"));
-             return;
+    default:
+      Serial.println(F("M117 No se pudo conectar"));
+      delay(1000);
+      return false;
     break;
-  }
-  
-  delay(1000);
-  //if(MDNS.begin("maxwell")) {
-  //  Serial.println(F("M117 Web: maxwell.local"));
-  //  MDNS.addService("http", "tcp", DEFAULT_WEB_PORT);
-  //  MDNS.addService("ws", "tcp", DEFAULT_WS_PORT);
-  //}
-  //else{
-    Serial.print(F("M117 IP: "));
-    Serial.println(WiFi.localIP());
-  //}
+  }  
+  Serial.print(F("M117 IP: "));
+  Serial.println(WiFi.localIP());
+  return true;
 }
 
-/*void OTASetup() { // Start the OTA service
-  ArduinoOTA.setHostname(OTA_NAME);
-  ArduinoOTA.setPassword(OTA_PASSWORD);
+void wifiSetupAP(){
+  WiFi.softAP(AP_SSID, AP_PASSWORD);
+  Serial.println(F("M117 Punto de acceso"));
+  delay(1000);
+  Serial.print(F("M117 IP: "));
+  Serial.println(WiFi.softAPIP());
+}
 
-  ArduinoOTA.onStart([]() {
-  });
-  ArduinoOTA.onEnd([]() {
-  });
-  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-    Serial.printf("M117 Subiendo: %u%%\r\n", (progress / (total / 100)));
-  });
-  ArduinoOTA.onError([](ota_error_t error) {
-    Serial.printf("Error[%u]: ", error);
-    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
-    else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
-    else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
-    else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
-    else if (error == OTA_END_ERROR) Serial.println("End Failed");
-  });
-  ArduinoOTA.begin();
-}*/
+void wifiSetup(){
+  uint8_t modo;
+  modo = CONFIG_readByte(EP_WIFI_MODE);
+  if(modo == MODO_STA){
+    if(!wifiSetupSTA()){//Si no se pudo conectar
+      wifiSetupAP(); //Crea un AP
+    }
+  }
+  else if(modo == MODO_AP){
+    wifiSetupAP();
+  }
+  else{
+    CONFIG_reset();
+    Serial.println(F("M117 Config reset!"));
+    delay(1000);
+    ESP.restart();
+    while(1)delay(1);
+  }
+}
 

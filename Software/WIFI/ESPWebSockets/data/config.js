@@ -13,7 +13,7 @@ function updateValues(){
 	eepromNew.zMaxLength = document.getElementById("zmaxlength").value;
 	eepromNew.diagonalRodLength = document.getElementById("diagonalrodlength").value;
 	eepromNew.horizontalRodRadius = document.getElementById("horizontalrodradius").value;
-	eepromNew.maxPrintableRadius = document.getElementById("maxprintableradius").value ;
+	eepromNew.maxPrintableRadius = document.getElementById("maxprintableradius").value;
 	eepromNew.towerXendstop = document.getElementById("towerxendstop").value;
 	eepromNew.towerYendstop = document.getElementById("toweryendstop").value;
 	eepromNew.towerZendstop = document.getElementById("towerzendstop").value;
@@ -27,4 +27,19 @@ function handleGuardar(){
 	updateValues();
 	saveEeprom();
 	document.getElementById("msg").innerHTML = "Configuracion guardada";
+}
+function downloadConfig(){
+	var settings = "";
+
+	for (var i in eeprom){
+		settings += '$'+eeprom[i];
+	}
+	settings = btoa(settings);
+	var element = document.createElement('a');
+	element.setAttribute('href','data:text/plain;charset=utf-8,'+encodeURIComponent(settings));
+	element.setAttribute('download','config.mw');
+	element.style.display = 'none';
+	document.body.appendChild(element);
+	element.click();
+	document.body.removeChild(element);
 }
