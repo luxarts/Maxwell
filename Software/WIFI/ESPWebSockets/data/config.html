@@ -17,6 +17,16 @@
 		<p id="msg"> </p>
 		<table id="config">
 			<tr>
+				<td>Nombre de red WiFi: </td>
+				<td><input type="text" value="" id="STA_SSID"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Contraseña de red WiFi: </td>
+				<td><input type="text" value="" id="STA_PASSWORD"></td>
+				<td></td>
+			</tr>
+			<tr>
 				<td>Pasos por mm: </td>
 				<td><input type="text" value="" id="stepspermm"></td>
 				<td></td>
@@ -55,6 +65,26 @@
 				<td>Fin de carrera Z: </td>
 				<td><input type="text" value="" id="towerzendstop"></td>
 				<td>pasos</td>
+			</tr>
+			<tr>
+				<td>Correccion diagonal A: </td>
+				<td><input type="text" value="" id="corrdiagonala"></td>
+				<td>mm</td>
+			</tr>
+			<tr>
+				<td>Correccion diagonal B: </td>
+				<td><input type="text" value="" id="corrdiagonalb"></td>
+				<td>mm</td>
+			</tr>
+			<tr>
+				<td>Correccion diagonal C: </td>
+				<td><input type="text" value="" id="corrdiagonalc"></td>
+				<td>mm</td>
+			</tr>
+			<tr>
+				<td>Extr.1 inercia térmica: </td>
+				<td><input type="text" value="" id="extr1deadtime"></td>
+				<td>segundos</td>
 			</tr>
 		</table>
 		<input type="button" class="btn" value="Cargar configuración" onclick="handleCargar()">

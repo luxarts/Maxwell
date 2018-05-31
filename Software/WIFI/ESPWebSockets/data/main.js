@@ -6,7 +6,11 @@ var eeprom = {
 	maxPrintableRadius:null,
 	towerXendstop:null,
 	towerYendstop:null,
-	towerZendstop:null
+	towerZendstop:null,
+	corrDiagonalA:null,
+	corrDiagonalB:null,
+	corrDiagonalC:null,
+	extr1DeadTime:null
 };
 var eepromNew = {
 	stepsPermm:null,
@@ -16,7 +20,11 @@ var eepromNew = {
 	maxPrintableRadius:null,
 	towerXendstop:null,
 	towerYendstop:null,
-	towerZendstop:null
+	towerZendstop:null,
+	corrDiagonalA:null,
+	corrDiagonalB:null,
+	corrDiagonalC:null,
+	extr1DeadTime:null
 };
 var debugServer=false;
 var eepromLoaded=false;
@@ -53,6 +61,7 @@ connection.onmessage = function (event){
 	if(debugServer)console.log("Server>>"+event.data)
 	eepromCheck(event.data);
 	fwuCheck(event.data);
+	wifiCheck(event.data);
 }
 
 function sendCmd(cmd){
@@ -60,6 +69,16 @@ function sendCmd(cmd){
 	if(connection.readyState){
 		connection.send('!MWP7 ' + cmd);
 	}
+}
+
+function wifiCheck(data){
+	var matches = data.match(/!MWP2 /g);
+	if(matches == null)return;
+
+	if(document.getElementById("STA_SSID")==null || document.getElementById("STA_PASSWORD") == null)return;
+	matches = data.match(/\w+/g);
+	document.getElementById("STA_SSID").value = matches[1];
+	document.getElementById("STA_PASSWORD").value = matches[2];
 }
 
 function fwuCheck(data){
@@ -86,6 +105,15 @@ function saveEeprom(){
 	if(eepromNew.towerYendstop != null)sendCmd("M206 T1 P895 S"+eepromNew.towerYendstop.toString());
 	//towerZendstop
 	if(eepromNew.towerZendstop != null)sendCmd("M206 T1 P897 S"+eepromNew.towerZendstop.toString());
+	//corrDiagonalA
+	if(eepromNew.corrDiagonalA != null)sendCmd("M206 T3 P933 X"+eepromNew.corrDiagonalA.toString());
+	//corrDiagonalB
+	if(eepromNew.corrDiagonalB != null)sendCmd("M206 T3 P937 X"+eepromNew.corrDiagonalB.toString());
+	//corrDiagonalC
+	if(eepromNew.corrDiagonalC != null)sendCmd("M206 T3 P941 X"+eepromNew.corrDiagonalC.toString());
+	//extr1DeadTime
+	if(eepromNew.extr1DeadTime != null)sendCmd("M206 T3 P218 X"+eepromNew.extr1DeadTime.toString());
+
 	loadEeprom();
 }
 function loadEeprom(){
@@ -126,9 +154,21 @@ function eepromCheck(epr){
 		break;
 		case 897:
 			eeprom.towerZendstop = value;
-			eepromLoaded = true;
+		break;
+		case 933:
+			eeprom.corrDiagonalA = value;
+		break;
+		case 937:
+			eeprom.corrDiagonalB = value;
+		break;
+		case 941:
+			eeprom.corrDiagonalC = value;
+		break;
+		case 218:
+			eeprom.extr1DeadTime = value;
 		break;
 	}
+	eepromLoaded = true;
 }
 
 window.onload = loadEeprom;//Carga eeprom
@@ -141,6 +181,11 @@ window.onload = loadEeprom;//Carga eeprom
 	EPR:1 893 10 Tower X endstop offset [steps]
 	EPR:1 895 20 Tower Y endstop offset [steps]
 	EPR:1 897 30 Tower Z endstop offset [steps]
+	EPR:3 933 4.206 Corr. diagonal A [mm]
+	EPR:3 937 0.815 Corr. diagonal B [mm]
+	EPR:3 941 1.662 Corr. diagonal C [mm]
+	EPR:3 218 6.1250 Extr.1 PID P-gain/dead-time
+
 
 	EPR:3 901 210.000 Alpha A(210):
 	EPR:3 905 330.000 Alpha B(330):
@@ -148,9 +193,6 @@ window.onload = loadEeprom;//Carga eeprom
 	EPR:3 913 0.000 Delta Radius A(0):
 	EPR:3 917 0.000 Delta Radius B(0):
 	EPR:3 921 0.000 Delta Radius C(0):
-	EPR:3 933 4.206 Corr. diagonal A [mm]
-	EPR:3 937 0.815 Corr. diagonal B [mm]
-	EPR:3 941 1.662 Corr. diagonal C [mm]
 	EPR:3 1024 0.000 Coating thickness [mm]
 	EPR:3 200 95.300 Extr.1 steps per mm
 	EPR:3 204 60.000 Extr.1 max. feedrate [mm/s]

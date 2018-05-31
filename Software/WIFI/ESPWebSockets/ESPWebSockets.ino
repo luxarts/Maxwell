@@ -15,6 +15,7 @@
 #include <WiFiClient.h>
 #include <FS.h>
 #include <WebSocketsServer.h>
+#include <cstring>
 //#include <ArduinoOTA.h>
 #include "config.h"
 
@@ -102,6 +103,7 @@ void processSerial(){
 
 void processPayload(String payload, uint8_t num){
   int icmd[2] = {0, 0};
+  char msgChar[100];
 
   icmd[0] = payload.indexOf(F("!MWP")); //Inicio del numero de comando
   icmd[1] = payload.indexOf(" "); //Fin del numero de comando
@@ -122,10 +124,23 @@ void processPayload(String payload, uint8_t num){
     break;
     //!MWP1: Resetea toda la configuracion
     case 1:
+      CONFIG_reset();
+      Serial.println(F("M117 Config reset!"));
+      delay(1000);
+      ESP.restart();
+      while(1)delay(1);
     break;
-    //!MWP2: Envia la IP
+    //!MWP2: Envia los datos del wifi
     case 2:
-      websocket.sendTXT(num, "abc.def.ghi.jkl");
+      char STA_SSID[MAX_STA_SSID+1];
+      char STA_PASSWORD[MAX_STA_PASSWORD+1];
+      CONFIG_readBuffer(EP_STA_SSID, STA_SSID, MAX_STA_SSID);//Lee la el SSID desde la eeprom
+      CONFIG_readBuffer(EP_STA_PASSWORD, STA_PASSWORD, MAX_STA_PASSWORD);//Lee la el SSID desde la eeprom
+      msg = "";
+      msg.concat(STA_SSID);
+      msg += " ";
+      msg.concat(STA_PASSWORD);
+      websocket.sendTXT(num, "!MWP2 "+msg);
     break;
     //!MWP3: Resetea la contraseña de acceso
     case 3:
@@ -143,6 +158,17 @@ void processPayload(String payload, uint8_t num){
     //!MWP7: Envia el mensaje por el puerto serie
     case 7:
       Serial.println(msg);
+    break;
+    case 8:
+    break;
+    //!MWP9: Actualiza STA_SSID
+    case 9:
+      msg.toCharArray(msgChar, msg.length());//Copia el String msg en el vector msgChar[]
+      CONFIG_writeBuffer(EP_STA_SSID, msgChar);
+    break;
+    case 10:
+      msg.toCharArray(msgChar, msg.length());//Copia el String msg en el vector msgChar[]
+      CONFIG_writeBuffer(EP_STA_PASSWORD, msgChar);
     break;
   }
 }
@@ -274,8 +300,8 @@ bool wifiSetupSTA(){
 
   WiFi.hostname(F("Maxwell3D"));
   WiFi.mode(WIFI_STA);
-  CONFIG_readString(EP_STA_SSID, STA_SSID, MAX_STA_SSID);//Lee la el SSID desde la eeprom
-  CONFIG_readString(EP_STA_PASSWORD, STA_PASSWORD, MAX_STA_PASSWORD);//Lee la el SSID desde la eeprom
+  CONFIG_readBuffer(EP_STA_SSID, STA_SSID, MAX_STA_SSID);//Lee la el SSID desde la eeprom
+  CONFIG_readBuffer(EP_STA_PASSWORD, STA_PASSWORD, MAX_STA_PASSWORD);//Lee la el SSID desde la eeprom
   WiFi.begin(STA_SSID, STA_PASSWORD);
   WiFi.config(sta_ip, sta_gateway, sta_subnet);
   
@@ -290,6 +316,8 @@ bool wifiSetupSTA(){
     dots++;
     if(dots==6)dots=0;
     delay(250);
+    if(WiFi.status() == WL_CONNECT_FAILED ||
+       WiFi.status() == WL_NO_SSID_AVAIL)break; 
   }
   switch(WiFi.status()){
     case WL_CONNECTED:

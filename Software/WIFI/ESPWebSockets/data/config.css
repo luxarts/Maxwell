@@ -16,3 +16,11 @@
 	padding: 0;
 	border: none;
 }
+#wificreds{
+	padding: 0;
+	width: 100%;
+}
+#wificreds input[type="button"]{
+	display: block;
+	margin: 20px auto;
+}

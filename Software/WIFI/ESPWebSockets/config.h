@@ -6,7 +6,7 @@
 #define FIRMWARE_VERSION "0.0.5"
 #define DEFAULT_WEB_PORT 80
 #define DEFAULT_WS_PORT 8888
-#define DEFAULT_STA_TIMEOUT 20000
+#define DEFAULT_STA_TIMEOUT 10000
 #define DEFAULT_BAUDRATE 115200
 #define INIT_DELAY 5000
 #define RESET_DELAY 3000
@@ -21,10 +21,8 @@
 const uint8_t D_STA_IP[] = {192,168,0,90};
 const uint8_t D_STA_MASK[] = {255,255,255,0};
 #define D_WIFI_MODE MODO_STA
-//const char D_STA_SSID[] = "GE3D";
-//const char D_STA_PASSWORD[] = "GE3D_Banfield";
-const char D_STA_SSID[] = "Skynet";
-const char D_STA_PASSWORD[] = "lu29ni06";
+const char D_STA_SSID[] = "dummy";
+const char D_STA_PASSWORD[] = "dummy";
 const char AP_SSID[] = "Maxwell3D";
 const char AP_PASSWORD[] = "mwpass";
 
@@ -41,8 +39,9 @@ const char AP_PASSWORD[] = "mwpass";
 #define MAX_STA_PASSWORD 20
 
 //Prototipos
-void CONFIG_writeString(int, const char *);                 //Escribe una cadena en una posicion de la EEPROM
-void CONFIG_readString(int, char *, int);  //Lee una posicion de la EEPROM hasta el '\0' o hasta el maximo y lo guarda en un vector
+void CONFIG_writeBuffer(int, const char *);                 //Escribe un vector en una posicion de la EEPROM
+//void CONFIG_writeBuffer(int, String);                 //Escribe un String en una posicion de la EEPROM
+void CONFIG_readBuffer(int, char *, int);  //Lee una posicion de la EEPROM hasta el '\0' o hasta el maximo y lo guarda en un vector
 uint8_t CONFIG_readByte(int);
 void CONFIG_writeByte(int, uint8_t);
 void CONFIG_reset(void);
