@@ -49,7 +49,7 @@ function handleSubir(event){
 	reader.readAsText(file.files[0]);
 }
 function handleDescargar(){
-	var settings = "";
+	var settings = "MWC";
 	for (var i in eeprom){
 		settings += eeprom[i] + '&';	
 	}

@@ -29,7 +29,7 @@ var eepromNew = {
 var debugServer=false;
 var eepromLoaded=false;
 var connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp'])
-var feedrate = 100;//100mm/s
+var feedrate = 150;//150mm/s
 var fwuStatus = -1;
 var navbarWidth = 0;
 
