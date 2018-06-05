@@ -20,7 +20,6 @@
 	border-radius: 8px;
 	outline: none;
 }
-<<<<<<< HEAD
 .btn-label{
 	width: 0.1px;
 	height: 0.1px;
@@ -50,7 +49,8 @@
 	background-color: var(--color_pd);
 	color: var(--color_onpd);
 	transition: background .2s;
-=======
+}
+
 #wificreds{
 	padding: 0;
 	width: 100%;
@@ -58,5 +58,4 @@
 #wificreds input[type="button"]{
 	display: block;
 	margin: 20px auto;
->>>>>>> c06213ac01b13bb4bbac7fd517ea88511e4b3067
 }
