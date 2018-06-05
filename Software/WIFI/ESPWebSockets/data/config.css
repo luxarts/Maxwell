@@ -1,7 +1,7 @@
 #config{
 	background: var(--color_s);
 	color: var(--color_ons);
-	margin: 15px auto;
+	margin: 5px auto;
 	border-radius: 2px;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 }
@@ -11,8 +11,42 @@
 	text-align: left;
 }
 #config input{
+	min-width: 40px;
 	width: 100%;
 	margin: 0;
-	padding: 0;
-	border: none;
+	padding: 0 0 0 6px;
+	height: 18px;
+	border-width: 0px;
+	border-radius: 8px;
+	outline: none;
+}
+.btn-label{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.btn-label + label {
+	color: var(--color_onp);
+	background-color: var(--color_p);
+	display: inline-block;
+	margin: 5px;
+	padding: 10px 15px 10px 15px;
+	border-width: 0;
+	border-radius: 2px;
+	outline: none;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+}
+
+.btn-label + label svg{
+	fill: currentColor;
+}
+
+.btn-label:focus + label,
+.btn-label + label:hover {
+	background-color: var(--color_pd);
+	color: var(--color_onpd);
+	transition: background .2s;
 }

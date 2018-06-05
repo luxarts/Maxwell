@@ -28,3 +28,36 @@ function handleGuardar(){
 	saveEeprom();
 	document.getElementById("msg").innerHTML = "Configuracion guardada";
 }
+function handleSubir(event){
+	var file = event.target;
+
+	var reader = new FileReader();
+	reader.onload = function(){
+		var text = atob(reader.result);
+	}
+	reader.readAsText(file.files[0]);
+}
+function handleDescargar(){
+	var settings = "";
+	for (var i in eeprom){
+		settings += eeprom[i] + '&';	
+	}
+
+	var element = document.createElement('a');
+	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(btoa(settings)));
+	element.setAttribute('download', "config.mw");
+
+	element.style.display = 'none';
+	document.body.appendChild(element);
+
+	element.click();
+
+	document.body.removeChild(element);
+}
+
+if (!window.File || !window.FileReader) {
+	document.getElementById("content").removeChild(document.getElementById("down"));
+	document.getElementById("content").removeChild(document.getElementById("up"));
+	document.getElementById("content").removeChild(document.getElementById("label-down"));
+	document.getElementById("content").removeChild(document.getElementById("label-up"));
+}
