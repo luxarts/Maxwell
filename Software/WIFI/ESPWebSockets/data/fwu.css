@@ -1,12 +1,14 @@
 form{
 	padding: 0;
-	margin: 0 auto;
-	width: 350px;
+	width: 100%;
 }
 form input[type="file"]{
-	width: 95%;
 	margin: 20px auto;
 	padding: 0;
+}
+form input[type="submit"]{
+	display: block;
+	margin: auto;
 }
 #status{
 	color: var(--color_s);

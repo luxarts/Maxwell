@@ -5,10 +5,10 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<link rel="stylesheet" type="text/css" href="config.css">
-	<title>Maxwell - Panel de control</title>
+	<title>Maxwell - Configuración</title>
 </head>
 <body>
-	<ul class="navbar">
+	<ul id="navbar" class="navbar-h">
 		<li><a href="index.html">Panel de control</a></li>
 		<li><a href="calib.html">Calibracion manual</a></li>
 		<li><a href="config.html">Configuracion</a></li>
@@ -16,6 +16,16 @@
 	<div id="content">
 		<p id="msg"> </p>
 		<table id="config">
+			<tr>
+				<td>Nombre de red WiFi: </td>
+				<td><input type="text" value="" id="STA_SSID"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Contraseña de red WiFi: </td>
+				<td><input type="text" value="" id="STA_PASSWORD"></td>
+				<td></td>
+			</tr>
 			<tr>
 				<td>Pasos por mm: </td>
 				<td><input type="text" value="" id="stepspermm"></td>
@@ -56,7 +66,28 @@
 				<td><input type="text" value="" id="towerzendstop"></td>
 				<td>pasos</td>
 			</tr>
+			<tr>
+				<td>Correccion diagonal A: </td>
+				<td><input type="text" value="" id="corrdiagonala"></td>
+				<td>mm</td>
+			</tr>
+			<tr>
+				<td>Correccion diagonal B: </td>
+				<td><input type="text" value="" id="corrdiagonalb"></td>
+				<td>mm</td>
+			</tr>
+			<tr>
+				<td>Correccion diagonal C: </td>
+				<td><input type="text" value="" id="corrdiagonalc"></td>
+				<td>mm</td>
+			</tr>
+			<tr>
+				<td>Extr.1 inercia térmica: </td>
+				<td><input type="text" value="" id="extr1deadtime"></td>
+				<td>segundos</td>
+			</tr>
 		</table>
+<<<<<<< HEAD
 		<input type="button" class="btn" value="Cargar" onclick="handleCargar()">
 		<input type="button" class="btn" value="Guardar" onclick="handleGuardar()"><br>
 
@@ -81,6 +112,11 @@
 			<span>Subir configuración</span>
 		</label>
 
+=======
+		<input type="button" class="btn" value="Cargar configuración" onclick="handleCargar()">
+		<input type="button" class="btn" value="Guardar configuración" onclick="handleGuardar()">
+		<input type="button" class="btn" value="Descargar configuración" onclick="downloadConfig()">
+>>>>>>> c06213ac01b13bb4bbac7fd517ea88511e4b3067
 	</div>
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="config.js"></script>

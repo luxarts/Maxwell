@@ -8,7 +8,6 @@ var calibPosY = [0,0,0,0];
 var calibPosZ = [-1,-1,-1,-1];
 var hommed = false;
 var debug = false;
-var feedrate = 0;
 
 var degreesToRadians = Math.PI / 180.0;
 

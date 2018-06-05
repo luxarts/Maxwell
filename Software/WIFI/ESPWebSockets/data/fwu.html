@@ -5,10 +5,10 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<link rel="stylesheet" type="text/css" href="fwu.css">
-	<title>Maxwell - Panel de control</title>
+	<title>Maxwell - Actualización de Firmware</title>
 </head>
 <body>
-	<ul class="navbar">
+	<ul id="navbar" class="navbar-h">
 		<li><a href="index.html">Panel de control</a></li>
 		<li><a href="calib.html">Calibracion manual</a></li>
 		<li><a href="config.html">Configuracion</a></li>
@@ -18,7 +18,7 @@
 		<p style="text-align: left">Únicamente se admiten formatos .html, .ico, .js y .css. Para ahorrar espacio y reducir el tiempo de subida es recomendable comprimir los archivos en formato .gz.</p>
 		<form method="post" enctype="multipart/form-data">
 			<input type="file" name="Choose file" accept=".gz,.html,.ico,.js,.css">
-			<input class="btn" type="submit" value="Subir" name="submit">
+			<input type="submit" name="submit" class="btn" value="Subir">
 		</form>
 		<p id="status"></p>
 	</div>
