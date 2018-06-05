@@ -39,7 +39,6 @@ function handleGuardar(){
 	saveWifi();
 	document.getElementById("msg").innerHTML = "Configuracion guardada";
 }
-<<<<<<< HEAD
 function handleSubir(event){
 	var file = event.target;
 
@@ -66,29 +65,6 @@ function handleDescargar(){
 
 	document.body.removeChild(element);
 }
-
-if (!window.File || !window.FileReader) {
-	document.getElementById("content").removeChild(document.getElementById("down"));
-	document.getElementById("content").removeChild(document.getElementById("up"));
-	document.getElementById("content").removeChild(document.getElementById("label-down"));
-	document.getElementById("content").removeChild(document.getElementById("label-up"));
-}
-=======
-function downloadConfig(){
-	var settings = "";
-
-	for (var i in eeprom){
-		settings += '$'+eeprom[i];
-	}
-	settings = btoa(settings);
-	var element = document.createElement('a');
-	element.setAttribute('href','data:text/plain;charset=utf-8,'+encodeURIComponent(settings));
-	element.setAttribute('download','config.mw');
-	element.style.display = 'none';
-	document.body.appendChild(element);
-	element.click();
-	document.body.removeChild(element);
-}
 function saveWifi(){
 	var ssid = document.getElementById("STA_SSID").value;
 	var password = document.getElementById("STA_PASSWORD").value;
@@ -105,4 +81,10 @@ function loadWifi(){
 		connection.send('!MWP2');
 	}
 }
->>>>>>> c06213ac01b13bb4bbac7fd517ea88511e4b3067
+
+if (!window.File || !window.FileReader) {
+	document.getElementById("content").removeChild(document.getElementById("down"));
+	document.getElementById("content").removeChild(document.getElementById("up"));
+	document.getElementById("content").removeChild(document.getElementById("label-down"));
+	document.getElementById("content").removeChild(document.getElementById("label-up"));
+}
