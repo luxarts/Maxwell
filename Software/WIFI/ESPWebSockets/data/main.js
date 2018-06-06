@@ -62,12 +62,16 @@ connection.onmessage = function (event){
 	eepromCheck(event.data);
 	fwuCheck(event.data);
 	wifiCheck(event.data);
+	tempCheck(event.data);
 }
 
 function sendCmd(cmd){
-	console.log(cmd);
+	if(debugServer)console.log("Client>>"+cmd);
 	if(connection.readyState){
 		connection.send('!MWP7 ' + cmd);
+	}
+	else{
+		if(debugServer)console.log("No se pudo enviar");
 	}
 }
 
@@ -88,6 +92,20 @@ function fwuCheck(data){
 	matches = data.match(/S\d/g);
 	if(matches[0] == "S1")fwuStatus=1;
 	else if(matches[0] == "S0")fwuStatus=0;
+}
+
+function tempCheck(data){
+	var matches = data.match(/T:/);
+	if(matches == null)return;
+
+
+	//Formato = T: 123.45 /123.45 @:123
+	matches = data.match(/[+-]?\d+(\.\d+)?/g);//Obtiene todos los números
+	var currentTemp = parseFloat(matches[0]);
+	var targetTemp = parseFloat(matches[1]);
+	//var heaterPwm = parseFloat(matches[2]);
+	
+	actualizarTemp(currentTemp, targetTemp);
 }
 
 function saveEeprom(){
@@ -126,7 +144,7 @@ function eepromCheck(epr){
 	var matches = epr.match(/EPR:/);
 	if(matches == null)return; //No se encontro patron
 	
-	matches = epr.match(/[+-]?\d+(\.\d+)?/g);
+	matches = epr.match(/[+-]?\d+(\.\d+)?/g);//Obtiene todos los números
 	var value = parseFloat(matches[2]);//Valor
 	var eprPos = parseInt(matches[1]);
 
@@ -172,6 +190,8 @@ function eepromCheck(epr){
 }
 
 window.onload = loadEeprom;//Carga eeprom
+
+
 /*
 	EPR:3 11 80.0000 Steps per mm
 	EPR:3 153 155.0 Z max length [mm]
