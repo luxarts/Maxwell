@@ -1,0 +1,66 @@
+{//S0
+	"status": "I",
+	"heaters":[0,7.286821],
+	"active":[0,0.000000],
+	"standby":[0,0.000000],
+	"hstat":[0,0],
+	"pos":[0.000000,0.000000,0.000000],
+	"extr":[7.3],
+	"sfactor":100,
+	"efactor":[100],
+	"tool":0,
+	"probe":1000,
+	"fanPercent":[60.000000],
+	"homed":[0,0,0],
+	"coords": {
+		"axesHomed":[0,0,0],
+		"extr":[0.000000],
+		"xyz":[0.000000,0.000000,0.000000]
+	},
+	"currentTool":0,
+	"params": {
+		"atxPower":1,
+		"fanPercent":[60.000000],
+		"speedFactor":100,
+		"extrFactors":[100]
+	},
+	"temps": {
+		"heads": {
+			"current": [7.286821],
+			"active": [0.000000],
+			"state": [1]
+		}
+	},
+	"time":288327
+}
+{//S2
+	"coldExtrudeTemp":0,
+	"coldRetractTemp":0.0,
+	"geometry":"delta",
+	"name":"Maxwell",
+	"tools":[{
+		"number":0,
+		"heaters":[1],
+		"drives":[1]
+	}]
+}
+{//S3
+	"currentLayer":0,
+	"extrRaw":[0],
+	"fractionPrinted":0.000000,
+	"firstLayerHeight":0.000000
+}
+{//S4
+	"axisMins":[0,0,0],
+	"axisMaxes":[200,200,145],
+	"accelerations":[1000.000000,1000.000000,1000.000000,50.000000],
+	"firmwareElectronics":"Arduino Due",
+	"firmwareName":"Repetier",
+	"firmwareVersion":"1.0.1",
+	"minFeedrates":[0,0,0,0],
+	"maxFeedrates":[200.000000,200.000000,200.000000,60.000000]
+}
+
+
+
+

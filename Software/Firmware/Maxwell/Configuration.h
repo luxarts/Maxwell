@@ -27,7 +27,7 @@
    to see and change the data. You can also upload it to newer/older versions. The system
    will silently add new options, so compilation continues to work.
 
-   This file is optimized for version 1.0.0dev
+   This file is optimized for version 1.0.2
    generator: http://www.repetier.com/firmware/dev/
 
    If you are in doubt which named functions use which pins on your board, please check the
@@ -292,7 +292,6 @@ It also can add a delay to wait for spindle to run on full speed.
 #define MIN_HARDWARE_ENDSTOP_Y2 false
 #define MAX_HARDWARE_ENDSTOP_X2 false
 #define MAX_HARDWARE_ENDSTOP_Y2 false
-#define MINMAX_HARDWARE_ENDSTOP_Z2 false
 #define X2_MIN_PIN -1
 #define X2_MAX_PIN -1
 #define Y2_MIN_PIN -1
@@ -348,7 +347,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define Z_HOME_DIR 1
 #define X_MAX_LENGTH 200
 #define Y_MAX_LENGTH 200
-#define Z_MAX_LENGTH 550
+#define Z_MAX_LENGTH 145
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
@@ -383,7 +382,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define EXACT_DELTA_MOVES 1
 
 // Delta settings
-#define DELTA_DIAGONAL_ROD 338 // mm
+#define DELTA_DIAGONAL_ROD 206 // mm
 #define DELTA_ALPHA_A 210
 #define DELTA_ALPHA_B 330
 #define DELTA_ALPHA_C 90
@@ -395,9 +394,9 @@ It also can add a delay to wait for spindle to run on full speed.
 #define DELTA_DIAGONAL_CORRECTION_C 0
 #define END_EFFECTOR_HORIZONTAL_OFFSET 0
 #define CARRIAGE_HORIZONTAL_OFFSET 0
-#define DELTA_MAX_RADIUS 150
-#define ROD_RADIUS 160
-#define PRINTER_RADIUS 160
+#define DELTA_MAX_RADIUS 81
+#define ROD_RADIUS 104
+#define PRINTER_RADIUS 104
 #define DELTA_HOME_ON_POWER 0
 #define STEP_COUNTER
 #define DELTA_X_ENDSTOP_OFFSET_STEPS 0
@@ -490,7 +489,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define EEPROM_MODE 1
 #undef PS_ON_PIN
 #define PS_ON_PIN -1
-#define JSON_OUTPUT 0
+#define JSON_OUTPUT 1
 
 /* ======== Servos =======
 Control the servos with
@@ -768,7 +767,7 @@ Values must be in range 1..255
     "zMinPos": 0,
     "xLength": 200,
     "yLength": 200,
-    "zLength": 550,
+    "zLength": 145,
     "alwaysCheckEndstops": "0",
     "disableX": "0",
     "disableY": "0",
@@ -782,15 +781,15 @@ Values must be in range 1..255
     "zEndstopBack": 2,
     "deltaSegmentsPerSecondPrint": 180,
     "deltaSegmentsPerSecondTravel": 150,
-    "deltaDiagonalRod": 338,
-    "deltaHorizontalRadius": 160,
+    "deltaDiagonalRod": 206,
+    "deltaHorizontalRadius": 104,
     "deltaAlphaA": 210,
     "deltaAlphaB": 330,
     "deltaAlphaC": 90,
     "deltaDiagonalCorrA": 0,
     "deltaDiagonalCorrB": 0,
     "deltaDiagonalCorrC": 0,
-    "deltaMaxRadius": 150,
+    "deltaMaxRadius": 81,
     "deltaFloorSafetyMarginMM": 15,
     "deltaRadiusCorrA": 0,
     "deltaRadiusCorrB": 0,
@@ -1216,7 +1215,7 @@ Values must be in range 1..255
     "cncRpmMax": 8000,
     "cncSafeZ": 150,
     "startupGCode": "",
-    "jsonOutput": "0",
+    "jsonOutput": "1",
     "bedLevelingMethod": 0,
     "bedCorrectionMethod": 0,
     "bedLevelingGridSize": 5,
