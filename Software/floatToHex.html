@@ -1,0 +1,98 @@
+<script type="text/javascript">
+	var archivo;
+
+function toFloat(str) {
+	var float = 0, sign, order, mantiss,exp,int = 0, multi = 1;
+
+	int = parseInt(str,16);//Guarda el valor en base 16
+
+	sign = (int>>>31)? -1 : 1; //Si el bit 31 está en 1 es negativo
+	exp = (int >>> 23 & 0xff) - 127;//Separa la parte entera (exponente)
+	mantiss = ((int & 0x7fffff) + 0x800000).toString(2);//Separa la parte decimal (mantisa)
+
+	for (i=0; i<mantiss.length; i++){//Recorre bit a bit de la parte decimal
+		float += parseInt(mantiss[i])? Math.pow(2,exp) : 0;//Si es un 1,
+		exp--;
+	}
+	return float*sign;
+}
+function toHex(d) {
+	var sign = "0";
+
+	if(d<0.0){
+		sign = "1";
+		d = -d;
+	}
+
+	var mantissa = parseFloat(d).toString(2);
+
+	var exponent = 0;
+
+	if(mantissa.substr(0,1) === "0"){
+		exponent = mantissa.indexOf('.') - mantissa.indexOf('1') + 127;
+	}
+	else{
+		exponent = mantissa.indexOf('.') - 1 + 127;
+	}
+
+	mantissa = mantissa.replace(".", "");
+	mantissa = mantissa.substr(mantissa.indexOf('1')+1);
+
+	if(mantissa.length>23){
+		mantissa = mantissa.substr(0,23);
+	}
+	else{
+		while(mantissa.length<23){
+			mantissa = mantissa +"0";
+		}
+	}
+
+	var exp = parseFloat(exponent).toString(2);
+
+	while(exp.length<8){
+		exp = "0" + exp;
+	}
+
+	var numberFull = sign + exp + mantissa;
+
+	return parseInt(numberFull, 2).toString(16);
+}
+
+function cargar(){
+	var inputFile = document.getElementById("inputFile").files[0];
+	var fileReader = new FileReader();
+
+	fileReader.onload = function(fileLoadedEvent){
+		document.getElementById("inputEeprom").value = formatFile(fileLoadedEvent.target.result);
+	};
+	fileReader.readAsBinaryString(inputFile);
+}
+
+function formatFile(str){
+	var formatedStr = "0:\t";
+	for(var i=0;i<str.length;i++){
+		if(i%16==0 && i!=0)
+			formatedStr += "\n"+i+":\t";//Cada 16 bytes
+		if("0x"+str.charCodeAt(i).toString(16)<15)
+			formatedStr+="0";
+		formatedStr += str.charCodeAt(i).toString(16)+" ";
+	}
+	return formatedStr;
+}
+</script>
+<style type="text/css">
+	*{
+		font-family: Consolas, Courier;
+	}
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<textarea rows=25 cols="65" id="inputEeprom" readonly style="resize: none"></textarea>
+	<input type="file" id="inputFile" accept=".bin" onchange="cargar()">
+</body>
+</html>
