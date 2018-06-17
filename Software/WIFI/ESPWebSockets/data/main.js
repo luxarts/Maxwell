@@ -195,7 +195,6 @@ function eepromCheck(epr){
 var eprInterval = setInterval(loadEeprom, 500);
 window.onload = loadEeprom;//Carga eeprom
 
-
 /*
 	EPR:3 11 80.0000 Steps per mm
 	EPR:3 153 155.0 Z max length [mm]

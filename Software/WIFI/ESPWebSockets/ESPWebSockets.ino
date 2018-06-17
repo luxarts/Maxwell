@@ -297,12 +297,17 @@ bool wifiSetupSTA(){
   IPAddress sta_gateway(D_STA_IP[0],D_STA_IP[1],D_STA_IP[2],D_STA_IP[3]);
   IPAddress sta_subnet(D_STA_MASK[0],D_STA_MASK[1],D_STA_MASK[2],D_STA_MASK[3]);
 
-  WiFi.hostname(F("Maxwell3D"));
+  WiFi.config(sta_ip, sta_gateway, sta_subnet);
+  WiFi.enableAP(false);
+  delay(100);
   WiFi.mode(WIFI_STA);
+  delay(100);
+  WiFi.setPhyMode(WIFI_PHY_MODE_11G);
+  
   CONFIG_readBuffer(EP_STA_SSID, STA_SSID, MAX_STA_SSID);//Lee la el SSID desde la eeprom
   CONFIG_readBuffer(EP_STA_PASSWORD, STA_PASSWORD, MAX_STA_PASSWORD);//Lee la el SSID desde la eeprom
   WiFi.begin(STA_SSID, STA_PASSWORD);
-  WiFi.config(sta_ip, sta_gateway, sta_subnet);
+  delay(100);
 
   Serial.print(F("M117 Conectando a "));
   Serial.println(STA_SSID);
@@ -343,22 +348,26 @@ bool wifiSetupSTA(){
       return false;
     break;
   }  
+  WiFi.hostname(F("Maxwell3D"));
   Serial.print(F("M117 IP: "));
   Serial.println(WiFi.localIP());
   return true;
 }
 
 void wifiSetupAP(){
-  WiFi.disconnect(true);
-  WiFi.mode(WIFI_AP);
   IPAddress Ip(192,168,0,90);
   IPAddress NMask(255,255,255,0);
-
+  
+  WiFi.enableSTA(false);
+  delay(100);
+  WiFi.mode(WIFI_AP);
+  delay(50);
   WiFi.softAPConfig(Ip, Ip, NMask);
   Serial.println(F("M117 Punto de acceso"));
   delay(1000);
   uint8_t result = WiFi.softAP(AP_SSID, AP_PASSWORD);
-  
+  delay(100);
+  WiFi.setPhyMode(WIFI_PHY_MODE_11G);
   if(result){
     Serial.print(F("M117 IP: "));
     Serial.println(WiFi.softAPIP());
