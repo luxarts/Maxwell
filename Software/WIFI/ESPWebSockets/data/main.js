@@ -184,11 +184,15 @@ function eepromCheck(epr){
 		break;
 		case 218:
 			eeprom.extr1DeadTime = value;
+			eepromLoaded = true;
+			clearInterval(eprInterval);
 		break;
 	}
-	eepromLoaded = true;
+
+
 }
 
+var eprInterval = setInterval(loadEeprom, 500);
 window.onload = loadEeprom;//Carga eeprom
 
 

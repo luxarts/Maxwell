@@ -9,10 +9,9 @@
  * +212 bytes de FLASH  
  * -604 bytes de SRAM  
  */
-#include <ESP8266WebServer.h>
-#include <ESP8266mDNS.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
+#include <ESP8266WebServer.h>
 #include <FS.h>
 #include <WebSocketsServer.h>
 #include <cstring>
@@ -47,7 +46,7 @@ void setup(){
     }
     Serial.println();
     dots++;
-    if(dots==6)dots=0;
+    if(dots==4)dots=0;
     delay(200);
     hardReset=digitalRead(RESET_CONFIG_PIN);
   }while(millis()-timeout<RESET_DELAY && hardReset);
@@ -304,6 +303,10 @@ bool wifiSetupSTA(){
   CONFIG_readBuffer(EP_STA_PASSWORD, STA_PASSWORD, MAX_STA_PASSWORD);//Lee la el SSID desde la eeprom
   WiFi.begin(STA_SSID, STA_PASSWORD);
   WiFi.config(sta_ip, sta_gateway, sta_subnet);
+
+  Serial.print(F("M117 Conectando a "));
+  Serial.println(STA_SSID);
+  delay(1000);
   
   timeout=millis();
   
@@ -314,7 +317,7 @@ bool wifiSetupSTA(){
     }
     Serial.println();
     dots++;
-    if(dots==6)dots=0;
+    if(dots==4)dots=0;
     delay(250);
     if(WiFi.status() == WL_CONNECT_FAILED ||
        WiFi.status() == WL_NO_SSID_AVAIL)break; 
@@ -346,11 +349,23 @@ bool wifiSetupSTA(){
 }
 
 void wifiSetupAP(){
-  WiFi.softAP(AP_SSID, AP_PASSWORD);
+  WiFi.disconnect(true);
+  WiFi.mode(WIFI_AP);
+  IPAddress Ip(192,168,0,90);
+  IPAddress NMask(255,255,255,0);
+
+  WiFi.softAPConfig(Ip, Ip, NMask);
   Serial.println(F("M117 Punto de acceso"));
   delay(1000);
-  Serial.print(F("M117 IP: "));
-  Serial.println(WiFi.softAPIP());
+  uint8_t result = WiFi.softAP(AP_SSID, AP_PASSWORD);
+  
+  if(result){
+    Serial.print(F("M117 IP: "));
+    Serial.println(WiFi.softAPIP());
+  }
+  else{
+    Serial.println(F("M117 No se pudo crear"));
+  }
 }
 
 void wifiSetup(){

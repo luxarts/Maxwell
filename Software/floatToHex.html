@@ -1,7 +1,21 @@
 <script type="text/javascript">
 	var archivo;
+	var eprPos = {
+		stepsPermm: 11,
+		zMaxLength: 153,
+		diagonalRodLength: 881,
+		horizontalRodRadius: 885,
+		maxPrintableRadius: 925,
+		towerXendstop: 893,
+		towerYendstop: 895,
+		towerZendstop: 897,
+		corrDiagonalA: 933,
+		corrDiagonalB: 937,
+		corrDiagonalC: 941,
+		extr1DeadTime: 218
+	};
 
-function toFloat(str) {
+function htf(str) {
 	var float = 0, sign, order, mantiss,exp,int = 0, multi = 1;
 
 	int = parseInt(str,16);//Guarda el valor en base 16
@@ -14,48 +28,7 @@ function toFloat(str) {
 		float += parseInt(mantiss[i])? Math.pow(2,exp) : 0;//Si es un 1,
 		exp--;
 	}
-	return float*sign;
-}
-function toHex(d) {
-	var sign = "0";
-
-	if(d<0.0){
-		sign = "1";
-		d = -d;
-	}
-
-	var mantissa = parseFloat(d).toString(2);
-
-	var exponent = 0;
-
-	if(mantissa.substr(0,1) === "0"){
-		exponent = mantissa.indexOf('.') - mantissa.indexOf('1') + 127;
-	}
-	else{
-		exponent = mantissa.indexOf('.') - 1 + 127;
-	}
-
-	mantissa = mantissa.replace(".", "");
-	mantissa = mantissa.substr(mantissa.indexOf('1')+1);
-
-	if(mantissa.length>23){
-		mantissa = mantissa.substr(0,23);
-	}
-	else{
-		while(mantissa.length<23){
-			mantissa = mantissa +"0";
-		}
-	}
-
-	var exp = parseFloat(exponent).toString(2);
-
-	while(exp.length<8){
-		exp = "0" + exp;
-	}
-
-	var numberFull = sign + exp + mantissa;
-
-	return parseInt(numberFull, 2).toString(16);
+	return (float*sign).toFixed(3);
 }
 
 function cargar(){
@@ -64,20 +37,105 @@ function cargar(){
 
 	fileReader.onload = function(fileLoadedEvent){
 		document.getElementById("inputEeprom").value = formatFile(fileLoadedEvent.target.result);
+		archivo = document.getElementById("inputEeprom").value.split(" ");
+		printValues();
 	};
 	fileReader.readAsBinaryString(inputFile);
 }
 
 function formatFile(str){
-	var formatedStr = "0:\t";
+	var formatedStr = "";
 	for(var i=0;i<str.length;i++){
-		if(i%16==0 && i!=0)
-			formatedStr += "\n"+i+":\t";//Cada 16 bytes
 		if("0x"+str.charCodeAt(i).toString(16)<15)
 			formatedStr+="0";
 		formatedStr += str.charCodeAt(i).toString(16)+" ";
 	}
 	return formatedStr;
+}
+
+//Lee un dato en hexadecimal
+//Param1: vector donde se encuentra el dato
+//Param2: posicion del primer byte
+//Param3: tipo ('f'= float, 'd' = int, 'b' = byte)
+function readHex(vector, pos, tipo){
+	var num="";
+	switch(tipo){
+		case 'f':
+			for(var i=pos+3 ; i>=pos ; i--)
+				num += vector[i];
+			num = htf(num);
+		break;
+		case 'd':
+			for(var i=pos+1 ; i>=pos ; i--)
+				num += vector[i];
+			num = parseInt(num,16);
+		break;
+		case 'b':
+			num += vector[pos];
+			num = parseInt(num,16);
+		break;
+	}
+	return num;
+}
+
+//Cambia el órden de los bytes y los separa con un espacio
+function formatToEeprom(string){
+	var result = [];
+	var len = string.length - 2;
+
+	while (len >= 0) {
+		result.push(string.substr(len, 2));
+		len -= 2;
+	}
+	return result.join(' ');
+}
+
+function printValues(){
+	console.log("stepsPermm: "+readHex(archivo,eprPos.stepsPermm,'f'));
+	console.log("zMaxLength: "+readHex(archivo,eprPos.zMaxLength,'f'));
+	console.log("diagonalRodLength: "+readHex(archivo,eprPos.diagonalRodLength,'f'));
+	console.log("horizontalRodRadius: "+readHex(archivo,eprPos.horizontalRodRadius,'f'));
+	console.log("maxPrintableRadius: "+readHex(archivo,eprPos.maxPrintableRadius,'f'));
+	console.log("towerXendstop: "+readHex(archivo,eprPos.towerXendstop,'d'));
+	console.log("towerYendstop: "+readHex(archivo,eprPos.towerYendstop,'d'));
+	console.log("towerZendstop: "+readHex(archivo,eprPos.towerZendstop,'d'));
+	console.log("corrDiagonalA: "+readHex(archivo,eprPos.corrDiagonalA,'f'));
+	console.log("corrDiagonalB: "+readHex(archivo,eprPos.corrDiagonalB,'f'));
+	console.log("corrDiagonalC: "+readHex(archivo,eprPos.corrDiagonalC,'f'));
+	console.log("extr1DeadTime: "+readHex(archivo,eprPos.extr1DeadTime,'f'));
+}
+
+function fth(num){
+	const getHex = i => ('00' + i.toString(16)).slice(-2);
+
+	var view = new DataView(new ArrayBuffer(4)),result;
+
+	view.setFloat32(0, num);
+
+	result = Array
+		.apply(null, { length: 4 })
+		.map((_, i) => getHex(view.getUint8(i)))
+		.join('');
+
+	return result;
+}
+
+function saveHex(vector, pos, tipo){
+	vector = vector.split(' ');
+
+	switch(tipo){
+		case 'f':
+			for(var i=0 ; i<=3 ; i++)
+				archivo[pos+i] = vector[i];
+		break;
+		case 'd':
+			for(var i=0 ; i<=1 ; i++)
+				archivo[pos+i] = vector[i];
+		break;
+		case 'b':
+			archivo[pos] = vector[0];
+		break;
+	}
 }
 </script>
 <style type="text/css">

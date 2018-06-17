@@ -3,13 +3,13 @@
 
 #include <EEPROM.h>
 
-#define FIRMWARE_VERSION "0.0.5"
+#define FIRMWARE_VERSION "0.0.7"
 #define DEFAULT_WEB_PORT 80
 #define DEFAULT_WS_PORT 8888
 #define DEFAULT_STA_TIMEOUT 10000
 #define DEFAULT_BAUDRATE 115200
 #define INIT_DELAY 5000
-#define RESET_DELAY 3000
+#define RESET_DELAY 2000
 #define EEPROM_SIZE 512
 #define RESET_CONFIG_PIN 0
 
@@ -24,7 +24,7 @@ const uint8_t D_STA_MASK[] = {255,255,255,0};
 const char D_STA_SSID[] = "dummy";
 const char D_STA_PASSWORD[] = "dummy";
 const char AP_SSID[] = "Maxwell3D";
-const char AP_PASSWORD[] = "mwpass";
+const char AP_PASSWORD[] = "mw3dpassword";//Al menos 8 caracteres
 
 //Posiciones en EEPROM
 #define EP_RESET_FLAG     0   //1 byte

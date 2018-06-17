@@ -71,13 +71,16 @@ function saveWifi(){
 
 	if(ssid!=null && password!=null){
 		if(connection.readyState){
-			connection.send('!MWP9 ' + ssid);
-			connection.send('!MWP10 ' + password);
+			if(debugServer)console.log("Client>>"+'!MWP9 ' + ssid);
+			connection.send('!MWP9 ' + ssid + '0');
+			if(debugServer)console.log("Client>>"+'!MWP10 ' + password);
+			connection.send('!MWP10 ' + password + '0');
 		}
 	}
 }
 function loadWifi(){
 	if(connection.readyState){
+		if(debugServer)console.log("Client>>"+'!MWP2');
 		connection.send('!MWP2');
 	}
 }
