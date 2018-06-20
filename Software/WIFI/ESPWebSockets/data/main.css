@@ -146,6 +146,7 @@ input[type=range]::-webkit-slider-thumb {
 	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 	height: 26px;
 	width: 26px;
+	border: none;
 	border-radius: 13px;
 	background: var(--color_s);
 	cursor: pointer;
@@ -170,8 +171,9 @@ input[type=range]::-moz-range-thumb {
 	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 	height: 26px;
 	width: 26px;
+	border: none;
+	border-radius: 13px;
 	background: var(--color_s);
-	background: #ff0000;
 	cursor: pointer;
 }
 input[type=range]::-moz-range-thumb:hover{
