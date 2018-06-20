@@ -11,7 +11,6 @@ function showValues(){
 	document.getElementById("corrdiagonalb").value = eeprom.corrDiagonalB;
 	document.getElementById("corrdiagonalc").value = eeprom.corrDiagonalC;
 	document.getElementById("extr1deadtime").value = eeprom.extr1DeadTime;
-
 }
 function updateValues(){
 	eepromNew.stepsPermm = document.getElementById("stepspermm").value ;
@@ -31,7 +30,24 @@ function handleCargar(){
 	loadEeprom();
 	loadWifi();
 	showValues();
-	document.getElementById("msg").innerHTML = "Configuracion cargada";
+	showMsg("Configuracion cargada.");
+}
+
+function showMsg(msg){
+	var newmsg = document.createElement("div");
+	newmsg.setAttribute("id", "msgbox");
+	newmsg.innerHTML = msg;
+	document.body.appendChild(newmsg);
+
+	setTimeout(function(){
+	 	document.getElementById("msgbox").style.opacity = "0.9";
+	}, 10);
+	setTimeout(function(){
+	 	document.getElementById("msgbox").style.opacity = "0";
+	}, 3000);
+	setTimeout(function(){
+		document.body.removeChild(document.getElementById("msgbox"));
+	}, 3600);
 }
 function handleGuardar(){
 	updateValues();
@@ -47,25 +63,28 @@ function handleSubir(event){
 		archivo = formatFile(reader.result).split(" ");
 		fileValues();
 		showValues();
+		showMsg("Archivo cargado. ("+file.name+")");
+		console.log(file.name);
 	}
-	reader.readAsBinaryString(file);
+	if(file)reader.readAsBinaryString(file);
 }
 function handleDescargar(){
-	var settings = "MWC";
-	for (var i in eeprom){
-		settings += eeprom[i] + '&';	
+	if(archivo == undefined){
+		showMsg("Primero debe subir un archivo.");
+		return;
 	}
+	saveFile();
+	var bytes = new Uint8Array(archivo.length);
 
-	var element = document.createElement('a');
-	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(btoa(settings)));
-	element.setAttribute('download', "config.mw");
-
-	element.style.display = 'none';
-	document.body.appendChild(element);
-
-	element.click();
-
-	document.body.removeChild(element);
+	for (var i in archivo){
+		bytes[i] = parseInt(archivo[i], 16);
+	}
+	
+	var blob=new Blob([bytes], {type: "application/octet-stream"});
+	var link=document.createElement('a');
+	link.href=window.URL.createObjectURL(blob);
+	link.download="config.bin";
+	link.click();
 }
 function saveWifi(){
 	var ssid = document.getElementById("STA_SSID").value;
@@ -174,4 +193,73 @@ function htf(str) {
 		exp--;
 	}
 	return (float*sign).toFixed(3);
+}
+
+function fth(num){
+	const getHex = i => ('00' + i.toString(16)).slice(-2);
+
+	var view = new DataView(new ArrayBuffer(4)),result;
+
+	view.setFloat32(0, num);
+
+	result = Array
+		.apply(null, { length: 4 })
+		.map((_, i) => getHex(view.getUint8(i)))
+		.join('');
+
+	return result;
+}
+//Set the parameter in HEX format(number) and put it in the specified position(pos).
+//You must specify the type of the value in the third parameter with 'f', 'd', or 'b' for float, integer or byte.
+function saveHex(numero, pos, tipo){
+	switch(tipo){
+		case 'f':
+			vector = formatToEeprom(fth(numero));
+			vector = vector.split(' ');
+			for(var i=0 ; i<=3 ; i++)
+				archivo[pos+i] = vector[i];
+		break;
+		case 'd':
+			vector = formatToEeprom(parseInt(numero).toString(16));
+			vector = vector.split(' ');
+			for(var i=0 ; i<=1 ; i++)
+				archivo[pos+i] = vector[i];
+		break;
+		case 'b':
+			vector = parseInt(numero).toString(16);
+			archivo[pos] = vector;
+		break;
+	}
+}
+
+//Cambia el órden de los bytes y los separa con un espacio
+function formatToEeprom(string){
+	var result = [];
+	if(string.length%2 > 0){
+		string += "0";
+	}
+
+	var len = string.length - 2;
+
+	while (len >= 0) {
+		result.push(string.substr(len, 2));
+		len -= 2;
+	}
+	return result.join(' ');
+}
+
+function saveFile(){
+	updateValues();
+	saveHex(eepromNew.stepsPermm, eprPos.stepsPermm, 'f');
+	saveHex(eepromNew.zMaxLength, eprPos.zMaxLength, 'f');
+	saveHex(eepromNew.diagonalRodLength, eprPos.diagonalRodLength, 'f');
+	saveHex(eepromNew.horizontalRodRadius, eprPos.horizontalRodRadius, 'f');
+	saveHex(eepromNew.maxPrintableRadius, eprPos.maxPrintableRadius, 'f');
+	saveHex(eepromNew.towerXendstop, eprPos.towerXendstop, 'd');
+	saveHex(eepromNew.towerYendstop, eprPos.towerYendstop, 'd');
+	saveHex(eepromNew.towerZendstop, eprPos.towerZendstop, 'd');
+	saveHex(eepromNew.corrDiagonalA, eprPos.corrDiagonalA, 'f');
+	saveHex(eepromNew.corrDiagonalB, eprPos.corrDiagonalB, 'f');
+	saveHex(eepromNew.corrDiagonalC, eprPos.corrDiagonalC, 'f');
+	saveHex(eepromNew.extr1DeadTime, eprPos.extr1DeadTime, 'f');
 }

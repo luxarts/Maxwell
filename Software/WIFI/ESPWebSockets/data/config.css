@@ -59,3 +59,19 @@
 	display: block;
 	margin: 20px auto;
 }
+
+#msgbox{
+	background: var(--color_s);
+	color: var(--color_ons);
+	display: block;
+	margin: 3px;
+	padding: 20px;
+	border: none;
+	border-radius: 5px;
+	opacity: 0;
+	z-index: 1000;
+	text-align: center;
+	position: absolute;
+	bottom: 0;
+	transition: opacity 0.5s;
+}
