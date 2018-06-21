@@ -10,7 +10,9 @@ var eeprom = {
 	corrDiagonalA:null,
 	corrDiagonalB:null,
 	corrDiagonalC:null,
-	extr1DeadTime:null
+	extr1DeadTime:null,
+	filamentPrinted:null,
+	printerActive:null
 };
 var eepromNew = {
 	stepsPermm:null,
@@ -24,7 +26,9 @@ var eepromNew = {
 	corrDiagonalA:null,
 	corrDiagonalB:null,
 	corrDiagonalC:null,
-	extr1DeadTime:null
+	extr1DeadTime:null,
+	filamentPrinted:null,
+	printerActive:null
 };
 var debugServer=false;
 var eepromLoaded=false;
@@ -131,6 +135,10 @@ function saveEeprom(){
 	if(eepromNew.corrDiagonalC != null)sendCmd("M206 T3 P941 X"+eepromNew.corrDiagonalC.toString());
 	//extr1DeadTime
 	if(eepromNew.extr1DeadTime != null)sendCmd("M206 T3 P218 X"+eepromNew.extr1DeadTime.toString());
+	//filamentPrinted
+	if(eepromNew.filamentPrinted != null)sendCmd("M206 T3 P129 X"+eepromNew.filamentPrinted.toString());
+	//printerActive
+	if(eepromNew.printerActive != null)sendCmd("M206 T2 P125 X"+eepromNew.printerActive.toString());
 
 	loadEeprom();
 }
@@ -149,6 +157,12 @@ function eepromCheck(epr){
 	var eprPos = parseInt(matches[1]);
 
 	switch(eprPos){
+		case 129:
+			eeprom.filamentPrinted = value;
+		break;
+		case 125:
+			eeprom.printerActive = value;
+		break;
 		case 11:
 			eeprom.stepsPermm = value;
 		break;
@@ -188,8 +202,6 @@ function eepromCheck(epr){
 			clearInterval(eprInterval);
 		break;
 	}
-
-
 }
 
 var eprInterval = setInterval(loadEeprom, 500);
@@ -208,6 +220,10 @@ window.onload = loadEeprom;//Carga eeprom
 	EPR:3 937 0.815 Corr. diagonal B [mm]
 	EPR:3 941 1.662 Corr. diagonal C [mm]
 	EPR:3 218 6.1250 Extr.1 PID P-gain/dead-time
+	EPR:3 129 185.215 Filament printed [m]
+	EPR:2 125 107008 Printer active [s]
+
+
 
 
 	EPR:3 901 210.000 Alpha A(210):

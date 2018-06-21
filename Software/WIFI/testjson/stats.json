@@ -1,0 +1,10 @@
+{
+	"filamentos":[
+		{"nombre":"f1", "peso":10, "precio":123, "temperatura":200, "usado":999},
+		{"nombre":"f2", "peso":20, "precio":456, "temperatura":220, "usado":666},
+		{"nombre":"f3", "peso":20, "precio":456, "temperatura":220, "usado":666},
+		{"nombre":"f4", "peso":20, "precio":456, "temperatura":220, "usado":666},
+		{"nombre":"f5", "peso":20, "precio":456, "temperatura":220, "usado":666},
+		{"nombre":"f6", "peso":20, "precio":456, "temperatura":220, "usado":666}
+	]
+}

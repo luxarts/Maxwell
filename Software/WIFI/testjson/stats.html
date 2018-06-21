@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td><input type="file" onchange="handleSubir(event)"></td>
+			<td><input type="button" onclick="handleDescargar()" value="Descargar"></td>
+		</tr>
+		<tr>
+			<td><select id="filamentos" onchange="changeSelect()"></select></td>
+			<td><input type="button" onclick="eliminarFilamento()" value="Eliminar"></td>
+		</tr>
+		<tr>
+			<td><input type="text" id="newNombre"></td>
+			<td rowspan="4"><input type="button" onclick="agregarFilamento()" value="Agregar"></td>
+		</tr>
+		<tr>
+			<td><input type="number" id="newPeso"></td>
+		</tr>
+		<tr>
+			<td><input type="number" id="newPrecio"></td>
+		</tr>
+		<tr>
+			<td><input type="number" id="newTemperatura"></td>
+		</tr>
+		<tr>
+			<td>Peso</td>
+			<td id="peso"></td>
+		</tr>
+		<tr>
+			<td>Precio</td>
+			<td id="precio"></td>
+		</tr>
+		<tr>
+			<td>Temperatura</td>
+			<td id="temperatura"></td>
+		</tr>
+		<tr>
+			<td>Usado</td>
+			<td id="usado"></td>
+		</tr>
+	</table>
+	<br>
+	<script type="text/javascript" src="stats.js"></script>
+</body>
+</html>

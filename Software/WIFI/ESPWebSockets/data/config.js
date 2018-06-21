@@ -126,7 +126,9 @@ var eprPos = {
 	corrDiagonalA: 933,
 	corrDiagonalB: 937,
 	corrDiagonalC: 941,
-	extr1DeadTime: 218
+	extr1DeadTime: 218,
+	filamentPrinted: 129,
+	printerActive: 125
 };
 
 function formatFile(str){
@@ -145,19 +147,21 @@ function fileValues(){
 	eeprom.diagonalRodLength = readHex(archivo,eprPos.diagonalRodLength,'f');
 	eeprom.horizontalRodRadius = readHex(archivo,eprPos.horizontalRodRadius,'f');
 	eeprom.maxPrintableRadius = readHex(archivo,eprPos.maxPrintableRadius,'f');
-	eeprom.towerXendstop = readHex(archivo,eprPos.towerXendstop,'d');
-	eeprom.towerYendstop = readHex(archivo,eprPos.towerYendstop,'d');
-	eeprom.towerZendstop = readHex(archivo,eprPos.towerZendstop,'d');
+	eeprom.towerXendstop = readHex(archivo,eprPos.towerXendstop,'i');
+	eeprom.towerYendstop = readHex(archivo,eprPos.towerYendstop,'i');
+	eeprom.towerZendstop = readHex(archivo,eprPos.towerZendstop,'i');
 	eeprom.corrDiagonalA = readHex(archivo,eprPos.corrDiagonalA,'f');
 	eeprom.corrDiagonalB = readHex(archivo,eprPos.corrDiagonalB,'f');
 	eeprom.corrDiagonalC = readHex(archivo,eprPos.corrDiagonalC,'f');
 	eeprom.extr1DeadTime = readHex(archivo,eprPos.extr1DeadTime,'f');
+	eeprom.filamentPrinted = readHex(archivo,eprPos.filamentPrinted,'f');
+	eeprom.printerActive = readHex(archivo,eprPos.printerActive,'d');
 }
 
 //Lee un dato en hexadecimal
 //Param1: vector donde se encuentra el dato
 //Param2: posicion del primer byte
-//Param3: tipo ('f'= float, 'd' = int, 'b' = byte)
+//Param3: tipo ('f'= float (32 bits), 'i' = int (16 bits), 'd'= double (32 bits), 'b' = byte (8 bits))
 function readHex(vector, pos, tipo){
 	var num="";
 	switch(tipo){
@@ -166,8 +170,13 @@ function readHex(vector, pos, tipo){
 				num += vector[i];
 			num = parseFloat(htf(num));
 		break;
-		case 'd':
+		case 'i':
 			for(var i=pos+1 ; i>=pos ; i--)
+				num += vector[i];
+			num = parseInt(num,16);
+		break;
+		case 'd':
+			for(var i=pos+3 ; i>=pos ; i--)
 				num += vector[i];
 			num = parseInt(num,16);
 		break;
@@ -210,7 +219,7 @@ function fth(num){
 	return result;
 }
 //Set the parameter in HEX format(number) and put it in the specified position(pos).
-//You must specify the type of the value in the third parameter with 'f', 'd', or 'b' for float, integer or byte.
+//You must specify the type of the value in the third parameter with 'f', 'i', 'd', or 'b' for float, integer, double or byte.
 function saveHex(numero, pos, tipo){
 	switch(tipo){
 		case 'f':
@@ -219,10 +228,16 @@ function saveHex(numero, pos, tipo){
 			for(var i=0 ; i<=3 ; i++)
 				archivo[pos+i] = vector[i];
 		break;
-		case 'd':
+		case 'i':
 			vector = formatToEeprom(parseInt(numero).toString(16));
 			vector = vector.split(' ');
 			for(var i=0 ; i<=1 ; i++)
+				archivo[pos+i] = vector[i];
+		break;
+		case 'd':
+			vector = formatToEeprom(parseInt(numero).toString(16));
+			vector = vector.split(' ');
+			for(var i=0 ; i<=3 ; i++)
 				archivo[pos+i] = vector[i];
 		break;
 		case 'b':
@@ -255,11 +270,13 @@ function saveFile(){
 	saveHex(eepromNew.diagonalRodLength, eprPos.diagonalRodLength, 'f');
 	saveHex(eepromNew.horizontalRodRadius, eprPos.horizontalRodRadius, 'f');
 	saveHex(eepromNew.maxPrintableRadius, eprPos.maxPrintableRadius, 'f');
-	saveHex(eepromNew.towerXendstop, eprPos.towerXendstop, 'd');
-	saveHex(eepromNew.towerYendstop, eprPos.towerYendstop, 'd');
-	saveHex(eepromNew.towerZendstop, eprPos.towerZendstop, 'd');
+	saveHex(eepromNew.towerXendstop, eprPos.towerXendstop, 'i');
+	saveHex(eepromNew.towerYendstop, eprPos.towerYendstop, 'i');
+	saveHex(eepromNew.towerZendstop, eprPos.towerZendstop, 'i');
 	saveHex(eepromNew.corrDiagonalA, eprPos.corrDiagonalA, 'f');
 	saveHex(eepromNew.corrDiagonalB, eprPos.corrDiagonalB, 'f');
 	saveHex(eepromNew.corrDiagonalC, eprPos.corrDiagonalC, 'f');
 	saveHex(eepromNew.extr1DeadTime, eprPos.extr1DeadTime, 'f');
+	saveHex(eepromNew.filamentPrinted, eprPos.filamentPrinted, 'f');
+	saveHex(eepromNew.printerActive, eprPos.printerActive, 'd');
 }
