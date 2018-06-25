@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="chartist.min.css">
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<link rel="stylesheet" type="text/css" href="inicio.css">
+	<link rel="stylesheet" type="text/css" href="sdlist.css">
 	<title>Maxwell - Inicio</title>
 </head>
 <body>
@@ -18,11 +19,43 @@
 		<li><a href="config.html">Configuración</a></li>
 	</ul>
 	<div id="content">
-		<div id="sdlist">
-			<select>
-				<option></option>
-			</select>
-		</div>
+
+		<table id="sdlist" cellspacing="0">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Nombre</th>
+					<th>Tamaño</th>
+				</tr>
+			</thead>
+			<!-- 
+			<tr>
+				<td><svg height='20px' viewBox='0 0 306 306' xml:space='preserve'><g><g><polygon points='247.35,270.3 130.05,153 247.35,35.7 211.65,0 58.65,153 211.65,306'/></g></g></svg></td>
+				<td class="sdlist-folder">..</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><svg height='20px' viewBox='0 0 510 510' xml:space='preserve'><g><g><path d='M204,51H51C22.95,51,0,73.95,0,102v306c0,28.05,22.95,51,51,51h408c28.05,0,51-22.95,51-51V153c0-28.05-22.95-51-51-51 H255L204,51z'/></g></g></svg></td>
+				<td class="sdlist-folder">Carpeta 1</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><svg height='20px' viewBox='0 0 510 510' xml:space='preserve'><g><g><path d='M204,51H51C22.95,51,0,73.95,0,102v306c0,28.05,22.95,51,51,51h408c28.05,0,51-22.95,51-51V153c0-28.05-22.95-51-51-51 H255L204,51z'/></g></g></svg></td>
+				<td class="sdlist-folder">Carpeta 2</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><svg height='20px' viewBox='0 0 459 459' xml:space='preserve'><g><g><path d='M408,0H51C22.95,0,0,22.95,0,51v357c0,28.05,22.95,51,51,51h357c28.05,0,51-22.95,51-51V51C459,22.95,436.05,0,408,0z M357,153H102v-51h255V153z M357,255H102v-51h255V255z M280.5,357H102v-51h178.5V357z'/></g></g></svg></td>
+				<td class="sdlist-file">Archivo 1.gcode</td>
+				<td class="sdlist-file">789 bytes</td>
+			</tr>
+			<tr>
+				<td><svg height='20px' viewBox='0 0 459 459' xml:space='preserve'><g><g><path d='M408,0H51C22.95,0,0,22.95,0,51v357c0,28.05,22.95,51,51,51h357c28.05,0,51-22.95,51-51V51C459,22.95,436.05,0,408,0z M357,153H102v-51h255V153z M357,255H102v-51h255V255z M280.5,357H102v-51h178.5V357z'/></g></g></svg></td>
+				<td class="sdlist-file">Archivo 2.gcode</td>
+				<td class="sdlist-file">123.45 MB</td>
+			</tr> -->
+		</table>
+
 		<div id="temperaturas">
 			<div class="ct-chart ct-perfect-fourth"></div>
 		</div>
@@ -30,6 +63,6 @@
 	<script type="text/javascript" src="chartist.min.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="temp.js"></script>
-	<script type="text/javascript" src="sd.js"></script>
+	<script type="text/javascript" src="sdlist.js"></script>
 </body>
 </html>

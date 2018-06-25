@@ -1,0 +1,52 @@
+#sdlist{
+	float: left;
+	background: var(--color_bgbox);
+	border: none;
+	border-radius: 10px;
+	width: 300px;
+	padding: 10px 0 10px 0;
+	margin: 20px 0 20px 0;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+	text-align: left;
+	overflow-y: scroll;
+	display: block;    /*inline-block*/
+    height: 400px;
+}
+
+#sdlist td{
+	margin: 0;
+	padding: 3px 0 0px 5px;
+}
+
+#sdlist th{
+	border-bottom: 2px solid var(--color_p);
+	padding: 5px;
+	background: var(--color_bgbox);
+	color: var(--color_onbgbox);
+}
+
+#sdlist th:nth-child(2), #sdlist td:nth-child(2){
+	width: 60%;
+}
+#sdlist th:nth-child(3), #sdlist td:nth-child(3){
+	width: 40%;
+}
+#sdlist tr{
+	margin: 0;
+	padding: 0;
+	height: 30px;
+	background: var(--color_bgbox);
+	color: var(--color_onbgbox);
+
+}
+#sdlist tr:hover{
+	background: var(--color_bgboxd);
+	color: var(--color_onbgboxd);
+}
+
+.sdlist-file{
+
+}
+.sdlist-folder{
+
+}

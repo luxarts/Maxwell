@@ -1,6 +1,6 @@
 #config{
-	background: var(--color_s);
-	color: var(--color_ons);
+	background: var(--color_bgbox);
+	color: var(--color_onbgbox);
 	margin: 5px auto;
 	border-radius: 2px;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);

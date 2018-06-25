@@ -16,6 +16,7 @@ var tempOptions = {
 	// Disable line smoothing
 	lineSmooth: true,
 	// X-Axis specific configuration
+
 	axisX: {
 		showLabel: true,
 		labelInterpolationFnc: function (value, index) {
@@ -24,7 +25,7 @@ var tempOptions = {
 	},
 	// Y-Axis specific configuration
 	axisY: {
-		offset: 60,
+		offset: 30,
 		high: 300,
 		low: 0,
 		onlyInteger: true,

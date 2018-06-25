@@ -80,9 +80,9 @@ function sendCmd(cmd){
 	}
 }
 
-
-var sdList = [];
+var sdItems = [];
 var sdReceiving = false;
+var sdLoaded = false;
 function sdCheck(data){
 	var matches = data.match(/Begin file list/g);
 
@@ -94,11 +94,16 @@ function sdCheck(data){
 		//si el inicio no se encuentra y la bandera esta activada (se esta recibiendo) -> busca el final
 		matches = data.match(/End file list/g);
 		//si el final se encuentra -> desactiva la bandera
-		if(matches)sdReceiving = false;
+		if(matches){
+			sdReceiving = false;
+			sdLoaded=true;
+			try{actualizarLista()}catch(e){};
+		}
 		//si el final no se encuentra -> es un archivo o carpeta
 		else{
-			//Algoritmo
+			sdItems.push(data);
 		}
+	}
 	return true;
 }
 function wifiCheck(data){
@@ -131,7 +136,7 @@ function tempCheck(data){
 	var targetTemp = parseFloat(matches[1]);
 	//var heaterPwm = parseFloat(matches[2]);
 	
-	actualizarTemp(currentTemp, targetTemp);
+	try{actualizarTemp(currentTemp, targetTemp)}catch(e){};;
 	return true;
 }
 function saveEeprom(){

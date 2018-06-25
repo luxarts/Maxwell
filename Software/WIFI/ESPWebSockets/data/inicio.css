@@ -1,5 +1,7 @@
 #temperaturas{
-	width: 500px;		
+	width: 100%;
+	max-width: 500px;
+	float: left;	
 }
 .ct-series-a .ct-line{
 	stroke: var(--color_pl);

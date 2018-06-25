@@ -1,5 +1,5 @@
 :root{
-	--color_background: #FFF;
+	--color_bg: #FFF;
 	--color_p: #9C27B0;
 	--color_pl: #d05ce3;
 	--color_pd: #6a0080;
@@ -16,6 +16,12 @@
 	--color_errord: #9b0000;
 	--color_onerror: #FFF;
 	--color_onerrord: #FFF;
+	--color_bgbox: #e0e0e0;
+	--color_onbgbox: #000000;
+	--color_bgboxl: #ffffff;
+	--color_onbgboxl: #000000;
+	--color_bgboxd: #aeaeae;
+	--color_onbgboxd: #000000;
 }
 *{
 	font-family: Arial;
@@ -29,7 +35,7 @@ body{
 }
 #content{
 	margin: 0 auto;
-	padding: 10px 20px 0 20px;
+	padding: 10px 10px 0 10px;
 	text-align: center;
 }
 .markedText{

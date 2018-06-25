@@ -1,30 +1,3 @@
-function handleSubir(event){
-	var file = event.target.files[0];
-
-	var reader = new FileReader();
-	reader.onload = function(){
-		sdItems = reader.result.split("\n");
-		console.log("Archivo "+file.name+" cargado.");
-		actualizarLista();
-	}
-	if(file)reader.readAsBinaryString(file);
-}
-
-function handleDescargar(){
-	if(stats == undefined){
-		return;
-	}
-	var jsonStr = JSON.stringify(stats);
-	//var bytes = new Uint8Array(jsonStr.length);
-	
-	var blob=new Blob([jsonStr], {type: "application/json"});
-	var link=document.createElement('a');
-	link.href=window.URL.createObjectURL(blob);
-	link.download="stats.json";
-	link.click();
-}
-
-var sdItems = [];
 var currentPath = "";
 
 //Comprueba si es una carpeta
@@ -51,7 +24,7 @@ function addItem(path){
 
 		//Texto
 		td = document.createElement("td");
-		td.setAttribute("style", "color: red");
+		td.setAttribute("class", ".sdlist-folder");
 		var nombre = document.createTextNode(nombre[nombre.length-1]);
 		td.appendChild(nombre);
 		tr.appendChild(td);
@@ -59,22 +32,25 @@ function addItem(path){
 		//Vacio
 		td = document.createElement("td");
 		tr.appendChild(td);
-		
+
 		//Evento
 		tr.setAttribute("onclick", "folderIn(this)");
 	}
 	else{
+		//Icono archivo
 		var td = document.createElement("td");
 		td.innerHTML = "<svg height='20px' viewBox='0 0 459 459' xml:space='preserve'><g><g><path d='M408,0H51C22.95,0,0,22.95,0,51v357c0,28.05,22.95,51,51,51h357c28.05,0,51-22.95,51-51V51C459,22.95,436.05,0,408,0z M357,153H102v-51h255V153z M357,255H102v-51h255V255z M280.5,357H102v-51h178.5V357z'/></g></g></svg>";
 		tr.appendChild(td);
 
+		//Texto
 		nombre = nombre[nombre.length-1].match(/.+\..+ /gm);
 		nombre = document.createTextNode(nombre[0]);
 		var td = document.createElement("td");
-		td.setAttribute("style", "color: green");
+		td.setAttribute("class", ".sdlist-file");
 		td.appendChild(nombre);
 		tr.appendChild(td);
 
+		//Peso
 		var peso = path.match(/\d+$/gm);
 		var mult = " bytes";
 		peso = parseFloat(peso[0]);
@@ -93,7 +69,7 @@ function addItem(path){
 		peso = document.createTextNode(peso.toFixed(2).toString() + mult);
 		
 		td = document.createElement("td");
-		td.setAttribute("style", "color: green");
+		td.setAttribute("class", ".sdlist-file");
 		td.appendChild(peso);
 		tr.appendChild(td);
 	}
@@ -108,11 +84,11 @@ function itemBack(){
 	var td = document.createElement("td");
 	td.innerHTML = "<svg height='20px' viewBox='0 0 306 306' xml:space='preserve'><g><g><polygon points='247.35,270.3 130.05,153 247.35,35.7 211.65,0 58.65,153 211.65,306'/></g></g></svg>";
 	tr.appendChild(td);
-	
+
 	//Texto
 	var nombre = document.createTextNode("..");
 	var td = document.createElement("td");
-	td.setAttribute("style", "color: red");
+	td.setAttribute("class", ".sdlist-folder");
 	td.appendChild(nombre);
 	tr.appendChild(td);
 	td = document.createElement("td");
@@ -167,7 +143,11 @@ function folderOut(){
 	if(currentPath != "")currentPath+="/";//Agrega la barra al final
 	actualizarLista();
 }
-
+var sdInterval = setInterval(cargarSD, 1000);
+function cargarSD(){
+	if(!sdLoaded)sendCmd('m20');
+	else clearInterval(sdInterval);
+}
 /* Ejemplo de datos recibidos
 
 Begin file list
