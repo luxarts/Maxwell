@@ -3,108 +3,33 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
+	<link rel='shortcut icon' type='image/x-icon' href='favicon.ico'/>
 	<link rel="stylesheet" type="text/css" href="chartist.min.css">
 	<link rel="stylesheet" type="text/css" href="main.css">
-	<link rel="stylesheet" type="text/css" href="control.css">
-	<title>Maxwell - Panel de control</title>
+	<link rel="stylesheet" type="text/css" href="inicio.css">
+	<title>Maxwell - Inicio</title>
 </head>
 <body>
 	<ul id="navbar" class="navbar-h">
-		<li><a href="index.html">Panel de control</a></li>
+		<li><a href="index.html">Inicio</a></li>
+		<li><a href="control.html">Control</a></li>
 		<li><a href="calib.html">Calibración manual</a></li>
 		<li><a href="stats.html">Estadísticas</a></li>
 		<li><a href="config.html">Configuración</a></li>
 	</ul>
 	<div id="content">
-		<input type="text" id="cmdline" onkeypress="enter(event)"><input type="button" class="btn" value="Enviar" onclick="sendCmdLine();">
-		<table class="controlJog" cellspacing="0">
-			<tr>
-				<td></td><td></td><td></td><td></td>
-				<td><input type="button" value="50" onclick="mover('y',50)"></td>
-				<td></td><td></td><td></td><td></td><td></td>
-				<td><input type="button" value="50" onclick="mover('z',50)"></td>
-			</tr>
-			<tr>
-				<td></td><td></td><td></td><td></td>
-				<td><input type="button" value="10" onclick="mover('y',10)"></td>
-				<td></td><td></td><td></td><td></td><td></td>
-				<td><input type="button" value="10" onclick="mover('z',10)"></td>
-			</tr>
-			<tr>
-				<td></td><td></td><td></td><td></td>
-				<td><input type="button" value="1" onclick="mover('y',1)"></td>
-				<td></td><td></td><td></td><td></td><td></td>
-				<td><input type="button" value="1" onclick="mover('z',1)"></td>
-			</tr>
-			<tr>
-				<td></td><td></td><td></td><td></td>
-				<td><input type="button" value="0.1" onclick="mover('y',0.1)"></td>
-				<td></td><td></td><td></td><td></td><td></td>
-				<td><input type="button" value="0.1" onclick="mover('z',0.1)"></td>
-			</tr>
-			<tr>
-				<td><input type="button" value="-50" onclick="mover('x',-50)"></td>
-				<td><input type="button" value="-10" onclick="mover('x',-10)"></td>
-				<td><input type="button" value="-1" onclick="mover('x',-1)"></td>
-				<td><input type="button" value="-0.1" onclick="mover('x',-0.1)"></td>
-				<td><input type="button" value="Home" onclick="home()"></td>
-				<td><input type="button" value="0.1" onclick="mover('x',0.1)"></td>
-				<td><input type="button" value="1" onclick="mover('x',1)"></td>
-				<td><input type="button" value="10" onclick="mover('x',10)"></td>
-				<td><input type="button" value="50" onclick="mover('x',50)"></td>
-				<td></td>
-				<td><input type="text" value="Z"></td>
-			</tr>
-			<tr>
-				<td></td><td></td><td></td><td></td>
-				<td><input type="button" value="-0.1" onclick="mover('y',-0.1)"></td>
-				<td></td><td></td><td></td><td></td><td></td>
-				<td><input type="button" value="-0.1" onclick="mover('z',-0.1)"></td>
-			</tr>
-			<tr>
-				<td></td><td></td><td></td><td></td>
-				<td><input type="button" value="-1" onclick="mover('y',-1)"></td>
-				<td></td><td></td><td></td><td></td><td></td>
-				<td><input type="button" value="-1" onclick="mover('z',-1)"></td>
-			</tr>
-			<tr>
-				<td></td><td></td><td></td><td></td>
-				<td><input type="button" value="-10" onclick="mover('y',-10)"></td>
-				<td></td><td></td><td></td><td></td><td></td>
-				<td><input type="button" value="-10" onclick="mover('z',-10)"></td>
-			</tr>
-			<tr>
-				<td></td><td></td><td></td><td></td>
-				<td><input type="button" value="-50" onclick="mover('y',-50)"></td>
-				<td></td><td></td><td></td><td></td><td></td>
-				<td><input type="button" value="-50" onclick="mover('z',-50)"></td>
-			</tr>
-		</table>
-
-		<table id="coordenadas">
-			<tr>
-				<td id="actualX">X: Sin referencia</td>
-			</tr>
-			<tr>
-				<td id="actualY">Y: Sin referencia</td>
-			</tr>
-			<tr>
-				<td id="actualZ">Z: Sin referencia</td>
-			</tr>
-			<tr>
-				<td><span id="fr">Velocidad: 150mm/s</span></td>
-			</tr>
-			<tr>
-				<td><input type="range" min="1" max="300" id="frSlider" oninput="changeFeedrate()"></td>
-			</tr>
-		</table>
-		<div id="grafico">
+		<div id="sdlist">
+			<select>
+				<option></option>
+			</select>
+		</div>
+		<div id="temperaturas">
 			<div class="ct-chart ct-perfect-fourth"></div>
 		</div>
 	</div>
 	<script type="text/javascript" src="chartist.min.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="temp.js"></script>
-	<script type="text/javascript" src="control.js"></script>
+	<script type="text/javascript" src="sd.js"></script>
 </body>
 </html>

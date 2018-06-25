@@ -63,12 +63,13 @@ window.onresize = navbarCheck;
 
 connection.onmessage = function (event){
 	if(debugServer)console.log("Server>>"+event.data)
-	eepromCheck(event.data);
-	fwuCheck(event.data);
-	wifiCheck(event.data);
-	tempCheck(event.data);
+	
+	if(eepromCheck(event.data));
+	else if(fwuCheck(event.data));
+	else if(wifiCheck(event.data));
+	else if(tempCheck(event.data));
+	else if(sdCheck(event.data));
 }
-
 function sendCmd(cmd){
 	if(debugServer)console.log("Client>>"+cmd);
 	if(connection.readyState){
@@ -79,28 +80,49 @@ function sendCmd(cmd){
 	}
 }
 
+
+var sdList = [];
+var sdReceiving = false;
+function sdCheck(data){
+	var matches = data.match(/Begin file list/g);
+
+	//si el inicio se encuentra -> se activa la bandera
+	if(matches)sdReceiving = true;
+	else{
+		//si el inicio no se encuentra y la bandera esta desactivada (no se esta recibiendo) -> vuelve
+		if(sdReceiving == false)return false;
+		//si el inicio no se encuentra y la bandera esta activada (se esta recibiendo) -> busca el final
+		matches = data.match(/End file list/g);
+		//si el final se encuentra -> desactiva la bandera
+		if(matches)sdReceiving = false;
+		//si el final no se encuentra -> es un archivo o carpeta
+		else{
+			//Algoritmo
+		}
+	return true;
+}
 function wifiCheck(data){
 	var matches = data.match(/!MWP2 /g);
-	if(matches == null)return;
+	if(matches == null)return false;
 
 	if(document.getElementById("STA_SSID")==null || document.getElementById("STA_PASSWORD") == null)return;
 	matches = data.match(/\w+/g);
 	document.getElementById("STA_SSID").value = matches[1];
 	document.getElementById("STA_PASSWORD").value = matches[2];
+	return true;
 }
-
 function fwuCheck(data){
 	var matches = data.match(/!MWP8 /);
-	if(matches == null)return;
+	if(matches == null)return false;
 
 	matches = data.match(/S\d/g);
 	if(matches[0] == "S1")fwuStatus=1;
 	else if(matches[0] == "S0")fwuStatus=0;
+	return true;
 }
-
 function tempCheck(data){
 	var matches = data.match(/T:/);
-	if(matches == null)return;
+	if(matches == null)return false;
 
 
 	//Formato = T: 123.45 /123.45 @:123
@@ -110,8 +132,8 @@ function tempCheck(data){
 	//var heaterPwm = parseFloat(matches[2]);
 	
 	actualizarTemp(currentTemp, targetTemp);
+	return true;
 }
-
 function saveEeprom(){
 	//stepsPermm
 	if(eepromNew.stepsPermm != null)sendCmd("M206 T3 P11 X"+eepromNew.stepsPermm.toString());
@@ -147,10 +169,9 @@ function loadEeprom(){
 	if(eepromLoaded)return true;
 	else return false;
 }
-
 function eepromCheck(epr){
 	var matches = epr.match(/EPR:/);
-	if(matches == null)return; //No se encontro patron
+	if(matches == null)return false; //No se encontro patron
 	
 	matches = epr.match(/[+-]?\d+(\.\d+)?/g);//Obtiene todos los números
 	var value = parseFloat(matches[2]);//Valor
@@ -202,6 +223,7 @@ function eepromCheck(epr){
 			clearInterval(eprInterval);
 		break;
 	}
+	return true;
 }
 
 var eprInterval = setInterval(loadEeprom, 500);

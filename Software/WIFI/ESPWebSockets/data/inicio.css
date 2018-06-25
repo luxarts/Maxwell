@@ -1,0 +1,11 @@
+#temperaturas{
+	width: 500px;		
+}
+.ct-series-a .ct-line{
+	stroke: var(--color_pl);
+	stroke-width: 1px;
+}
+.ct-series-b .ct-line{
+	stroke: var(--color_p);
+	stroke-width: 2px;
+}
