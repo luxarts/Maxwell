@@ -41,7 +41,6 @@ function addItem(path){
 		var td = document.createElement("td");
 		td.innerHTML = "<svg height='20px' viewBox='0 0 459 459' xml:space='preserve'><g><g><path d='M408,0H51C22.95,0,0,22.95,0,51v357c0,28.05,22.95,51,51,51h357c28.05,0,51-22.95,51-51V51C459,22.95,436.05,0,408,0z M357,153H102v-51h255V153z M357,255H102v-51h255V255z M280.5,357H102v-51h178.5V357z'/></g></g></svg>";
 		tr.appendChild(td);
-
 		//Texto
 		nombre = nombre[nombre.length-1].match(/.+\..+ /gm);
 		nombre = document.createTextNode(nombre[0]);
@@ -72,10 +71,39 @@ function addItem(path){
 		td.setAttribute("class", ".sdlist-file");
 		td.appendChild(peso);
 		tr.appendChild(td);
+
+		tr.setAttribute("data-path", path.match(/.*[^\s0-9]/g)[0]);
+		tr.setAttribute("onclick", "selectFile(this)");
 	}
 	document.getElementById("sdlist").appendChild(tr);
 }
+var selectedFile="";
 
+function selectFile(dom){
+	var items = document.getElementsByTagName("tr");
+	console.log(items);
+	for(var i=0 ; i<items.length ; i+=1){
+		console.log(items[i]);
+		items[i].classList.remove("selectedFile");
+	}
+	var fileToPrint = dom.dataset.path;
+	dom.classList.add("selectedFile");
+	selectedFile = dom.getElementsByTagName("td")[1].innerHTML;
+	sendCmd("M23 "+fileToPrint);
+}
+function printFile(){
+	if(selectedFile == "")return;
+	sendCmd("M24");
+	showMsg("Imprimiendo "+selectedFile+"");
+}
+function pausePrint(){
+	sendCmd("M25");
+}
+
+function agregarCarpeta(){ //Completar
+}
+function eliminarArchivo(){ //Completar
+}
 
 function itemBack(){
 	var tr = document.createElement("tr");
@@ -128,7 +156,6 @@ function actualizarLista(){
 		}
 	}
 }
-
 function folderIn(dom){
 	dom = dom.getElementsByTagName("td");
 	dom = dom[1].innerHTML+"/";
@@ -143,9 +170,12 @@ function folderOut(){
 	if(currentPath != "")currentPath+="/";//Agrega la barra al final
 	actualizarLista();
 }
+showMsg("Cargando memoria SD...");
 var sdInterval = setInterval(cargarSD, 1000);
 function cargarSD(){
-	if(!sdLoaded)sendCmd('m20');
+	if(!sdLoaded){
+		sendCmd('m20');
+	}
 	else clearInterval(sdInterval);
 }
 /* Ejemplo de datos recibidos

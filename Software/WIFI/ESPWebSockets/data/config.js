@@ -33,22 +33,7 @@ function handleCargar(){
 	showMsg("Configuracion cargada.");
 }
 
-function showMsg(msg){
-	var newmsg = document.createElement("div");
-	newmsg.setAttribute("id", "msgbox");
-	newmsg.innerHTML = msg;
-	document.body.appendChild(newmsg);
 
-	setTimeout(function(){
-	 	document.getElementById("msgbox").style.opacity = "0.9";
-	}, 10);
-	setTimeout(function(){
-	 	document.getElementById("msgbox").style.opacity = "0";
-	}, 3000);
-	setTimeout(function(){
-		document.body.removeChild(document.getElementById("msgbox"));
-	}, 3600);
-}
 function handleGuardar(){
 	updateValues();
 	saveEeprom();

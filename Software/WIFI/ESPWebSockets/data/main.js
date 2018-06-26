@@ -80,6 +80,23 @@ function sendCmd(cmd){
 	}
 }
 
+function showMsg(msg){
+	var newmsg = document.createElement("div");
+	newmsg.setAttribute("id", "msgbox");
+	newmsg.innerHTML = msg;
+	document.body.appendChild(newmsg);
+
+	setTimeout(function(){
+	 	document.getElementById("msgbox").style.opacity = "0.9";
+	}, 10);
+	setTimeout(function(){
+	 	document.getElementById("msgbox").style.opacity = "0";
+	}, 3000);
+	setTimeout(function(){
+		document.body.removeChild(document.getElementById("msgbox"));
+	}, 3600);
+}
+
 var sdItems = [];
 var sdReceiving = false;
 var sdLoaded = false;
@@ -230,6 +247,8 @@ function eepromCheck(epr){
 	}
 	return true;
 }
+
+
 
 var eprInterval = setInterval(loadEeprom, 500);
 window.onload = loadEeprom;//Carga eeprom

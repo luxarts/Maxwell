@@ -49,6 +49,7 @@ input[type="button"], input[type="submit"]{
 	border-radius: 2px;
 	outline: none;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+	cursor: pointer;
 }
 input[type="button"].btn-active{
 	box-shadow: 0 1px 4px rgba(0, 0, 0, .6), 0 0px 15px 2px var(--color_s);
@@ -188,4 +189,58 @@ input[type=range]::-moz-range-thumb:hover{
 }
 h1{
 	font-size: 24px;
+}
+
+#msgbox{
+	background: var(--color_s);
+	color: var(--color_ons);
+	display: block;
+	margin: 3px;
+	padding: 20px;
+	border: none;
+	border-radius: 5px;
+	opacity: 0;
+	z-index: 1000;
+	text-align: center;
+	position: absolute;
+	bottom: 0;
+	transition: opacity 0.5s;
+}
+
+[tooltip]{
+	position: relative;
+}
+[tooltip]::before{
+	content: "";
+	position: absolute;
+	top: -3px;
+	left: 50%;
+	transform: translateX(-50%);
+	border-width: 4px 6px 0 6px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+	z-index: 99;
+	opacity: 0;
+}
+[tooltip]::after{
+	white-space: nowrap;
+	content: attr(tooltip);
+	position: absolute;
+	left: 50%;
+	top: -3px;
+	transform: translateX(-50%) translateY(-100%);
+	background: #555;
+	text-align: center;
+	color: #fff;
+	padding: 5px;
+	font-size: 12px;
+	min-width: 80px;
+	border-radius: 5px;
+	pointer-events: none;
+	z-index: 99;
+	opacity: 0;
+}
+[tooltip]:hover::after,[tooltip]:hover::before{
+	opacity: 1;
+	transition: opacity 0.2s;
 }

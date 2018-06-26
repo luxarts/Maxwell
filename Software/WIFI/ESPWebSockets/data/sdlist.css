@@ -1,19 +1,18 @@
 #sdlist{
-	float: left;
 	background: var(--color_bgbox);
 	border: none;
 	border-radius: 10px;
-	width: 300px;
+	width: 100%;
 	padding: 10px 0 10px 0;
 	margin: 20px 0 20px 0;
-	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 	text-align: left;
-	overflow-y: scroll;
+	overflow-y: auto;
 	display: block;    /*inline-block*/
     height: 400px;
 }
 
 #sdlist td{
+	cursor: pointer;
 	margin: 0;
 	padding: 3px 0 0px 5px;
 }
@@ -37,16 +36,50 @@
 	height: 30px;
 	background: var(--color_bgbox);
 	color: var(--color_onbgbox);
-
 }
 #sdlist tr:hover{
 	background: var(--color_bgboxd);
 	color: var(--color_onbgboxd);
 }
-
 .sdlist-file{
 
 }
 .sdlist-folder{
 
+}
+#sdpanel{
+	padding: 0;
+	margin: 0;
+	width: 50%;
+	min-width: 300px;
+}
+
+#sdpanel ul{
+	background: none;
+	height: 50px;
+	margin: 0 auto;
+	padding: 0;
+	list-style-type: none;
+	width: 100%;
+}
+#sdpanel li{
+	background: none;
+	fill: var(--color_p);
+	cursor: pointer;
+	font-size: 20px;
+	line-height: 24px;
+	float: left;
+	padding: 6px 10px 4px 10px;
+}
+#sdpanel li:hover{
+	fill: var(--color_pd);
+	transition: fill .2s;
+}
+#sdlist tr.selectedFile{
+	background: var(--color_s);
+	color: var(--color_ons);
+}
+#sdlist tr.selectedFile:hover{
+	background: var(--color_sd);
+	color: var(--color_onsd);
 }
