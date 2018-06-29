@@ -11,6 +11,9 @@ var eeprom = {
 	corrDiagonalB:null,
 	corrDiagonalC:null,
 	extr1DeadTime:null,
+	deltaRadiusA:null,
+	deltaRadiusB:null,
+	deltaRadiusC:null,
 	filamentPrinted:null,
 	printerActive:null
 };
@@ -27,6 +30,9 @@ var eepromNew = {
 	corrDiagonalB:null,
 	corrDiagonalC:null,
 	extr1DeadTime:null,
+	deltaRadiusA:null,
+	deltaRadiusB:null,
+	deltaRadiusC:null,
 	filamentPrinted:null,
 	printerActive:null
 };
@@ -64,16 +70,50 @@ window.onresize = navbarCheck;
 connection.onmessage = function (event){
 	if(debugServer)console.log("Server>>"+event.data)
 	
-	if(eepromCheck(event.data));
+	if(okCheck(event.data));
+	else if(eepromCheck(event.data));
 	else if(fwuCheck(event.data));
 	else if(wifiCheck(event.data));
 	else if(tempCheck(event.data));
 	else if(sdCheck(event.data));
+	else if(statusCheck(event.data));
+	else if(percentageCheck(event.data));
 }
+
+function okCheck(data){
+	if(!data.startsWith("ok"))return false;
+	receivedOk = true;
+	return true;
+}
+
+var percentagePrinted = 0;
+function percentageCheck(data){
+	if(!data.startsWith("SD printing byte"))return false;
+	var matches = data.match(/\d+/g);//SD printing byte 86235/86235
+	
+	percentagePrinted = (parseInt(matches[0])*100/parseInt(matches[1])).toFixed(2);
+	return true;
+}
+
+var printerStatus = {};
+function statusCheck(data){
+	if(!data.startsWith('{"status": '))return false;
+	try{
+		printerStatus = JSON.parse(data);
+		readStatus();
+	}
+	catch(e){}
+
+	return true;
+}
+
+var receivedOk = true;
 function sendCmd(cmd){
+	//if(!receivedOk)return;
 	if(debugServer)console.log("Client>>"+cmd);
 	if(connection.readyState){
 		connection.send('!MWP7 ' + cmd);
+		receivedOk=false;
 	}
 	else{
 		if(debugServer)console.log("No se pudo enviar");
@@ -104,7 +144,10 @@ function sdCheck(data){
 	var matches = data.match(/Begin file list/g);
 
 	//si el inicio se encuentra -> se activa la bandera
-	if(matches)sdReceiving = true;
+	if(matches){
+		sdReceiving = true;
+		sdItems = [];
+	}
 	else{
 		//si el inicio no se encuentra y la bandera esta desactivada (no se esta recibiendo) -> vuelve
 		if(sdReceiving == false)return false;
@@ -179,6 +222,12 @@ function saveEeprom(){
 	if(eepromNew.corrDiagonalC != null)sendCmd("M206 T3 P941 X"+eepromNew.corrDiagonalC.toString());
 	//extr1DeadTime
 	if(eepromNew.extr1DeadTime != null)sendCmd("M206 T3 P218 X"+eepromNew.extr1DeadTime.toString());
+	//deltaRadiusA (alpha A)
+	if(eepromNew.deltaRadiusA != null)sendCmd("M206 T3 P901 X"+eepromNew.deltaRadiusA.toString());
+	//deltaRadiusB (alpha B)
+	if(eepromNew.deltaRadiusB != null)sendCmd("M206 T3 P905 X"+eepromNew.deltaRadiusB.toString());
+	//deltaRadiusC (alpha C)
+	if(eepromNew.deltaRadiusC != null)sendCmd("M206 T3 P909 X"+eepromNew.deltaRadiusC.toString());
 	//filamentPrinted
 	if(eepromNew.filamentPrinted != null)sendCmd("M206 T3 P129 X"+eepromNew.filamentPrinted.toString());
 	//printerActive
@@ -239,6 +288,15 @@ function eepromCheck(epr){
 		case 941:
 			eeprom.corrDiagonalC = value;
 		break;
+		case 901:
+			eeprom.deltaRadiusA = value;
+		break;
+		case 905:
+			eeprom.deltaRadiusB = value;
+		break;
+		case 909:
+			eeprom.deltaRadiusC = value;
+		break;
 		case 218:
 			eeprom.extr1DeadTime = value;
 			eepromLoaded = true;
@@ -248,10 +306,12 @@ function eepromCheck(epr){
 	return true;
 }
 
-
-
 var eprInterval = setInterval(loadEeprom, 500);
 window.onload = loadEeprom;//Carga eeprom
+
+// window.setInterval(function(){
+// 	sendCmd("M408");//Status
+// }, 1000);
 
 /*
 	EPR:3 11 80.0000 Steps per mm
@@ -266,15 +326,12 @@ window.onload = loadEeprom;//Carga eeprom
 	EPR:3 937 0.815 Corr. diagonal B [mm]
 	EPR:3 941 1.662 Corr. diagonal C [mm]
 	EPR:3 218 6.1250 Extr.1 PID P-gain/dead-time
-	EPR:3 129 185.215 Filament printed [m]
-	EPR:2 125 107008 Printer active [s]
-
-
-
-
 	EPR:3 901 210.000 Alpha A(210):
 	EPR:3 905 330.000 Alpha B(330):
 	EPR:3 909 90.000 Alpha C(90):
+	EPR:3 129 185.215 Filament printed [m]
+	EPR:2 125 107008 Printer active [s]
+
 	EPR:3 913 0.000 Delta Radius A(0):
 	EPR:3 917 0.000 Delta Radius B(0):
 	EPR:3 921 0.000 Delta Radius C(0):

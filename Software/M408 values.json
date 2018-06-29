@@ -1,5 +1,5 @@
 {//S0
-	"status": "I",
+	"status": "I",//I= Idle, P= Printing
 	"heaters":[0,7.286821],
 	"active":[0,0.000000],
 	"standby":[0,0.000000],

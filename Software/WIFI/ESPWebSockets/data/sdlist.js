@@ -81,9 +81,7 @@ var selectedFile="";
 
 function selectFile(dom){
 	var items = document.getElementsByTagName("tr");
-	console.log(items);
 	for(var i=0 ; i<items.length ; i+=1){
-		console.log(items[i]);
 		items[i].classList.remove("selectedFile");
 	}
 	var fileToPrint = dom.dataset.path;
@@ -93,8 +91,15 @@ function selectFile(dom){
 }
 function printFile(){
 	if(selectedFile == "")return;
+	
 	sendCmd("M24");
 	showMsg("Imprimiendo "+selectedFile+"");
+
+	var items = document.getElementsByTagName("tr");
+	for(var i=0 ; i<items.length ; i+=1){
+		items[i].classList.remove("selectedFile");
+	}
+	selectedFile = "";
 }
 function pausePrint(){
 	sendCmd("M25");
@@ -103,6 +108,16 @@ function pausePrint(){
 function agregarCarpeta(){ //Completar
 }
 function eliminarArchivo(){ //Completar
+	if(selectedFile == "")return;
+	sendCmd("M30 "+currentPath+selectedFile);
+	showMsg("Archivo "+selectedFile+" eliminado");
+
+	var items = document.getElementsByTagName("tr");
+	for(var i=0 ; i<items.length ; i+=1){
+		items[i].classList.remove("selectedFile");
+	}
+	selectedFile = "";
+	sendCmd('m20');//Actualizar
 }
 
 function itemBack(){
@@ -177,6 +192,13 @@ function cargarSD(){
 		sendCmd('m20');
 	}
 	else clearInterval(sdInterval);
+}
+
+function readStatus(){
+	if(printerStatus.status == "P"){//Si esta imprimiendo
+		sendCmd("M27");
+		console.log("Impreso "+percentagePrinted+"%");
+	}
 }
 /* Ejemplo de datos recibidos
 

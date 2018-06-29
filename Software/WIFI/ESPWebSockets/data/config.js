@@ -11,6 +11,9 @@ function showValues(){
 	document.getElementById("corrdiagonalb").value = eeprom.corrDiagonalB;
 	document.getElementById("corrdiagonalc").value = eeprom.corrDiagonalC;
 	document.getElementById("extr1deadtime").value = eeprom.extr1DeadTime;
+	document.getElementById("deltaradiusa").value = eeprom.deltaRadiusA;
+	document.getElementById("deltaradiusb").value = eeprom.deltaRadiusB;
+	document.getElementById("deltaradiusc").value = eeprom.deltaRadiusC;
 }
 function updateValues(){
 	eepromNew.stepsPermm = document.getElementById("stepspermm").value ;
@@ -25,6 +28,9 @@ function updateValues(){
 	eepromNew.corrDiagonalB = document.getElementById("corrdiagonalb").value;
 	eepromNew.corrDiagonalC = document.getElementById("corrdiagonalc").value;
 	eepromNew.extr1DeadTime = document.getElementById("extr1deadtime").value;
+	eepromNew.deltaRadiusA = document.getElementById("deltaradiusa").value;
+	eepromNew.deltaRadiusB = document.getElementById("deltaradiusb").value;
+	eepromNew.deltaRadiusC = document.getElementById("deltaradiusc").value;
 }
 function handleCargar(){
 	loadEeprom();
@@ -38,7 +44,7 @@ function handleGuardar(){
 	updateValues();
 	saveEeprom();
 	saveWifi();
-	document.getElementById("msg").innerHTML = "Configuracion guardada";
+	showMsg("Configuración guardada");
 }
 function handleSubir(event){
 	var file = event.target.files[0];
@@ -112,6 +118,9 @@ var eprPos = {
 	corrDiagonalB: 937,
 	corrDiagonalC: 941,
 	extr1DeadTime: 218,
+	deltaRadiusA: 901,
+	deltaRadiusB: 905,
+	deltaRadiusC: 909,
 	filamentPrinted: 129,
 	printerActive: 125
 };
@@ -139,6 +148,9 @@ function fileValues(){
 	eeprom.corrDiagonalB = readHex(archivo,eprPos.corrDiagonalB,'f');
 	eeprom.corrDiagonalC = readHex(archivo,eprPos.corrDiagonalC,'f');
 	eeprom.extr1DeadTime = readHex(archivo,eprPos.extr1DeadTime,'f');
+	eeprom.deltaRadiusA = readHex(archivo,eprPos.deltaRadiusA,'f');
+	eeprom.deltaRadiusB = readHex(archivo,eprPos.deltaRadiusB,'f');
+	eeprom.deltaRadiusC = readHex(archivo,eprPos.deltaRadiusC,'f');
 	eeprom.filamentPrinted = readHex(archivo,eprPos.filamentPrinted,'f');
 	eeprom.printerActive = readHex(archivo,eprPos.printerActive,'d');
 }
@@ -262,6 +274,9 @@ function saveFile(){
 	saveHex(eepromNew.corrDiagonalB, eprPos.corrDiagonalB, 'f');
 	saveHex(eepromNew.corrDiagonalC, eprPos.corrDiagonalC, 'f');
 	saveHex(eepromNew.extr1DeadTime, eprPos.extr1DeadTime, 'f');
+	saveHex(eepromNew.deltaRadiusA, eprPos.deltaRadiusA, 'f');
+	saveHex(eepromNew.deltaRadiusB, eprPos.deltaRadiusB, 'f');
+	saveHex(eepromNew.deltaRadiusC, eprPos.deltaRadiusC, 'f');
 	saveHex(eepromNew.filamentPrinted, eprPos.filamentPrinted, 'f');
 	saveHex(eepromNew.printerActive, eprPos.printerActive, 'd');
 }
