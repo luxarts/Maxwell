@@ -83,10 +83,8 @@ function saveWifi(){
 
 	if(ssid!=null && password!=null){
 		if(connection.readyState){
-			if(debugServer)console.log("Client>>"+'!MWP9 ' + ssid);
-			connection.send('!MWP9 ' + ssid + '0');
-			if(debugServer)console.log("Client>>"+'!MWP10 ' + password);
-			connection.send('!MWP10 ' + password + '0');
+			if(debugServer)console.log("Client>>"+'!MWP9 @' + ssid + '#' + password);
+			connection.send('!MWP9 @' + ssid + ' #' + password + ';');
 		}
 	}
 }
@@ -105,25 +103,6 @@ if (!window.File || !window.FileReader) {
 }
 
 var archivo;
-var eprPos = {
-	stepsPermm: 11,
-	zMaxLength: 153,
-	diagonalRodLength: 881,
-	horizontalRodRadius: 885,
-	maxPrintableRadius: 925,
-	towerXendstop: 893,
-	towerYendstop: 895,
-	towerZendstop: 897,
-	corrDiagonalA: 933,
-	corrDiagonalB: 937,
-	corrDiagonalC: 941,
-	extr1DeadTime: 218,
-	deltaRadiusA: 901,
-	deltaRadiusB: 905,
-	deltaRadiusC: 909,
-	filamentPrinted: 129,
-	printerActive: 125
-};
 
 function formatFile(str){
 	var formatedStr = "";

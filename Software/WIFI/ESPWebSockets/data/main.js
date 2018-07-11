@@ -10,12 +10,17 @@ var eeprom = {
 	corrDiagonalA:null,
 	corrDiagonalB:null,
 	corrDiagonalC:null,
-	extr1DeadTime:null,
 	deltaRadiusA:null,
 	deltaRadiusB:null,
 	deltaRadiusC:null,
-	filamentPrinted:null,
+	maxFeedrate:null,
+	acceleration:null,
+	travelAcceleration:null,
+	jerk:null,
+	extr1DeadTime:null,
+	filamentPrinted:null,	
 	printerActive:null
+	
 };
 var eepromNew = {
 	stepsPermm:null,
@@ -29,12 +34,39 @@ var eepromNew = {
 	corrDiagonalA:null,
 	corrDiagonalB:null,
 	corrDiagonalC:null,
-	extr1DeadTime:null,
 	deltaRadiusA:null,
 	deltaRadiusB:null,
 	deltaRadiusC:null,
-	filamentPrinted:null,
+	maxFeedrate:null,
+	acceleration:null,
+	travelAcceleration:null,
+	jerk:null,
+	extr1DeadTime:null,
+	filamentPrinted:null,	
 	printerActive:null
+};
+var eprPos = {
+	stepsPermm: 11,
+	zMaxLength: 153,
+	diagonalRodLength: 881,
+	horizontalRodRadius: 885,
+	maxPrintableRadius: 925,
+	towerXendstop: 893,
+	towerYendstop: 895,
+	towerZendstop: 897,
+	corrDiagonalA: 933,
+	corrDiagonalB: 937,
+	corrDiagonalC: 941,
+	deltaRadiusA: 901,
+	deltaRadiusB: 905,
+	deltaRadiusC: 909,
+	maxFeedrate: 23,
+	acceleration: 59,
+	travelAcceleration: 71,
+	jerk: 39,
+	extr1DeadTime: 218,
+	filamentPrinted: 129,
+	printerActive: 125
 };
 var debugServer=false;
 var eepromLoaded=false;
@@ -206,6 +238,8 @@ function saveEeprom(){
 	if(eepromNew.zMaxLength != null)sendCmd("M206 T3 P153 X"+eepromNew.zMaxLength.toString());
 	//horizontalRodRadius
 	if(eepromNew.horizontalRodRadius != null)sendCmd("M206 T3 P885 X"+eepromNew.horizontalRodRadius.toString());//T=tipo P=posicion X=valor float
+	//diagonalRodLength
+	if(eepromNew.diagonalRodLength != null)sendCmd("M206 T3 P881 X"+eepromNew.diagonalRodLength.toString());
 	//maxPrintableRadius
 	if(eepromNew.maxPrintableRadius != null)sendCmd("M206 T3 P925 X"+eepromNew.maxPrintableRadius.toString());
 	//towerXendstop
@@ -232,6 +266,26 @@ function saveEeprom(){
 	if(eepromNew.filamentPrinted != null)sendCmd("M206 T3 P129 X"+eepromNew.filamentPrinted.toString());
 	//printerActive
 	if(eepromNew.printerActive != null)sendCmd("M206 T2 P125 X"+eepromNew.printerActive.toString());
+	//maxFeedrate
+	if(eepromNew.maxFeedrate != null){
+		sendCmd("M206 T3 P15 X"+eepromNew.maxFeedrate.toString());
+		sendCmd("M206 T3 P19 X"+eepromNew.maxFeedrate.toString());
+		sendCmd("M206 T3 P23 X"+eepromNew.maxFeedrate.toString());
+	}
+	//acceleration
+	if(eepromNew.acceleration != null){
+		sendCmd("M206 T3 P51 X"+eepromNew.acceleration.toString());
+		sendCmd("M206 T3 P55 X"+eepromNew.acceleration.toString());
+		sendCmd("M206 T3 P59 X"+eepromNew.acceleration.toString());
+	}
+	//travelAcceleration
+	if(eepromNew.travelAcceleration != null){
+		sendCmd("M206 T3 P51 X"+eepromNew.travelAcceleration.toString());
+		sendCmd("M206 T3 P55 X"+eepromNew.travelAcceleration.toString());
+		sendCmd("M206 T3 P59 X"+eepromNew.travelAcceleration.toString());
+	}
+	//jerk
+	if(eepromNew.jerk != null)sendCmd("M206 T2 P125 X"+eepromNew.jerk.toString());
 
 	loadEeprom();
 }

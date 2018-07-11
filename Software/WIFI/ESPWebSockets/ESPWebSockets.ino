@@ -61,7 +61,7 @@ void setup(){
     while(1)delay(1);
   }
   
-  inputString.reserve(150);
+  inputString.reserve(256);
 
   wifiSetup();
   delay(50);
@@ -162,11 +162,13 @@ void processPayload(String payload, uint8_t num){
     break;
     //!MWP9: Actualiza STA_SSID
     case 9:
-      msg.toCharArray(msgChar, msg.length());//Copia el String msg en el vector msgChar[]
+      //SSID
+      String wificreds = msg.substring(msg.indexOf(F("@"))+1, msg.indexOf(F("#")));
+      wificreds.toCharArray(msgChar, wificreds.length());//Copia el String wificreds en el vector msgChar[]
       CONFIG_writeBuffer(EP_STA_SSID, msgChar);
-    break;
-    case 10:
-      msg.toCharArray(msgChar, msg.length());//Copia el String msg en el vector msgChar[]
+      //Pass
+      wificreds = msg.substring(msg.indexOf(F("#"))+1);
+      wificreds.toCharArray(msgChar, wificreds.length());//Copia el String wificreds en el vector msgChar[]
       CONFIG_writeBuffer(EP_STA_PASSWORD, msgChar);
     break;
   }
@@ -293,11 +295,11 @@ bool wifiSetupSTA(){
   char STA_SSID[MAX_STA_SSID+1];
   char STA_PASSWORD[MAX_STA_PASSWORD+1];
   
-  IPAddress sta_ip(D_STA_IP[0],D_STA_IP[1],D_STA_IP[2],D_STA_IP[3]);
-  IPAddress sta_gateway(D_STA_IP[0],D_STA_IP[1],D_STA_IP[2],D_STA_IP[3]);
-  IPAddress sta_subnet(D_STA_MASK[0],D_STA_MASK[1],D_STA_MASK[2],D_STA_MASK[3]);
+  //IPAddress sta_ip(D_STA_IP[0],D_STA_IP[1],D_STA_IP[2],D_STA_IP[3]);
+  //IPAddress sta_gateway(D_STA_IP[0],D_STA_IP[1],D_STA_IP[2],D_STA_IP[3]);
+  //IPAddress sta_subnet(D_STA_MASK[0],D_STA_MASK[1],D_STA_MASK[2],D_STA_MASK[3]);
 
-  WiFi.config(sta_ip, sta_gateway, sta_subnet);
+  //WiFi.config(sta_ip, sta_gateway, sta_subnet);
   WiFi.enableAP(false);
   delay(100);
   WiFi.mode(WIFI_STA);

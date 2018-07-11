@@ -3,7 +3,7 @@
 
 #include <EEPROM.h>
 
-#define FIRMWARE_VERSION "0.0.7"
+#define FIRMWARE_VERSION "0.0.8"
 #define DEFAULT_WEB_PORT 80
 #define DEFAULT_WS_PORT 8888
 #define DEFAULT_STA_TIMEOUT 10000
@@ -21,8 +21,8 @@
 const uint8_t D_STA_IP[] = {192,168,0,90};
 const uint8_t D_STA_MASK[] = {255,255,255,0};
 #define D_WIFI_MODE MODO_STA
-const char D_STA_SSID[] = "dummy";
-const char D_STA_PASSWORD[] = "dummy";
+const char D_STA_SSID[] = "nada";
+const char D_STA_PASSWORD[] = "123456789";
 const char AP_SSID[] = "Maxwell3D";
 const char AP_PASSWORD[] = "mw3dpassword";//Al menos 8 caracteres
 
