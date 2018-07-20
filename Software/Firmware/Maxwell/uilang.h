@@ -2116,7 +2116,7 @@
 #define UI_TEXT_PRINT_POS_ES        "Imprimiendo..."
 #define UI_TEXT_PRINTING_ES         "Imprimiendo"
 #define UI_TEXT_IDLE_ES             "Inactivo"
-#define UI_TEXT_NOSDCARD_ES         "Sin Memoria SD"
+#define UI_TEXT_NOSDCARD_ES         "Sin memoria SD"
 #define UI_TEXT_ERROR_ES            "**** ERROR ****"
 #define UI_TEXT_BACK_ES             "Atras " cUP
 #define UI_TEXT_QUICK_SETTINGS_ES   "Control" //"Configuracion Rapida"

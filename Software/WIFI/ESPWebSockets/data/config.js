@@ -10,10 +10,22 @@ function showValues(){
 	document.getElementById("corrdiagonala").value = eeprom.corrDiagonalA;
 	document.getElementById("corrdiagonalb").value = eeprom.corrDiagonalB;
 	document.getElementById("corrdiagonalc").value = eeprom.corrDiagonalC;
+	document.getElementById("alphaa").value = eeprom.alphaA;
+	document.getElementById("alphab").value = eeprom.alphaB;
+	document.getElementById("alphac").value = eeprom.alphaC;
+	document.getElementById("maxfeedrate").value = eeprom.maxFeedrate;
+	document.getElementById("acceleration").value = eeprom.acceleration;
+	document.getElementById("travelacceleration").value = eeprom.travelAcceleration;
+	document.getElementById("jerk").value = eeprom.jerk;
 	document.getElementById("extr1deadtime").value = eeprom.extr1DeadTime;
-	document.getElementById("deltaradiusa").value = eeprom.deltaRadiusA;
-	document.getElementById("deltaradiusb").value = eeprom.deltaRadiusB;
-	document.getElementById("deltaradiusc").value = eeprom.deltaRadiusC;
+	
+}
+
+function togglePsw(){
+	if(document.getElementById("STA_PASSWORD").value == null)return;
+	var state = document.getElementById("STA_PASSWORD").type;
+	if(state == "text")document.getElementById("STA_PASSWORD").type = "password";
+	else document.getElementById("STA_PASSWORD").type = "text";
 }
 function updateValues(){
 	eepromNew.stepsPermm = document.getElementById("stepspermm").value ;
@@ -27,10 +39,14 @@ function updateValues(){
 	eepromNew.corrDiagonalA = document.getElementById("corrdiagonala").value;
 	eepromNew.corrDiagonalB = document.getElementById("corrdiagonalb").value;
 	eepromNew.corrDiagonalC = document.getElementById("corrdiagonalc").value;
+	eepromNew.alphaA = document.getElementById("alphaa").value;
+	eepromNew.alphaB = document.getElementById("alphab").value;
+	eepromNew.alphaC = document.getElementById("alphac").value;
+	eepromNew.maxFeedrate = document.getElementById("maxfeedrate").value;
+	eepromNew.acceleration = document.getElementById("acceleration").value;
+	eepromNew.travelAcceleration = document.getElementById("travelacceleration").value;
+	eepromNew.jerk = document.getElementById("jerk").value
 	eepromNew.extr1DeadTime = document.getElementById("extr1deadtime").value;
-	eepromNew.deltaRadiusA = document.getElementById("deltaradiusa").value;
-	eepromNew.deltaRadiusB = document.getElementById("deltaradiusb").value;
-	eepromNew.deltaRadiusC = document.getElementById("deltaradiusc").value;
 }
 function handleCargar(){
 	loadEeprom();
@@ -38,7 +54,6 @@ function handleCargar(){
 	showValues();
 	showMsg("Configuracion cargada.");
 }
-
 
 function handleGuardar(){
 	updateValues();
@@ -83,10 +98,8 @@ function saveWifi(){
 
 	if(ssid!=null && password!=null){
 		if(connection.readyState){
-			if(debugServer)console.log("Client>>"+'!MWP9 ' + ssid);
-			connection.send('!MWP9 ' + ssid + '0');
-			if(debugServer)console.log("Client>>"+'!MWP10 ' + password);
-			connection.send('!MWP10 ' + password + '0');
+			if(debugServer)console.log("Client>>"+'!MWP9 @' + ssid + '#' + password);
+			connection.send('!MWP9 @' + ssid + ' #' + password + ';');
 		}
 	}
 }
@@ -105,25 +118,6 @@ if (!window.File || !window.FileReader) {
 }
 
 var archivo;
-var eprPos = {
-	stepsPermm: 11,
-	zMaxLength: 153,
-	diagonalRodLength: 881,
-	horizontalRodRadius: 885,
-	maxPrintableRadius: 925,
-	towerXendstop: 893,
-	towerYendstop: 895,
-	towerZendstop: 897,
-	corrDiagonalA: 933,
-	corrDiagonalB: 937,
-	corrDiagonalC: 941,
-	extr1DeadTime: 218,
-	deltaRadiusA: 901,
-	deltaRadiusB: 905,
-	deltaRadiusC: 909,
-	filamentPrinted: 129,
-	printerActive: 125
-};
 
 function formatFile(str){
 	var formatedStr = "";
@@ -147,10 +141,14 @@ function fileValues(){
 	eeprom.corrDiagonalA = readHex(archivo,eprPos.corrDiagonalA,'f');
 	eeprom.corrDiagonalB = readHex(archivo,eprPos.corrDiagonalB,'f');
 	eeprom.corrDiagonalC = readHex(archivo,eprPos.corrDiagonalC,'f');
+	eeprom.alphaA = readHex(archivo,eprPos.alphaA,'f');
+	eeprom.alphaB = readHex(archivo,eprPos.alphaB,'f');
+	eeprom.alphaC = readHex(archivo,eprPos.alphaC,'f');
 	eeprom.extr1DeadTime = readHex(archivo,eprPos.extr1DeadTime,'f');
-	eeprom.deltaRadiusA = readHex(archivo,eprPos.deltaRadiusA,'f');
-	eeprom.deltaRadiusB = readHex(archivo,eprPos.deltaRadiusB,'f');
-	eeprom.deltaRadiusC = readHex(archivo,eprPos.deltaRadiusC,'f');
+	eeprom.maxFeedrate = readHex(archivo,eprPos.maxFeedrate,'f');
+	eeprom.acceleration = readHex(archivo,eprPos.acceleration,'f');
+	eeprom.travelAcceleration = readHex(archivo,eprPos.travelAcceleration,'f');
+	eeprom.jerk = readHex(archivo,eprPos.jerk,'f');
 	eeprom.filamentPrinted = readHex(archivo,eprPos.filamentPrinted,'f');
 	eeprom.printerActive = readHex(archivo,eprPos.printerActive,'d');
 }
@@ -273,10 +271,14 @@ function saveFile(){
 	saveHex(eepromNew.corrDiagonalA, eprPos.corrDiagonalA, 'f');
 	saveHex(eepromNew.corrDiagonalB, eprPos.corrDiagonalB, 'f');
 	saveHex(eepromNew.corrDiagonalC, eprPos.corrDiagonalC, 'f');
+	saveHex(eepromNew.alphaA, eprPos.alphaA, 'f');
+	saveHex(eepromNew.alphaB, eprPos.alphaB, 'f');
+	saveHex(eepromNew.alphaC, eprPos.alphaC, 'f');
 	saveHex(eepromNew.extr1DeadTime, eprPos.extr1DeadTime, 'f');
-	saveHex(eepromNew.deltaRadiusA, eprPos.deltaRadiusA, 'f');
-	saveHex(eepromNew.deltaRadiusB, eprPos.deltaRadiusB, 'f');
-	saveHex(eepromNew.deltaRadiusC, eprPos.deltaRadiusC, 'f');
+	saveHex(eepromNew.maxFeedrate, eprPos.maxFeedrate, 'f');
+	saveHex(eepromNew.acceleration, eprPos.acceleration, 'f');
+	saveHex(eepromNew.travelAcceleration, eprPos.travelAcceleration, 'f');
+	saveHex(eepromNew.jerk, eprPos.jerk, 'f');
 	saveHex(eepromNew.filamentPrinted, eprPos.filamentPrinted, 'f');
 	saveHex(eepromNew.printerActive, eprPos.printerActive, 'd');
 }

@@ -51,6 +51,30 @@
 	transition: background .2s;
 }
 
+#showHide{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+#showHide + label{
+	margin-top: 3px;
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+}
+#showHide + label svg{
+	fill: var(--color_onbgbox);
+	opacity: 0.38;
+}
+#showHide:focus + label svg,
+#showHide + label:hover svg{
+	opacity: 1;
+	transition: opacity .2s;
+}
+
 #wificreds{
 	padding: 0;
 	width: 100%;

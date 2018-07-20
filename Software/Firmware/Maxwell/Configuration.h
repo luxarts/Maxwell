@@ -46,7 +46,7 @@
 // ################ END MANUAL SETTINGS ##########################
 
 #undef FAN_PIN
-#define FAN_PIN HEATER_1_PIN
+#define FAN_PIN HEATER_2_PIN
 #undef FAN2_PIN
     #define FAN2_PIN -1
 #undef FAN_BOARD_PIN
@@ -131,7 +131,7 @@
 #define EXT0_WAIT_RETRACT_UNITS 6
 #define EXT0_SELECT_COMMANDS ""
 #define EXT0_DESELECT_COMMANDS ""
-#define EXT0_EXTRUDER_COOLER_PIN HEATER_2_PIN
+#define EXT0_EXTRUDER_COOLER_PIN HEATER_1_PIN
 #define EXT0_EXTRUDER_COOLER_SPEED 255
 #define EXT0_DECOUPLE_TEST_PERIOD 12000
 #define EXT0_JAM_PIN -1
@@ -347,13 +347,13 @@ It also can add a delay to wait for spindle to run on full speed.
 #define Z_HOME_DIR 1
 #define X_MAX_LENGTH 200
 #define Y_MAX_LENGTH 200
-#define Z_MAX_LENGTH 145
+#define Z_MAX_LENGTH 490
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
 #define PARK_POSITION_X 0
-#define PARK_POSITION_Y 20
-#define PARK_POSITION_Z_RAISE 20
+#define PARK_POSITION_Y 30
+#define PARK_POSITION_Z_RAISE 30
 
 
 #define DISTORTION_CORRECTION 0
@@ -394,7 +394,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define DELTA_DIAGONAL_CORRECTION_C 0
 #define END_EFFECTOR_HORIZONTAL_OFFSET 0
 #define CARRIAGE_HORIZONTAL_OFFSET 0
-#define DELTA_MAX_RADIUS 81
+#define DELTA_MAX_RADIUS 120
 #define ROD_RADIUS 104
 #define PRINTER_RADIUS 104
 #define DELTA_HOME_ON_POWER 0
@@ -402,18 +402,18 @@ It also can add a delay to wait for spindle to run on full speed.
 #define DELTA_X_ENDSTOP_OFFSET_STEPS 0
 #define DELTA_Y_ENDSTOP_OFFSET_STEPS 0
 #define DELTA_Z_ENDSTOP_OFFSET_STEPS 0
-#define DELTA_FLOOR_SAFETY_MARGIN_MM 15
+#define DELTA_FLOOR_SAFETY_MARGIN_MM 20
 //#define SOFTWARE_LEVELING
 
 #define DELTASEGMENTS_PER_PRINTLINE 64
 #define STEPPER_INACTIVE_TIME 360L
 #define MAX_INACTIVE_TIME 0L
-#define MAX_FEEDRATE_X 200
-#define MAX_FEEDRATE_Y 200
-#define MAX_FEEDRATE_Z 200
-#define HOMING_FEEDRATE_X 60
-#define HOMING_FEEDRATE_Y 60
-#define HOMING_FEEDRATE_Z 60
+#define MAX_FEEDRATE_X 300
+#define MAX_FEEDRATE_Y 300
+#define MAX_FEEDRATE_Z 300
+#define HOMING_FEEDRATE_X 80
+#define HOMING_FEEDRATE_Y 80
+#define HOMING_FEEDRATE_Z 80
 #define HOMING_ORDER HOME_ORDER_ZXY
 #define ZHOME_PRE_RAISE 0
 #define ZHOME_PRE_RAISE_DISTANCE 10
@@ -433,12 +433,12 @@ It also can add a delay to wait for spindle to run on full speed.
 #define STEP_DOUBLER_FREQUENCY 95000
 #define ALLOW_QUADSTEPPING 0
 #define DOUBLE_STEP_DELAY 0 // time in microseconds
-#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_X 1000
-#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Y 1000
-#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Z 1000
-#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_X 1500
-#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Y 1500
-#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Z 1500
+#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_X 1500
+#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Y 1500
+#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Z 1500
+#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_X 2000
+#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Y 2000
+#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Z 2000
 #define INTERPOLATE_ACCELERATION_WITH_Z 0
 #define ACCELERATION_FACTOR_TOP 100
 #define MAX_JERK 30
@@ -681,7 +681,7 @@ Values must be in range 1..255
             "waitRetractUnits": 6,
             "waitRetract": 6,
             "stepsPerMM": 95.3,
-            "coolerPin": "HEATER_2_PIN",
+            "coolerPin": "HEATER_1_PIN",
             "coolerSpeed": 255,
             "selectCommands": "",
             "deselectCommands": "",
@@ -726,18 +726,18 @@ Values must be in range 1..255
     "y2MaxEndstop": 0,
     "motherboard": 408,
     "driveSystem": 3,
-    "xMaxSpeed": 200,
-    "xHomingSpeed": 60,
-    "xTravelAcceleration": 1500,
-    "xPrintAcceleration": 1000,
-    "yMaxSpeed": 200,
-    "yHomingSpeed": 60,
-    "yTravelAcceleration": 1500,
-    "yPrintAcceleration": 1000,
-    "zMaxSpeed": 200,
-    "zHomingSpeed": 60,
-    "zTravelAcceleration": 1500,
-    "zPrintAcceleration": 1000,
+    "xMaxSpeed": 300,
+    "xHomingSpeed": 80,
+    "xTravelAcceleration": 2000,
+    "xPrintAcceleration": 1500,
+    "yMaxSpeed": 300,
+    "yHomingSpeed": 80,
+    "yTravelAcceleration": 2000,
+    "yPrintAcceleration": 1500,
+    "zMaxSpeed": 300,
+    "zHomingSpeed": 80,
+    "zTravelAcceleration": 2000,
+    "zPrintAcceleration": 1500,
     "xMotor": {
         "name": "X motor",
         "step": "ORIG_X_STEP_PIN",
@@ -767,7 +767,7 @@ Values must be in range 1..255
     "zMinPos": 0,
     "xLength": 200,
     "yLength": 200,
-    "zLength": 145,
+    "zLength": 490,
     "alwaysCheckEndstops": "0",
     "disableX": "0",
     "disableY": "0",
@@ -789,8 +789,8 @@ Values must be in range 1..255
     "deltaDiagonalCorrA": 0,
     "deltaDiagonalCorrB": 0,
     "deltaDiagonalCorrC": 0,
-    "deltaMaxRadius": 81,
-    "deltaFloorSafetyMarginMM": 15,
+    "deltaMaxRadius": 120,
+    "deltaFloorSafetyMarginMM": 20,
     "deltaRadiusCorrA": 0,
     "deltaRadiusCorrB": 0,
     "deltaRadiusCorrC": 0,
@@ -953,7 +953,7 @@ Values must be in range 1..255
     "forceChecksum": "0",
     "sdExtendedDir": "1",
     "featureFanControl": "1",
-    "fanPin": "HEATER_1_PIN",
+    "fanPin": "HEATER_2_PIN",
     "featureFan2Control": "0",
     "fan2Pin": -1,
     "fanThermoPin": -1,
@@ -1286,7 +1286,7 @@ Values must be in range 1..255
     "microstepE2": 16,
     "parkPosX": 0,
     "parkPosY": 0,
-    "parkPosZ": 20,
+    "parkPosZ": 30,
     "uiAnimation": "0",
     "uiPresetBedTempPLA": 60,
     "uiPresetBedABS": 110,
