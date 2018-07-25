@@ -1,0 +1,22 @@
+{
+  "name": "espwebsockets",
+  "version": "1.0.0",
+  "description": "Web for Maxwell printer",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "Maxwell"
+  },
+  "keywords": [
+    "delta",
+    "printer"
+  ],
+  "author": "LuxARTS",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^4.0.0"
+  }
+}
