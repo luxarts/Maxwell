@@ -1,22 +1,32 @@
 {
   "name": "espwebsockets",
   "version": "1.0.0",
-  "description": "Web for Maxwell printer",
-  "main": "gulpfile.js",
+  "description": "Firmware for wifi module of Maxwell 3D printer",
+  "main": "index.js",
   "scripts": {
-    "test": "echo"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "Maxwell"
+    "url": "www.github.com/luxarts/maxwell"
   },
-  "keywords": [
-    "delta",
-    "printer"
-  ],
-  "author": "LuxARTS",
-  "license": "MIT",
+  "author": "LuxARTS (Lucas M. Bacelo)",
+  "license": "ISC",
   "devDependencies": {
-    "gulp": "^4.0.0"
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-clean-css": "^3.9.4",
+    "gulp-concat": "^2.6.1",
+    "gulp-gzip": "^1.4.2",
+    "gulp-htmlmin": "^4.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-jshint": "^2.1.0",
+    "gulp-remove-code": "^3.0.2",
+    "gulp-replace": "^1.0.0",
+    "gulp-smoosher": "0.0.9",
+    "gulp-uglify": "^3.0.1",
+    "gulp-uglify-es": "^1.0.4",
+    "gulp-zip": "^4.2.0",
+    "jshint": "^2.9.6"
   }
 }
