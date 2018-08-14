@@ -78,7 +78,7 @@
 // If it is incompatible you will get compiler errors about write functions not being compatible!
 //#define COMPAT_PRE1
 #define BLUETOOTH_SERIAL  1
-#define BLUETOOTH_BAUD  115200
+#define BLUETOOTH_BAUD  250000
 #define MIXING_EXTRUDER 0
 
 #define DRIVE_SYSTEM 3
@@ -114,7 +114,7 @@
 #define EXT0_ENABLE2_PIN ORIG_E0_ENABLE_PIN
 #define EXT0_MAX_FEEDRATE 60
 #define EXT0_MAX_START_FEEDRATE 20
-#define EXT0_MAX_ACCELERATION 100
+#define EXT0_MAX_ACCELERATION 50
 #define EXT0_HEAT_MANAGER 3
 #define EXT0_PREHEAT_TEMP 190
 #define EXT0_WATCHPERIOD 1
@@ -128,7 +128,7 @@
 #define EXT0_ADVANCE_L 0
 #define EXT0_ADVANCE_BACKLASH_STEPS 0
 #define EXT0_WAIT_RETRACT_TEMP 170
-#define EXT0_WAIT_RETRACT_UNITS 6
+#define EXT0_WAIT_RETRACT_UNITS 7
 #define EXT0_SELECT_COMMANDS ""
 #define EXT0_DESELECT_COMMANDS ""
 #define EXT0_EXTRUDER_COOLER_PIN HEATER_1_PIN
@@ -161,7 +161,7 @@
 #define JAM_ACTION 0
 
 #define RETRACT_DURING_HEATUP true
-#define PID_CONTROL_RANGE 20
+#define PID_CONTROL_RANGE 10
 #define SKIP_M109_IF_WITHIN 2
 #define SCALE_PID_TO_MAX 0
 #define TEMP_HYSTERESIS 0
@@ -405,7 +405,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define DELTA_FLOOR_SAFETY_MARGIN_MM 20
 //#define SOFTWARE_LEVELING
 
-#define DELTASEGMENTS_PER_PRINTLINE 64
+#define DELTASEGMENTS_PER_PRINTLINE 32
 #define STEPPER_INACTIVE_TIME 360L
 #define MAX_INACTIVE_TIME 0L
 #define MAX_FEEDRATE_X 300
@@ -430,20 +430,20 @@ It also can add a delay to wait for spindle to run on full speed.
 #define RAMP_ACCELERATION 1
 #define STEPPER_HIGH_DELAY 2
 #define DIRECTION_DELAY 0
-#define STEP_DOUBLER_FREQUENCY 95000
-#define ALLOW_QUADSTEPPING 0
+#define STEP_DOUBLER_FREQUENCY 100000
+#define ALLOW_QUADSTEPPING 1
 #define DOUBLE_STEP_DELAY 0 // time in microseconds
-#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_X 1500
-#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Y 1500
-#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Z 1500
-#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_X 2000
-#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Y 2000
-#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Z 2000
+#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_X 2000
+#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Y 2000
+#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Z 2000
+#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_X 4000
+#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Y 4000
+#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Z 4000
 #define INTERPOLATE_ACCELERATION_WITH_Z 0
 #define ACCELERATION_FACTOR_TOP 100
 #define MAX_JERK 30
 #define MAX_ZJERK 0.3
-#define PRINTLINE_CACHE_SIZE 32
+#define PRINTLINE_CACHE_SIZE 64
 #define MOVE_CACHE_LOW 10
 #define LOW_TICKS_PER_MOVE 250000
 #define EXTRUDER_SWITCH_XY_SPEED 100
@@ -477,14 +477,13 @@ It also can add a delay to wait for spindle to run on full speed.
 
 // ################# Misc. settings ##################
 
-#define BAUDRATE 115200
+#define BAUDRATE 250000
 #define ENABLE_POWER_ON_STARTUP 0
 #define POWER_INVERTING 0
 #define AUTOMATIC_POWERUP 0
 #define KILL_METHOD 1
 #define ACK_WITH_LINENUMBER 0
 #define KEEP_ALIVE_INTERVAL 2000
-#define WAITING_IDENTIFIER "wait"
 #define ECHO_ON_EXECUTE 1
 #define EEPROM_MODE 1
 #undef PS_ON_PIN
@@ -638,9 +637,9 @@ Values must be in range 1..255
 {
     "editMode": 2,
     "processor": 1,
-    "baudrate": 115200,
+    "baudrate": 250000,
     "bluetoothSerial": 1,
-    "bluetoothBaudrate": 115200,
+    "bluetoothBaudrate": 250000,
     "xStepsPerMM": 80,
     "yStepsPerMM": 80,
     "zStepsPerMM": 80,
@@ -670,7 +669,7 @@ Values must be in range 1..255
             "startFeedrate": 20,
             "invert": "0",
             "invertEnable": "0",
-            "acceleration": 100,
+            "acceleration": 50,
             "watchPeriod": 1,
             "pidP": 4.375,
             "pidI": 2,
@@ -678,8 +677,8 @@ Values must be in range 1..255
             "advanceK": 0,
             "advanceL": 0,
             "waitRetractTemp": 170,
-            "waitRetractUnits": 6,
-            "waitRetract": 6,
+            "waitRetractUnits": 7,
+            "waitRetract": 7,
             "stepsPerMM": 95.3,
             "coolerPin": "HEATER_1_PIN",
             "coolerSpeed": 255,
@@ -728,16 +727,16 @@ Values must be in range 1..255
     "driveSystem": 3,
     "xMaxSpeed": 300,
     "xHomingSpeed": 80,
-    "xTravelAcceleration": 2000,
-    "xPrintAcceleration": 1500,
+    "xTravelAcceleration": 4000,
+    "xPrintAcceleration": 2000,
     "yMaxSpeed": 300,
     "yHomingSpeed": 80,
-    "yTravelAcceleration": 2000,
-    "yPrintAcceleration": 1500,
+    "yTravelAcceleration": 4000,
+    "yPrintAcceleration": 2000,
     "zMaxSpeed": 300,
     "zHomingSpeed": 80,
-    "zTravelAcceleration": 2000,
-    "zPrintAcceleration": 1500,
+    "zTravelAcceleration": 4000,
+    "zPrintAcceleration": 2000,
     "xMotor": {
         "name": "X motor",
         "step": "ORIG_X_STEP_PIN",
@@ -797,20 +796,20 @@ Values must be in range 1..255
     "deltaXOffsetSteps": 0,
     "deltaYOffsetSteps": 0,
     "deltaZOffsetSteps": 0,
-    "deltaSegmentsPerLine": 64,
+    "deltaSegmentsPerLine": 32,
     "stepperHighDelay": 2,
     "directionDelay": 0,
-    "stepDoublerFrequency": 95000,
-    "allowQuadstepping": "0",
+    "stepDoublerFrequency": 100000,
+    "allowQuadstepping": "1",
     "doubleStepDelay": 0,
     "maxJerk": 30,
     "maxZJerk": 0.3,
-    "moveCacheSize": 32,
+    "moveCacheSize": 64,
     "moveCacheLow": 10,
     "lowTicksPerMove": 250000,
     "enablePowerOnStartup": "0",
     "echoOnExecute": "1",
-    "sendWaits": "1",
+    "sendWaits": "0",
     "ackWithLineNumber": "0",
     "killMethod": 1,
     "useAdvance": "0",
@@ -941,7 +940,7 @@ Values must be in range 1..255
         "numEntries": 0
     },
     "tempHysteresis": 0,
-    "pidControlRange": 20,
+    "pidControlRange": 10,
     "skipM109Within": 2,
     "extruderFanCoolTemp": 50,
     "minTemp": 170,

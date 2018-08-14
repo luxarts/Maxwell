@@ -3,11 +3,11 @@
 
 #include <EEPROM.h>
 
-#define FIRMWARE_VERSION "0.0.8"
+#define FIRMWARE_VERSION "0.0.9"
 #define DEFAULT_WEB_PORT 80
 #define DEFAULT_WS_PORT 8888
 #define DEFAULT_STA_TIMEOUT 10000
-#define DEFAULT_BAUDRATE 115200
+#define DEFAULT_BAUDRATE 250000
 #define INIT_DELAY 5000
 #define RESET_DELAY 2000
 #define EEPROM_SIZE 512
@@ -21,8 +21,8 @@
 const uint8_t D_STA_IP[] = {192,168,0,90};
 const uint8_t D_STA_MASK[] = {255,255,255,0};
 #define D_WIFI_MODE MODO_STA
-const char D_STA_SSID[] = "GE3D";
-const char D_STA_PASSWORD[] = "GE3D_Banfield";
+const char D_STA_SSID[] = "Skynet";
+const char D_STA_PASSWORD[] = "lu29ni06";
 const char AP_SSID[] = "Maxwell3D";
 const char AP_PASSWORD[] = "mw3dpassword";//Al menos 8 caracteres
 
