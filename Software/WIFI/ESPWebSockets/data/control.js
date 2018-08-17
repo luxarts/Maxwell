@@ -177,7 +177,7 @@ function exhibicion(){
 		y = modulo*Math.sin(angulo*Math.PI/180);
 		x = x.toFixed(2);
 		y = y.toFixed(2);
-		z = angulo*120/720;
+		z = angulo*100/720;
 		z = Math.round(z*100)/100;
 		gcode += "G1 X"+x+" Y"+y+" Z"+z+"\n";
 	}
@@ -187,7 +187,7 @@ function exhibicion(){
 		y = modulo*Math.sin(angulo*Math.PI/180);
 		x = x.toFixed(2);
 		y = y.toFixed(2);
-		z = angulo*120/720;
+		z = angulo*100/720;
 		z = Math.round(z*100)/100;
 		gcode += "G1 X"+x+" Y"+y+" Z"+z+"\n";
 	}
