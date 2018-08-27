@@ -120,7 +120,7 @@
 #define EXT0_WATCHPERIOD 1
 #define EXT0_PID_INTEGRAL_DRIVE_MAX 255
 #define EXT0_PID_INTEGRAL_DRIVE_MIN 40
-#define EXT0_PID_PGAIN_OR_DEAD_TIME 4.375
+#define EXT0_PID_PGAIN_OR_DEAD_TIME 3.125
 #define EXT0_PID_I 2
 #define EXT0_PID_D 40
 #define EXT0_PID_MAX 255
@@ -133,7 +133,7 @@
 #define EXT0_DESELECT_COMMANDS ""
 #define EXT0_EXTRUDER_COOLER_PIN HEATER_1_PIN
 #define EXT0_EXTRUDER_COOLER_SPEED 255
-#define EXT0_DECOUPLE_TEST_PERIOD 12000
+#define EXT0_DECOUPLE_TEST_PERIOD 20000
 #define EXT0_JAM_PIN -1
 #define EXT0_JAM_PULLUP 0
 
@@ -671,7 +671,7 @@ Values must be in range 1..255
             "invertEnable": "0",
             "acceleration": 50,
             "watchPeriod": 1,
-            "pidP": 4.375,
+            "pidP": 3.125,
             "pidI": 2,
             "pidD": 40,
             "advanceK": 0,
@@ -697,7 +697,7 @@ Values must be in range 1..255
                 "enable": "ORIG_E0_ENABLE_PIN"
             },
             "advanceBacklashSteps": 0,
-            "decoupleTestPeriod": 12,
+            "decoupleTestPeriod": 20,
             "jamPin": -1,
             "jamPullup": "0",
             "mirror": "0",
