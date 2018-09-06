@@ -174,20 +174,21 @@
 #define USER_THERMISTORTABLE2 {}
 #define GENERIC_THERM_VREF 5
 #define GENERIC_THERM_NUM_ENTRIES 33
+#define SUPPORT_MAX6675
 #define HEATER_PWM_SPEED 0
 #define COOLER_PWM_SPEED 0
 
 // ############# Heated bed configuration ########################
 
-#define HAVE_HEATED_BED 0
+#define HAVE_HEATED_BED 1
 #define HEATED_BED_PREHEAT_TEMP 55
 #define HEATED_BED_MAX_TEMP 130
 #define SKIP_M190_IF_WITHIN 2
-#define HEATED_BED_SENSOR_TYPE 1
-#define HEATED_BED_SENSOR_PIN -1
-#define HEATED_BED_HEATER_PIN HEATER_1_PIN
+#define HEATED_BED_SENSOR_TYPE 101
+#define HEATED_BED_SENSOR_PIN 57
+#define HEATED_BED_HEATER_PIN 4
 #define HEATED_BED_SET_INTERVAL 5000
-#define HEATED_BED_HEAT_MANAGER 0
+#define HEATED_BED_HEAT_MANAGER 3
 #define HEATED_BED_PID_INTEGRAL_DRIVE_MAX 255
 #define HEATED_BED_PID_INTEGRAL_DRIVE_MIN 80
 #define HEATED_BED_PID_PGAIN_OR_DEAD_TIME   196
@@ -618,7 +619,7 @@ Values must be in range 1..255
 #define BEEPER_SHORT_SEQUENCE 2,2
 #define BEEPER_LONG_SEQUENCE 8,8
 #define UI_SET_MIN_HEATED_BED_TEMP  30
-#define UI_SET_MAX_HEATED_BED_TEMP 140
+#define UI_SET_MAX_HEATED_BED_TEMP 110
 #define UI_SET_MIN_EXTRUDER_TEMP   170
 #define UI_SET_MAX_EXTRUDER_TEMP   280
 #define UI_SET_EXTRUDER_FEEDRATE 2
@@ -857,7 +858,7 @@ Values must be in range 1..255
     "servo2Pin": -1,
     "servo3Pin": -1,
     "featureWatchdog": "0",
-    "hasHeatedBed": "0",
+    "hasHeatedBed": "1",
     "enableZProbing": "0",
     "extrudeMaxLength": 150,
     "homeOrder": "HOME_ORDER_ZXY",
@@ -877,17 +878,17 @@ Values must be in range 1..255
     "uiKeyMinRepeat": 50,
     "featureBeeper": "0",
     "uiMinHeatedBed": 30,
-    "uiMaxHeatedBed": 140,
+    "uiMaxHeatedBed": 110,
     "uiMinEtxruderTemp": 170,
     "uiMaxExtruderTemp": 280,
     "uiExtruderFeedrate": 2,
     "uiExtruderRetractDistance": 5,
     "uiSpeeddependentPositioning": "0",
     "maxBedTemperature": 130,
-    "bedSensorType": 1,
-    "bedSensorPin": -1,
-    "bedHeaterPin": "HEATER_1_PIN",
-    "bedHeatManager": 0,
+    "bedSensorType": 101,
+    "bedSensorPin": 57,
+    "bedHeaterPin": 4,
+    "bedHeatManager": 3,
     "bedPreheat": 55,
     "bedUpdateInterval": 5000,
     "bedPidDriveMin": 80,
@@ -1291,7 +1292,7 @@ Values must be in range 1..255
     "uiPresetBedABS": 110,
     "uiPresetExtruderPLA": 190,
     "uiPresetExtruderABS": 240,
-    "hasMAX6675": false,
+    "hasMAX6675": true,
     "hasMAX31855": false,
     "hasGeneric1": false,
     "hasGeneric2": false,
