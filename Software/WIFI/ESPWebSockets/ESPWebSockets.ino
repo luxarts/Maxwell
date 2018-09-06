@@ -61,7 +61,7 @@ void setup(){
     while(1)delay(1);
   }
   
-  inputString.reserve(256);
+  inputString.reserve(128);
 
   wifiSetup();
   delay(50);
@@ -100,7 +100,7 @@ void processSerial(){
   }
 }
 
-void processPayload(String payload, uint8_t num){
+void processPayload(String &payload, uint8_t num){
   int icmd[2] = {0, 0};
   char msgChar[100];
 
@@ -111,7 +111,6 @@ void processPayload(String payload, uint8_t num){
 
   //Obtiene el numero de comando
   int cmd = payload.substring(icmd[0]+4, icmd[1]).toInt(); //Incluye el index de inicio, no incluye el de final
-
   //Obtiene el mensaje
   String msg = payload.substring(icmd[1]+1); //Desde donde finaliza el comando hasta el final
 
@@ -135,11 +134,21 @@ void processPayload(String payload, uint8_t num){
       char STA_PASSWORD[MAX_STA_PASSWORD+1];
       CONFIG_readBuffer(EP_STA_SSID, STA_SSID, MAX_STA_SSID);//Lee la el SSID desde la eeprom
       CONFIG_readBuffer(EP_STA_PASSWORD, STA_PASSWORD, MAX_STA_PASSWORD);//Lee la el SSID desde la eeprom
-      msg = "";
+      char msg_send[60];
+      memset(msg_send, 0, sizeof(msg_send));
+      strcpy(msg_send, "!MWP2 ");
+      strcat(msg_send, STA_SSID);
+      strcat(msg_send, " ");
+      strcat(msg_send, STA_PASSWORD);
+#ifdef DEBUG
+      Serial.print("msg_send5=");for(int i=0 ; i<strlen(msg_send) ; i++)Serial.write(msg_send[i]);Serial.println();
+#endif
+      /*
+      msg = "!MWP2";
       msg.concat(STA_SSID);
       msg += " ";
-      msg.concat(STA_PASSWORD);
-      websocket.sendTXT(num, "!MWP2 "+msg);
+      msg.concat(STA_PASSWORD);*/
+      websocket.sendTXT(num, msg_send);
     break;
     //!MWP3: Resetea la contraseña de acceso
     case 3:
@@ -253,7 +262,7 @@ void handleFileUpload(){ // upload a new file to the SPIFFS
   }
 }
 
-String getContentType(String filename){
+String getContentType(String &filename){
   if(server.hasArg(F("download"))) return F("application/octet-stream");
   else if(filename.endsWith(F(".htm"))) return F("text/html");
   else if(filename.endsWith(F(".html"))) return F("text/html");

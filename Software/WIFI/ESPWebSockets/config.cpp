@@ -1,6 +1,6 @@
 #include "config.h"
 
-void CONFIG_writeBuffer(int pos,const char * byte_buffer){
+void CONFIG_writeBuffer(int pos, char * byte_buffer){
   int size_buffer;
   size_buffer = strlen(byte_buffer);//Cantidad de caracteres
 
