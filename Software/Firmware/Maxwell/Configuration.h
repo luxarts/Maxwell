@@ -606,8 +606,8 @@ WARNING: Servos can draw a considerable amount of current. Make sure your system
 #define UI_KEY_REDUCE_REPEAT 50
 #define UI_KEY_MIN_REPEAT 50
 #define FEATURE_BEEPER 0
-#define CASE_LIGHTS_PIN -1
-#define CASE_LIGHT_DEFAULT_ON 0
+#define CASE_LIGHTS_PIN ORIG_Y_MAX_PIN
+#define CASE_LIGHT_DEFAULT_ON 1
 #define UI_START_SCREEN_DELAY 1000
 #define UI_DYNAMIC_ENCODER_SPEED 0
         /**
@@ -898,8 +898,8 @@ Values must be in range 1..255
     "bedPidD": 290,
     "bedPidMax": 255,
     "bedDecoupleTestPeriod": 300,
-    "caseLightPin": -1,
-    "caseLightDefaultOn": "0",
+    "caseLightPin": "ORIG_Y_MAX_PIN",
+    "caseLightDefaultOn": "1",
     "bedSkipIfWithin": 2,
     "gen1T0": 25,
     "gen1R0": 100000,
