@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Estadisticas</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>Subir gcode: </td>
+			<td><input type="file" id="gcodefile" accept=".gco, .gcode, .g" onchange="readFile(event)"></td>
+		</tr>
+		<tr>
+			<td>Multiplicador de velocidad:</td>
+			<td><input type="number" id="feedrateMultiplier" onchange="saveSettings(event)">%</td>
+		</tr>
+		<tr>
+			<td>Tiempo:</td>
+			<td id="totalTime"></td>
+		</tr>
+	</table>
+	<script type="text/javascript" src="estadisticas.js"></script>
+	<script type="text/javascript" src="gcodeProcess.js"></script>
+</body>
+</html>
