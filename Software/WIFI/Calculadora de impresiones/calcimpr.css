@@ -1,0 +1,27 @@
+table{
+	width: 100%;
+}
+table tr:nth-child(even){
+	background: #EEE;
+}
+table tr:nth-child(odd){
+	background: #FFF;
+}
+td, th{
+	padding: 3px;
+	border-top: 1px solid lime;
+}
+
+#filamentos td input{
+	min-width: 80px;
+	width: 100%;
+	margin: 3px 0px 3px 0px;
+}
+#filamentos td:nth-child(2){
+	text-align: right;
+}
+#filamentos{
+	background: red;
+	width: 30%;
+	min-width: 100px;
+}

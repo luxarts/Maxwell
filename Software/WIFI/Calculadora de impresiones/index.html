@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="calcimpr.css">
+	<title>Presupuesto3D</title>
+</head>
+<body>
+	<input type="button" onclick="stats.guardar()" value="Guardar">
+	<input type="button" onclick="stats.cargar()" value="Cargar">
+	<input type="button" onclick="stats.reestablecer()" value="Reestablecer">
+	</table>
+	<div id="filamentos">
+		<h2>Seleccion de filamento</h2>
+
+		<select id="filaSeleccionado" onchange="stats.cambiarFilamento(this.value)"><option value="nuevo">>Nuevo filamento<</option></select>
+		<input type="button" value="Agregar" id="addedit" onclick="stats.agregarFilamento()">
+		<input type="button" value="Eliminar" id="eliminar" onclick="stats.borrarFilamento()" style="visibility: hidden">
+
+		<table cellspacing="0">
+			<tr>
+				<th>Marca:</th>
+				<td></td>
+				<td><input type="text" id=filaMarca></td>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Material:</th>
+				<td></td>
+				<td><input type="text" id="filaTipo"></td>
+				<td></td>
+			</tr>
+				<th>Precio:</th>
+				<td>$</td>
+				<td><input type="number" id="filaPrecio"></td>
+				<td></td>
+			</tr>
+			<tr>	
+				<th>Peso:</th>
+				<td></td>
+				<td><input type="number" id="filaPeso" value="1000"></td>
+				<td>gr.</td>
+			</tr>
+			<tr>	
+				<th>Diámetro:</th>
+				<td></td>
+				<td><input type="number" id="filaDiametro" value="1.75"></td>
+				<td>mm</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript" src="calcimpr.js"></script>
+</body>
+</html>
