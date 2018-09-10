@@ -32,7 +32,7 @@ function readFile(e){
 		var name = f.name;
 		var r = new FileReader();
 		r.onload = function (e){
-			gcodeLines = e.target.result.split(/\s*[\r\n]+\s/g);
+			gcodeLines = e.target.result.split(/\s*[\r\n]+/g);
 			refreshStatistics();
 		}
 		r.readAsText(f);
