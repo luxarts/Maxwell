@@ -70,7 +70,14 @@ var eprPos = {
 };
 var debugServer=false;
 var eepromLoaded=false;
-var connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp'])
+var connection;
+try{
+	connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp']);
+}catch(err){
+	console.log("Error" + err);
+	console.error("No se pudo establecer la conexion WebSocket");
+	connection = {onmessage: function(){}, send: function(str){console.error("Mensaje fallido: " + str)}};
+}
 var feedrate = 150;//150mm/s
 var fwuStatus = -1;
 var navbarWidth = 0;
@@ -143,7 +150,7 @@ var receivedOk = true;
 function sendCmd(cmd){
 	//if(!receivedOk)return;
 	if(debugServer)console.log("Client>>"+cmd);
-	if(connection.readyState){
+	if(connection.readyState == 1){
 		connection.send('!MWP7 ' + cmd);
 		receivedOk=false;
 	}
@@ -362,7 +369,7 @@ function eepromCheck(epr){
 	return true;
 }
 
-var eprInterval = setInterval(loadEeprom, 500);
+var eprInterval = setInterval(loadEeprom, 1000);
 window.onload = loadEeprom;//Carga eeprom
 
 // window.setInterval(function(){

@@ -19,7 +19,6 @@ var gcodeProcessor;
 
 function readFile(e){
 	var f = e.target.files[0];
-	console.log(f);
 
 	if(f){
 		var size;
@@ -857,10 +856,7 @@ function GcodeProcessor() {
 		var maxCoord = [layerMaxs[0][indexForMax], layerMaxs[1][indexForMax]];
 		var minCoord = [layerMins[0][indexForMax], layerMins[1][indexForMax]];
 		//postMessage({ "complete": true });
-		console.log("Completado!");
 		//postMessage({ "layers": { "layers": layers, "maxSpeed": maxPrintingSpeed, "maxCoord": maxCoord, "minCoord": minCoord, "maxFanSpeed": this.maxFanSpeed} });
-		//console.log("Capas: "+layers);
-		//console.log("Velocidad maxima: "+maxPrintingSpeed);
 		layers = undefined;
 		layerMaxs = undefined;
 		layerMins = undefined;
@@ -1080,12 +1076,4 @@ function GcodeProcessor() {
 				break;
 		}
 	}
-}
-
-function outTest(variable, nombre){
-	console.log("==============================");
-	console.log(nombre.toString()+":");
-	console.log(variable);
-	console.log("==============================");
-	console.log("\n");
 }

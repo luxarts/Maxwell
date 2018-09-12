@@ -6,8 +6,17 @@
 	padding: 10px 5px 10px 5px;
 }
 #coordenadas{
+	margin: 0 auto;
+	background: var(--color_bgbox);
+	padding: 5px;
+	border-radius: 5px;
+}
+#coordenadas td{
+	min-width: 60px;
 }
 #instrucciones{
 	text-align: left;
+	margin: 0 auto;
+	display: inline-block;
 }
 

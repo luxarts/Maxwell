@@ -45,6 +45,7 @@ function actualizarTemp(currentTemp, targetTemp){
 
 function getTemp(){
 	sendCmd("M105");
+	//actualizarTemp(Math.floor((Math.random() * 200) + 10), Math.floor((Math.random() * 200) + 10))
 }
 
 window.setInterval(getTemp,1000);

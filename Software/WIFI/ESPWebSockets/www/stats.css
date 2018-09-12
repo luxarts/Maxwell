@@ -1,0 +1,76 @@
+#progress{
+	width: 100%;
+	max-width: 600px;
+	background: var(--color_bgbox);
+	border-radius: 4px;
+	display: none;
+	margin: 0 auto;
+}
+#progressBar{
+	padding: 0px 0px 0px 5px;
+	transition: width 0.2s;
+	width: 0%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	background: var(--color_s);
+	color: var(--color_ons);
+	border-radius: 4px 0px 0px 4px;
+}
+#panel-resultados{
+	max-width: 800px;
+	background: var(--color_s);
+	border: 1px solid transparent;
+	border-radius: 5px;
+	display: block;
+	margin: 0 auto;
+}
+#panel-head{
+	background: var(--color_s);
+	color: var(--color_ons);
+	height: 30px;
+	line-height: 30px;
+	padding: 6px;
+	border-radius: 5px 5px 0 0;
+}
+#results tr:nth-child(even){
+	background: var(--color_bgboxl);
+	color: var(--color_onbgboxl);
+}
+#results tr:nth-child(odd){
+	background: var(--color_bgbox);
+	color: var(--color_onbgbox);
+}
+#results{
+	margin: 0 auto;
+	width: 100%;
+	overflow: hidden;
+	border-collapse: collapse;
+	border-radius: 0px 0px 5px 5px;
+}
+#results td{
+	min-width: 50px;
+}
+#results th, #results td{
+	border: 1px solid var(--color_bgboxd);
+	border-bottom: 0px;
+	text-align: left;
+	padding: 4px 4px 4px 4px;
+	width: 25%;
+}
+#results th:first-child{
+	border-left: 0;
+}
+#results .tableHead th{
+	background: var(--color_sl);
+	color: var(--color_onsl);
+	border-top: 0px;
+	border-right: 0px;
+	text-align: center;
+}
+#btnandbar{
+	margin: 20px auto;
+}
+#btnandbar input[type="button"]{
+	margin: 0 auto;
+}

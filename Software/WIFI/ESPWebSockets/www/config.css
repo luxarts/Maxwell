@@ -50,14 +50,8 @@
 	color: var(--color_onpd);
 	transition: background .2s;
 }
-
 #showHide{
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+	display: none;
 }
 #showHide + label{
 	margin-top: 3px;

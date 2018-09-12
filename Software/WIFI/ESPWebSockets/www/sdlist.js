@@ -20,6 +20,7 @@ function addItem(path){
 		//Icono carpeta
 		var td = document.createElement("td");
 		td.innerHTML = "<svg height='20px' viewBox='0 0 510 510' xml:space='preserve'><g><g><path d='M204,51H51C22.95,51,0,73.95,0,102v306c0,28.05,22.95,51,51,51h408c28.05,0,51-22.95,51-51V153c0-28.05-22.95-51-51-51 H255L204,51z'/></g></g></svg>";
+		td.style = "fill: var(--color_onbgbox);";
 		tr.appendChild(td);
 
 		//Texto
@@ -40,6 +41,7 @@ function addItem(path){
 		//Icono archivo
 		var td = document.createElement("td");
 		td.innerHTML = "<svg height='20px' viewBox='0 0 459 459' xml:space='preserve'><g><g><path d='M408,0H51C22.95,0,0,22.95,0,51v357c0,28.05,22.95,51,51,51h357c28.05,0,51-22.95,51-51V51C459,22.95,436.05,0,408,0z M357,153H102v-51h255V153z M357,255H102v-51h255V255z M280.5,357H102v-51h178.5V357z'/></g></g></svg>";
+		td.style = "fill: var(--color_onbgbox);";
 		tr.appendChild(td);
 		//Texto
 		nombre = nombre[nombre.length-1].match(/.+\..+ /gm);

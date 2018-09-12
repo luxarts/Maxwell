@@ -6,8 +6,9 @@
 	<!-- smoosh -->
 	<link rel="stylesheet" type="text/css" href="chartist.min.css">
 	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="stylesheet" type="text/css" href="stats.css">
 	<!-- endsmoosh -->
-	<title>Maxwell - Panel de control</title>
+	<title>Maxwell - Estadísticas</title>
 </head>
 <body>
 	<ul id="navbar" class="navbar-h">
@@ -19,6 +20,50 @@
 		<li><a href="fwu.html">FWU</a></li>
 	</ul>
 	<div id="content">
+		
+		<input type="file" id="gcodefile" accept=".gco, .gcode, .g" onchange="readFile(event)">
+
+		<div id="btnandbar">
+			<input type="button" class="btn" id="calcular" value="Calcular" onclick="refreshStatistics()">
+			
+			<div id="progress">	
+				<div id="progressBar">100%</div>
+			</div>
+		</div>
+		<div id="panel-resultados">
+			<div id="panel-head">Resultados</div>
+			<table id="results" cellspacing="0">
+				<tr class="tableHead">
+					<th colspan="2">Tiempos</th>
+					<th colspan="2">Velocidades</th>
+				</tr>
+				<tr>
+					<th>Tiempo de impresión:</th>
+					<td id="printTime"></td>
+					<th>Velocidad promedio:</th>
+					<td id="averageSpeed"></td>
+				</tr>
+				<tr>
+					<th>Tiempo a velocidad constante:</th>
+					<td id="constantSpeedTime"></td>
+					<th>Velocidad promedio imprimiendo:</th>
+					<td id="printSpeed"></td>
+				</tr>
+				<tr>
+					<th>Tiempo acelerando:</th>
+					<td id="accelerationTime"></td>
+					<th>Velocidad promedio moviendo:</th>
+					<td id="travelSpeed"></td>
+				</tr>
+				<tr>
+					<th>Tiempo de retracción:</th>
+					<td id="retractTime"></td>
+					<th>Velocidad min / max:</th>
+					<td id="xyFeedrate"></td>
+				</tr>
+			</table>
+		</div>
+
 		<div id="grafico">
 			<div class="ct-chart ct-perfect-fourth"></div>
 		</div>
@@ -26,6 +71,7 @@
 	<!-- smoosh -->
 	<script type="text/javascript" src="chartist.min.js"></script>
 	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="stats.js"></script>
 	<!-- endsmoosh -->
 </body>
 </html>

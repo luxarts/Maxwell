@@ -1,5 +1,7 @@
-:root{
+/*Tema GE3D*/
+/*:root{
 	--color_bg: #FFF;
+	--color_onbg: #000;
 	--color_p: #9C27B0;
 	--color_pl: #d05ce3;
 	--color_pd: #6a0080;
@@ -16,13 +18,42 @@
 	--color_errord: #9b0000;
 	--color_onerror: #FFF;
 	--color_onerrord: #FFF;
-	--color_bgbox: #e0e0e0;
+	--color_bgbox: #eeeeee;
 	--color_onbgbox: #000000;
 	--color_bgboxl: #ffffff;
 	--color_onbgboxl: #000000;
-	--color_bgboxd: #aeaeae;
+	--color_bgboxd: #bcbcbc;
 	--color_onbgboxd: #000000;
+}*/
+
+/*Tema Maxwell*/
+:root{
+	--color_bg: #111111;
+	--color_onbg: #fff;
+	--color_p: #ff6f00;
+	--color_pl: #ffa040;
+	--color_pd: #c43e00;
+	--color_s: #dd2c00;
+	--color_sl: #ff6434;
+	--color_sd: #a30000;
+	--color_onp: #000;
+	--color_onpl: #000;
+	--color_onpd: #000;
+	--color_ons: #fff;
+	--color_onsl: #000;
+	--color_onsd: #fff;
+	--color_error: #d50000;
+	--color_errord: #9b0000;
+	--color_onerror: #FFF;
+	--color_onerrord: #FFF;
+	--color_bgbox: #212121;
+	--color_onbgbox: #fff;
+	--color_bgboxl: #313131;
+	--color_onbgboxl: #fff;
+	--color_bgboxd: #424242;
+	--color_onbgboxd: #fff;
 }
+
 *{
 	font-family: Arial;
 	font-size: 16px;
@@ -30,8 +61,8 @@
 body{
 	padding: 0px;
 	margin: 0;
-	background: white;
-	color: black;
+	background: var(--color_bg);
+	color: var(--color_onbg);
 }
 #content{
 	margin: 0 auto;

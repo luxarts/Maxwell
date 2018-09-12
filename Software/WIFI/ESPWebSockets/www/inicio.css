@@ -11,3 +11,9 @@
 	stroke: var(--color_p);
 	stroke-width: 2px;
 }
+.ct-grids line{
+	stroke: var(--color_bgboxd);
+}
+.ct-labels span{
+	color: var(--color_onbgboxd);
+}

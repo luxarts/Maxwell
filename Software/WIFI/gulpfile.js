@@ -11,71 +11,69 @@ var gulp = require('gulp'),
 var path = "ESPWebSockets/";
 
 function clean(){
-	return del([path+'dist']);
+	return del([path+'data']);
 }
 
 //Limpia y reduce los JS
 function minifyJS(){
-	return gulp.src(path+'data/*.js')
+	return gulp.src(path+'www/*.js')
 		.pipe(uglify({mangle: true}))
-		.pipe(gulp.dest(path+'dist/'));
+		.pipe(gulp.dest(path+'data/'));
 }
 
 //Limpia y reduce los CSS
 function minifyCSS(){
-	return gulp.src(path+'data/*.css')
+	return gulp.src(path+'www/*.css')
 		.pipe(cleanCSS({debug: true}, function(details){
 			//console.log(details.name + ': ' + details.stats.originalSize);
 			//console.log(details.name + ': ' + details.stats.minifiedSize);
 		}))
-		.pipe(gulp.dest(path+'dist/'));
+		.pipe(gulp.dest(path+'data/'));
 }
 //Limpia y reduce los HTML
 function minifyHTML(){
-	return gulp.src(path+'dist/*.html')
-		.pipe(htmlmin({collapseWhitespace: true, minifyCSS: true}))
-		.pipe(gulp.dest(path+'dist/'));
+	return gulp.src(path+'www/*.html')
+		.pipe(htmlmin({collapseWhitespace: true, minifyCSS: false}))
+		.pipe(gulp.dest(path+'data/'));
 }
 //Incluye el CSS y el JS en el HTML
 function smoosh(){
-	return gulp.src(path+'dist/*.html')
+	return gulp.src(path+'www/*.html')
 		.pipe(smoosher())
-		.pipe(gulp.dest(path+'dist'));
+		.pipe(gulp.dest(path+'data'));
 }
 function copyICO(){
-	return gulp.src(path+'data/*.ico')
-		.pipe(gulp.dest(path+'dist'));
+	return gulp.src(path+'www/*.ico')
+		.pipe(gulp.dest(path+'data'));
 }
 
 //Copia los HTML en la carpeta
 function copyHTML(){
-	return gulp.src(path+'data/*.html')
-		.pipe(gulp.dest(path+'dist'));
+	return gulp.src(path+'www/*.html')
+		.pipe(gulp.dest(path+'data'));
 }
 
 function delCSS(){
-	return del([path+'dist/*.css']);
+	return del([path+'data/*.css']);
 }
 function delJS(){
-	return del([path+'dist/*.js']);
+	return del([path+'data/*.js']);
 }
 function delHTML(){
-	return del([path+'dist/*.html']);
+	return del([path+'data/*.html']);
 }
 function delICO(){
-	return del([path+'dist/*.ico']);
+	return del([path+'data/*.ico']);
 }
 
 function compress(){
-	return gulp.src(path+'dist/*.*')
+	return gulp.src(path+'data/*.*')
 		.pipe(gzip())
-		.pipe(gulp.dest(path+'dist'));
+		.pipe(gulp.dest(path+'data'));
 }
 
 var withsmoosh = gulp.series(clean, minifyJS, minifyCSS, copyHTML, smoosh, minifyHTML, delCSS, delJS, copyICO, compress, delHTML, delICO);
 var withoutsmoosh = gulp.series(clean, minifyJS, minifyCSS, copyHTML, minifyHTML, copyICO, compress, delCSS, delJS, delHTML, delICO);
-//gulp.task('clean', clean);
-//gulp.task('minify', minify);
-//gulp.task('lint', lint);
+
 gulp.task('nosmoosh', withoutsmoosh);
 gulp.task('smoosh', withsmoosh);
