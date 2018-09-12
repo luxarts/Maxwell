@@ -1,8 +1,9 @@
 #temperaturas{
-	width: 100%;
-	max-width: 500px;
-	float: left;	
+	width: 500px;
+	margin: 30px;
+	display: inline-block;
 }
+/*Extrusor*/
 .ct-series-a .ct-line{
 	stroke: var(--color_pl);
 	stroke-width: 1px;
@@ -11,9 +12,32 @@
 	stroke: var(--color_p);
 	stroke-width: 2px;
 }
+/*Cama*/
+.ct-series-c .ct-line{
+	stroke: var(--color_sl);
+	stroke-width: 1px;
+}
+.ct-series-d .ct-line{
+	stroke: var(--color_s);
+	stroke-width: 2px;
+}
+/*Grilla*/
 .ct-grids line{
 	stroke: var(--color_bgboxd);
 }
 .ct-labels span{
 	color: var(--color_onbgboxd);
+}
+
+#temperaturas table{
+	margin: 0 auto;
+}
+#temperaturas td{
+	min-width: 100px;
+}
+#extruderTemp{
+	color: var(--color_p);
+}
+#bedTemp{
+	color: var(--color_s);
 }

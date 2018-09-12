@@ -229,13 +229,15 @@ function tempCheck(data){
 	if(matches == null)return false;
 
 
-	//Formato = T: 123.45 /123.45 @:123
+	//Formato = T: 123.45 /123.45 B: 123.45 /123.45 @:123
 	matches = data.match(/[+-]?\d+(\.\d+)?/g);//Obtiene todos los números
-	var currentTemp = parseFloat(matches[0]);
-	var targetTemp = parseFloat(matches[1]);
+	var extruderCurrentTemp = parseFloat(matches[0]);
+	var extruderTargetTemp = parseFloat(matches[1]);
+	var bedCurrentTemp = parseFloat(matches[2]);
+	var bedTargetTemp = parseFloat(matches[3]);
 	//var heaterPwm = parseFloat(matches[2]);
 	
-	try{actualizarTemp(currentTemp, targetTemp)}catch(e){};;
+	try{actualizarTemp(extruderCurrentTemp, extruderTargetTemp, bedCurrentTemp, bedTargetTemp)}catch(e){};;
 	return true;
 }
 function saveEeprom(){
