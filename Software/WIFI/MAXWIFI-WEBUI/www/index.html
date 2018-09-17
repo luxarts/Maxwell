@@ -2,7 +2,7 @@
 <html>
 <head>
 	<!-- Google Icon Font -->
-	<link rel="stylesheet" type="text/css" href="fonts/material-icon.css">
+	<link rel="stylesheet" type="text/css" href="fonts/mwicons.css">
 	<!-- Material Design Stylesheet -->
 	<link rel="stylesheet" type="text/css" href="css/materialize.css" media="screen,projection">
 	<!-- Caracteres especiales -->
@@ -28,27 +28,29 @@
 		<div class="navbar-fixed">
 			<nav>
 				<div class="nav-wrapper">
-					<a href="#" class="brand-logo right hide-on-med-and-down" style="height: 100%;"> <img src="logo.png" style="height:100%"></a>
-					<a href="" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+					<a href="#" class="brand-logo right hide-on-med-and-down" style="height: 100%;"><img src="logo.png" class="responsive-img" style="height:100%"></a>
+					<a href="" data-target="nav-mobile" class="sidenav-trigger"><i class="mwicons">menu</i></a>
 					<ul class="left hide-on-med-and-down">
-						<li class="active"><a href="index.html">Inicio</a></li>
-						<li><a href="test.html">Control</a></li>
-						<li><a href="">Calibración manual</a></li>
-						<li><a href="">Estadísticas</a></li>
-						<li><a href="">Configuración</a></li>
-						<li><a href="">FWU</a></li>
+						<li class="active"><a href="index.html"><i class="mwicons left">home</i>Inicio</a></li>
+						<li><a href=""><i class="mwicons left">games</i>Control</a></li>
+						<li><a href=""><i class="mwicons left">tune</i>Calibración manual</a></li>
+						<li><a href=""><i class="mwicons left">poll</i>Estadísticas</a></li>
+						<li><a href=""><i class="mwicons left">settings</i>Configuración</a></li>
+						<li><a href=""><i class="mwicons left">bug_report</i>FWU</a></li>
 					</ul>
 				</div>
 			</nav>
 		</div>
-		<ul class="sidenav" id="mobile-demo">
-			<li class="center-align"><img src="logo.png" width="25%"></li>
-			<li class="active"><a href="index.html">Inicio</a></li>
-			<li><a href="test.html">Control</a></li>
-			<li><a href="#">Calibración manual</a></li>
-			<li><a href="#">Estadísticas</a></li>
-			<li><a href="#">Configuración</a></li>
-			<li><a href="#">FWU</a></li>
+		<ul class="sidenav" id="nav-mobile">
+			<li class="sidenav-logo">
+					<img src="logo.png" width="25%">
+			</li>
+			<li class="active"><a href="index.html"><i class="mwicons left small">home</i>Inicio</a></li>
+			<li><a href=""><i class="mwicons left small">games</i>Control</a></li>
+			<li><a href=""><i class="mwicons left small">tune</i>Calibración manual</a></li>
+			<li><a href=""><i class="mwicons left small">poll</i>Estadísticas</a></li>
+			<li><a href=""><i class="mwicons left small">settings</i>Configuración</a></li>
+			<li><a href=""><i class="mwicons left small">bug_report</i>FWU</a></li>
 		</ul>
 
 		<div class="content">
@@ -64,49 +66,49 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td><i class="material-icons">folder</i></td>
+									<td><i class="mwicons small">poll</i></td>
 									<td>Carpeta 1</td><td></td>
 								</tr>
 								<tr>
-									<td><i class="material-icons">folder</i></td>
+									<td><i class="mwicons small">folder</i></td>
 									<td>Carpeta 2</td><td></td>
 								</tr>
 								<tr>
-									<td><i class="material-icons">folder</i></td>
+									<td><i class="mwicons small">folder</i></td>
 									<td>Carpeta 3</td><td></td>
 								</tr>
 								<tr>
-									<td><i class="material-icons">description</i></td>
+									<td><i class="mwicons small">description</i></td>
 									<td>Archivo 1</td>
 									<td>123.45 MB</td>
 								</tr>
 								<tr>
-									<td><i class="material-icons">description</i></td>
+									<td><i class="mwicons small">description</i></td>
 									<td>Archivo 2</td>
 									<td>123.45 MB</td>
 								</tr>
 								<tr>
-									<td><i class="material-icons">description</i></td>
+									<td><i class="mwicons small">description</i></td>
 									<td>Archivo 2</td>
 									<td>123.45 MB</td>
 								</tr>
 								<tr>
-									<td><i class="material-icons">description</i></td>
+									<td><i class="mwicons small">description</i></td>
 									<td>Archivo 3</td>
 									<td>123.45 MB</td>
 								</tr>
 								<tr>
-									<td><i class="material-icons">description</i></td>
+									<td><i class="mwicons small">description</i></td>
 									<td>Archivo 4</td>
 									<td>123.45 MB</td>
 								</tr>
 								<tr>
-									<td><i class="material-icons">description</i></td>
+									<td><i class="mwicons small">description</i></td>
 									<td>Archivo 5</td>
 									<td>123.45 MB</td>
 								</tr>
 								<tr>
-									<td><i class="material-icons">description</i></td>
+									<td><i class="mwicons small">description</i></td>
 									<td>Archivo 6</td>
 									<td>123.45 MB</td>
 								</tr>
@@ -130,8 +132,8 @@
 		</div>
 	</footer>
 	<!--Material Design JavaScript-->
+	<script type="text/javascript" src="js/liga.js"></script>
 	<script type="text/javascript" src="js/materialize.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
-
 </body>
 </html>

@@ -16,3 +16,7 @@ main{
 #fileList td:first-child{
 	width: 1px;
 }
+.sidenav-logo{
+	text-align: center;
+	margin: 20px;
+}
