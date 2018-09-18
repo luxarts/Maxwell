@@ -107,7 +107,7 @@ function navbarCheck(){
 window.onresize = navbarCheck;
 
 connection.onmessage = function (event){
-	if(debugServer)console.log("Server>>"+event.data)
+	if(debugServer)console.log("Server>>"+event.data);
 	
 	if(okCheck(event.data));
 	else if(eepromCheck(event.data));

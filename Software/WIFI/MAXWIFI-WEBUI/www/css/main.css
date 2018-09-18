@@ -6,16 +6,6 @@ body{
 main{
 	flex: 1 0 auto;
 }
-#fileList{
-	max-height: 400px;
-	overflow-y: auto;
-}
-#fileList td{
-	padding: 10px;
-}
-#fileList td:first-child{
-	width: 1px;
-}
 .sidenav-logo{
 	text-align: center;
 	margin: 20px;

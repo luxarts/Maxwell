@@ -1,0 +1,48 @@
+#fileList{
+	max-height: 538px;
+	overflow-y: auto;
+}
+#fileList td{
+	padding: 10px;
+}
+#fileList td:first-child{
+	width: 1px;
+}
+/*Extrusor*/
+.ct-series-a .ct-line{
+	stroke: red;
+	stroke-width: 1px;
+}
+.ct-series-b .ct-line{
+	stroke: red;
+	stroke-width: 2px;
+}
+/*Cama*/
+.ct-series-c .ct-line{
+	stroke: blue;
+	stroke-width: 1px;
+}
+.ct-series-d .ct-line{
+	stroke: blue;
+	stroke-width: 2px;
+}
+/*Grilla*/
+.ct-grids line{
+	stroke: grey;
+}
+.ct-labels span{
+	color: grey;
+}
+#tempChart{
+	height: 538px;
+}
+#tempValues tr{
+	background: lime;
+	padding: 0;
+}
+#extruderTemp{
+	color: red;
+}
+#bedTemp{
+	color: blue;
+}

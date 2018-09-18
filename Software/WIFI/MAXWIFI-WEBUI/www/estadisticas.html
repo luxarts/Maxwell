@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Google Icon Font -->
+	<link rel="stylesheet" type="text/css" href="fonts/mwicons.css">
+	<!-- Material Design Stylesheet -->
+	<link rel="stylesheet" type="text/css" href="css/materialize.css" media="screen,projection">
+	<!-- Caracteres especiales -->
+	<meta charset="utf-8">
+	<!-- Sitio optimizado para movil -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Color de la barra para Chrome, Firefox y Opera -->
+	<meta name="theme-color" content="#424242">
+	<!-- Color de la barra para Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#424242">
+	<!-- Color de la barra para iOS Safari -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#424242">
+	<!-- Favicon -->
+	<link rel="icon" sizes="192x192" href="logo.png">
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/estadisticas.css">
+
+	<title>Estadísticas - Maxwell Impresora 3D</title>
+</head>
+<body>
+	<main>
+		<!-- Nav bar -->
+		<div class="navbar-fixed">
+			<nav>
+				<div class="nav-wrapper">
+					<a href="#" class="brand-logo right hide-on-med-and-down" style="height: 100%;"><img src="logo.png" class="responsive-img" style="height:100%"></a>
+					<a href="" data-target="nav-mobile" class="sidenav-trigger"><i class="mwicons">menu</i></a>
+					<ul class="left hide-on-med-and-down">
+						<li><a href="index.html"><i class="mwicons left">home</i>Inicio</a></li>
+						<li><a href=""><i class="mwicons left">games</i>Control</a></li>
+						<li><a href=""><i class="mwicons left">tune</i>Calibración manual</a></li>
+						<li class="active"><a href="estadisticas.html"><i class="mwicons left">poll</i>Estadísticas</a></li>
+						<li><a href=""><i class="mwicons left">settings</i>Configuración</a></li>
+						<li><a href=""><i class="mwicons left">bug_report</i>FWU</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<ul class="sidenav" id="nav-mobile">
+			<li class="sidenav-logo">
+					<img src="logo.png" width="25%">
+			</li>
+			<li><a href="index.html"><i class="mwicons left small">home</i>Inicio</a></li>
+			<li><a href=""><i class="mwicons left small">games</i>Control</a></li>
+			<li><a href=""><i class="mwicons left small">tune</i>Calibración manual</a></li>
+			<li class="active"><a href="estadisticas.html"><i class="mwicons left small">poll</i>Estadísticas</a></li>
+			<li><a href=""><i class="mwicons left small">settings</i>Configuración</a></li>
+			<li><a href=""><i class="mwicons left small">bug_report</i>FWU</a></li>
+		</ul>
+
+		<!-- Contenido -->
+		<div class="content">
+			<div class="container">
+				<div class="row">
+					<div class="col s12 l8 offset-l2">
+						<div class="file-field input-field" id="fileInput">
+							<div class="btn waves-effect waves-light">
+								<span><i class="mwicons left small">file_upload</i>Subir</span>
+								<input type="file" onchange="readFile(event)" accept=".gco, .gcode, .g">
+							</div>
+							<div class="file-path-wrapper">
+								<input class="file-path validate" id="filePath" type="text" placeholder="Seleccione o arraste el archivo">
+							</div>
+						</div>
+					</div>			
+				</div>
+				<div class="row">
+					<div class="col s12 l8 offset-l2 center">
+						<a class="waves-effect waves-light btn" id="calcularBtn" onclick="refreshStatistics()">Recalcular</a>
+						<div class="progress" id="progress">
+							<div class="determinate" style="width: 50%" id="progressBar"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row" id="resultadosRow">
+					<div class="col s12">
+						<ul class="collapsible expandable">
+							<li>
+								<div class="collapsible-header"><i class="mwicons left small">schedule</i>Tiempos</div>
+								<div class="collapsible-body">
+									<table>
+										<tbody>
+											<tr>
+												<th>Tiempo acelerando</th>
+												<td id="accelerationTime"></td>
+											</tr>
+											<tr>
+												<th>Tiempo a velocidad constante</th>
+												<td id="constantSpeedTime"></td>
+											</tr>
+											<tr>
+												<th>Tiempo de retracciones</th>
+												<td id="retractTime"></td>
+											</tr>
+											<tr>
+												<th>Tiempo total</th>
+												<td id="printTime"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div> 
+							</li>
+							<li>
+								<div class="collapsible-header"><i class="mwicons left small">update</i>Velocidades</div>
+								<div class="collapsible-body">
+									<table>
+										<tbody>
+											<tr>
+												<th>Velocidad promedio</th>
+												<td id="averageSpeed"></td>
+											</tr>
+											<tr>
+												<th>Velocidad imprimiendo</th>
+												<td id="printSpeed"></td>
+											</tr>
+											<tr>
+												<th>Velocidad de desplazamiento</th>
+												<td id="travelSpeed"></td>
+											</tr>
+											<tr>
+												<th>Velocidad mínima / máxima</th>
+												<td id="xyFeedrate"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div> 
+							</li>
+							<li>
+								<div class="collapsible-header"><i class="mwicons left small">straighten</i>Distancias</div>
+								<div class="collapsible-body">
+									<table>
+										<tbody>
+											<tr>
+												<th>Distancia acelerando</th>
+												<td id="accelerationDistance"></td>
+											</tr>
+											<tr>
+												<th>Distancia a velocidad constante</th>
+												<td id="constantSpeedDistance"></td>
+											</tr>
+											<tr>
+												<th>Distancia de impresión / desplazamiento</th>
+												<td id="printDistance"></td>
+											</tr>
+											<tr>
+												<th>Distancia total</th>
+												<td id="totalDistance"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div> 
+							</li>
+							<li class="active">
+								<div class="collapsible-header"><i class="mwicons left small">attach_money</i>Costo</div>
+								<div class="collapsible-body">
+									<table>
+										<tbody>
+											<tr>
+												<th>Energía eléctrica</th>
+												<td id="costoEnergia"></td>
+											</tr>
+											<tr>
+												<th>Material</th>
+												<td id="costoMaterial"></td>
+											</tr>
+											<tr>
+												<th>Insumos</th>
+												<td id="costoInsumos"></td>
+											</tr>
+											<tr>
+												<th>Total</th>
+												<td id="costoTotal"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div> 
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<footer class="page-footer hide-on-med-and-down">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h6>Contacto</h6>
+					<a href="">mail@mail.com</a> | <a href="">(+54) 011-1234-5678</a> | <a href="">www.pagina.com</a>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+			© 2018 Copyright
+			</div>
+		</div>
+	</footer>
+	<!-- Ligaduras de iconos para navegadores no compatibles -->
+	<script type="text/javascript" src="js/liga.js"></script>
+	<!--Material Design-->
+	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<!-- JS -->
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/estadisticas.js"></script>
+</body>
+</html>
