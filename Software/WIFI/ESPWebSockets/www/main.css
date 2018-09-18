@@ -1,5 +1,5 @@
 /*Tema GE3D*/
-/*:root{
+:root{
 	--color_bg: #FFF;
 	--color_onbg: #000;
 	--color_p: #9C27B0;
@@ -24,10 +24,10 @@
 	--color_onbgboxl: #000000;
 	--color_bgboxd: #bcbcbc;
 	--color_onbgboxd: #000000;
-}*/
+}
 
 /*Tema Maxwell*/
-:root{
+/*:root{
 	--color_bg: #111111;
 	--color_onbg: #fff;
 	--color_p: #ff6f00;
@@ -52,7 +52,7 @@
 	--color_onbgboxl: #fff;
 	--color_bgboxd: #424242;
 	--color_onbgboxd: #fff;
-}
+}*/
 
 *{
 	font-family: Arial;

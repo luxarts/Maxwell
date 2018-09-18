@@ -23,18 +23,18 @@ var currentSettings = {
 var loadEepromSettings_i = setInterval(loadEepromSettings, 500);
 function loadEepromSettings(){
 	if(eepromLoaded){
-		settings.maxJerk[0] = eeprom.jerk;
-		settings.maxJerk[1] = eeprom.jerk;
-		settings.maxJerk[2] = eeprom.jerk;
-		settings.maxPrintAcceleration[0] = eeprom.acceleration;
-		settings.maxPrintAcceleration[1] = eeprom.acceleration;
-		settings.maxPrintAcceleration[2] = eeprom.acceleration;
-		settings.maxSpeed[0] = eeprom.maxFeedrate;
-		settings.maxSpeed[1] = eeprom.maxFeedrate;
-		settings.maxSpeed[2] = eeprom.maxFeedrate;
-		settings.maxTravelAcceleration[0] = eeprom.travelAcceleration;
-		settings.maxTravelAcceleration[1] = eeprom.travelAcceleration;
-		settings.maxTravelAcceleration[2] = eeprom.travelAcceleration;
+		currentSettings.maxJerk[0] = eeprom.jerk;
+		currentSettings.maxJerk[1] = eeprom.jerk;
+		currentSettings.maxJerk[2] = eeprom.jerk;
+		currentSettings.maxPrintAcceleration[0] = eeprom.acceleration;
+		currentSettings.maxPrintAcceleration[1] = eeprom.acceleration;
+		currentSettings.maxPrintAcceleration[2] = eeprom.acceleration;
+		currentSettings.maxSpeed[0] = eeprom.maxFeedrate;
+		currentSettings.maxSpeed[1] = eeprom.maxFeedrate;
+		currentSettings.maxSpeed[2] = eeprom.maxFeedrate;
+		currentSettings.maxTravelAcceleration[0] = eeprom.travelAcceleration;
+		currentSettings.maxTravelAcceleration[1] = eeprom.travelAcceleration;
+		currentSettings.maxTravelAcceleration[2] = eeprom.travelAcceleration;
 		clearInterval(loadEepromSettings_i);
 	}
 }
