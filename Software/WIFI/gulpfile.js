@@ -32,15 +32,15 @@ function minifyCSS(){
 }
 //Limpia y reduce los HTML
 function minifyHTML(){
-	return gulp.src(path+'www/*.html')
-		.pipe(htmlmin({collapseWhitespace: true, minifyCSS: false}))
+	return gulp.src(path+'data/*.html')
+		.pipe(htmlmin({collapseWhitespace: true, minifyCSS: true, removeComments: true}))
 		.pipe(gulp.dest(path+'data/'));
 }
 //Incluye el CSS y el JS en el HTML
 function smoosh(){
-	return gulp.src(path+'www/*.html')
+	return gulp.src(path+'data/*.html')
 		.pipe(smoosher())
-		.pipe(gulp.dest(path+'data'));
+		.pipe(gulp.dest(path+'data/'));
 }
 function copyICO(){
 	return gulp.src(path+'www/*.ico')
@@ -50,7 +50,7 @@ function copyICO(){
 //Copia los HTML en la carpeta
 function copyHTML(){
 	return gulp.src(path+'www/*.html')
-		.pipe(gulp.dest(path+'data'));
+		.pipe(gulp.dest(path+'data/'));
 }
 
 function delCSS(){
@@ -72,6 +72,7 @@ function compress(){
 		.pipe(gulp.dest(path+'data'));
 }
 
+//var withsmoosh = gulp.series(clean, minifyJS, minifyCSS, copyHTML, smoosh, minifyHTML, delCSS, delJS);
 var withsmoosh = gulp.series(clean, minifyJS, minifyCSS, copyHTML, smoosh, minifyHTML, delCSS, delJS, copyICO, compress, delHTML, delICO);
 var withoutsmoosh = gulp.series(clean, minifyJS, minifyCSS, copyHTML, minifyHTML, copyICO, compress, delCSS, delJS, delHTML, delICO);
 

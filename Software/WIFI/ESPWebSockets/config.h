@@ -21,8 +21,8 @@
 //const uint8_t D_STA_IP[] = {192,168,0,90};
 //const uint8_t D_STA_MASK[] = {255,255,255,0};
 #define D_WIFI_MODE MODO_STA
-#define D_STA_SSID "Skynet"
-#define D_STA_PASSWORD "lu29ni06"
+#define D_STA_SSID "Maxwell3D"
+#define D_STA_PASSWORD "mw3dpassword"
 #define AP_SSID "Maxwell3D"
 #define AP_PASSWORD "mw3dpassword" //Al menos 8 caracteres
 
