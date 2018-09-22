@@ -72,7 +72,7 @@ var eeprom = {
 	"extr1distanceRetract": {"type": 1, "pos": 252, "value": null},
 	"extr1coolerSpeed": {"type": 0, "pos": 254, "value": null}
 }
-
+var eepromLoaded = false;
 var connection;
 // try{
 // 	connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp']);
@@ -112,10 +112,10 @@ function okCheck(data){
 	return true;
 }
 function eepromCheck(data){
-	var matches = epr.startsWith(/EPR:/);
+	var matches = data.startsWith('EPR:');
 	if(matches == null)return false; //No se encontro patron EPR:
 	
-	matches = epr.match(/[+-]?\d+(\.\d+)?/g);//Obtiene todos los números
+	matches = data.match(/[+-]?\d+(\.\d+)?/g);//Obtiene todos los números
 	var pos = parseInt(matches[1]); //Posicion en la EEPROM
 	var value = parseFloat(matches[2]);//Valor
 	
@@ -128,6 +128,18 @@ function eepromCheck(data){
 			}
 		}
 	}
+	eepromLoaded = eepromIsLoaded();
+}
+
+function eepromIsLoaded(){
+	for(var key in eeprom){//Recorre todos los objetos
+		if(eeprom.hasOwnProperty(key)){
+			if(eeprom[key].value == null){//Comprueba si esta vacio
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 function cargarEeprom(){

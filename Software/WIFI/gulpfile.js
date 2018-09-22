@@ -46,7 +46,6 @@ function copyICO(){
 	return gulp.src(path+'www/*.ico')
 		.pipe(gulp.dest(path+'data'));
 }
-
 //Copia los HTML en la carpeta
 function copyHTML(){
 	return gulp.src(path+'www/*.html')
@@ -57,7 +56,7 @@ function delCSS(){
 	return del([path+'data/*.css']);
 }
 function delJS(){
-	return del([path+'data/*.js']);
+	return del([path+'data/*.js', '!'+path+'data/gcodeProcessor.js']);
 }
 function delHTML(){
 	return del([path+'data/*.html']);
