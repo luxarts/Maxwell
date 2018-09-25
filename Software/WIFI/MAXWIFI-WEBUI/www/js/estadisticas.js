@@ -19,9 +19,9 @@ var currentSettings = {
 	"fileName": "",
 	"fileSize": "",
 	"kwh": 1.998, //Precio del KWh
-	"spoolWeight": 750, //Peso del rollo en gramos
-	"spoolPrice": 358,  //Precio del rollo
-	"spoolDensity": 1.24, //Densidad del material
+	"spoolWeight": 0, //Peso del rollo en gramos
+	"spoolPrice": 0,  //Precio del rollo
+	"spoolDensity": 0, //Densidad del material
 	"insumos": 0
 }
 var userData = {
@@ -42,7 +42,6 @@ gcodeProcessorWorker.onmessage = function (e) {
 		results = e.data.result;
 		showResults();
 		document.getElementById("progress").style = "display:none;";
-		document.getElementById("calcularBtn").style = "display:inline-block;";
 		document.getElementById("fileInput").style = "display:block;";
 		document.getElementById("resultadosRow").style = "display:block;";
 	}
@@ -53,7 +52,6 @@ function readFile(e){
 
 	if(f){
 		if(f.name.endsWith(".gcode") || f.name.endsWith(".gco") || f.name.endsWith(".g")){
-			console.log("valido: "+f.name);
 			var size;
 			if(f.size / 1024 / 1024 < 1){
 				currentSettings["fileSize"] = (f.size / 1024).toFixed(1) + " KB";
@@ -70,7 +68,6 @@ function readFile(e){
 			r.readAsText(f);
 		}
 		else{
-			console.log("invalido");
 			M.toast({html: '<i class="mwicons left small red-text">report</i>El archivo no es válido'});
 		}
 	}
@@ -79,7 +76,6 @@ function calculateGcode() {
 	if (gcodeLines != undefined) {
 		setProgressBarPercent(0);
 		document.getElementById("progress").style = "display:inline-block;";
-		document.getElementById("calcularBtn").style = "display:none;";
 		document.getElementById("fileInput").style = "display:none;";
 		document.getElementById("resultadosRow").style = "display:none;";
 		gcodeProcessorWorker.postMessage([gcodeLines, currentSettings]);
@@ -91,6 +87,7 @@ function setProgressBarPercent(val){
 }
 
 function showResults(){
+	if(results == undefined)return;
 	//Tiempos
 	document.getElementById("accelerationTime").innerHTML = results["accelerationTime"];
 	document.getElementById("constantSpeedTime").innerHTML = results["constantSpeedTime"];
@@ -113,7 +110,9 @@ function showResults(){
 	var costoEnergia = Math.round(horas*currentSettings.kwh *100)/100;
 	document.getElementById("costoEnergia").innerHTML = "$"+costoEnergia;
 	//masa = densidad * pi * radio^2 * longitud
-	var masa = currentSettings.spoolDensity * 0.024052818754046853 * parseFloat(results["filamentUsage"])*10; //0.024052818754046853 = diametro 1.75mm
+	//Densidad = gr/cm3
+	//Longitud = metros
+	var masa = currentSettings.spoolDensity * 0.024052818754046853 * parseFloat(results["filamentUsage"])*100; //0.024052818754046853 = diametro 1.75mm
 	var costoMaterial = Math.round((masa * currentSettings.spoolPrice / currentSettings.spoolWeight)*100)/100;
 	document.getElementById("costoMaterial").innerHTML = "$"+costoMaterial +" ("+results["filamentUsage"]+")"; 
 	document.getElementById("costoInsumos").innerHTML = "$"+currentSettings.insumos;
@@ -170,6 +169,7 @@ function updateDOMFilament(){
 		currentSettings.spoolPrice = filamento.precio;
 		currentSettings.spoolDensity = filamento.densidad;
 		M.updateTextFields();
+		showResults();
 	}
 }
 
