@@ -10,3 +10,6 @@ main{
 	text-align: center;
 	margin: 20px;
 }
+.waves-effect.waves-primary .waves-ripple{
+	background-color: rgba(245,124,0,0.65);
+}

@@ -63,6 +63,51 @@
 		<div class="content">
 			<div class="container">
 				<div class="row">
+					<div class="col s12 l8 offset-l2 valign-wrapper">
+						<div class="input-field col m10">
+							<select id="filamentos" onchange="updateDOMFilament()">
+								<option value="add">- Nuevo -</option>
+							</select>
+							<label>Filamento</label>
+						</div>
+						<div class="col m1">
+							<a class="btn-floating modal-trigger waves-effect waves-light" data-target="filamentWindow"><i class="mwicons" id="addedit_icon">add</i></a>
+						</div>
+						<div class="col m1">
+							<a class="btn-floating waves-effect waves-light" id="deleteFilament" onclick="deleteFilament()"><i class="mwicons">delete</i></a>
+						</div>
+					</div>
+					<div class="modal" id="filamentWindow">
+						<div class="modal-content">
+							<div class="input-field">
+								<input type="text" id="filaMarca">
+								<label for="filaMarca">Marca</label>
+							</div>
+							<div class="input-field">
+								<input type="text" id="filaMaterial" value="PLA">
+								<label for="filamaterial">Material</label>
+							</div>
+							<div class="input-field">
+								<input type="number" id="filaDensidad" value="1.24">
+								<label for="filaDensidad">Densidad (g/cm<sup>3</sup>)</label>
+							</div>
+							<div class="input-field">
+								<input type="number" id="filaPeso" value="1000">
+								<label for="filaPeso">Peso (gramos)</label>
+							</div>
+							<div class="input-field">
+								<input type="number" id="filaPrecio">
+								<label for="filaPrecio">Precio</label>
+							</div>
+							
+						</div>
+						<div class="modal-footer">
+							<a class="modal-close btn-flat waves-effect waves-primary">Descartar</a>
+							<a class="modal-close btn waves-effect waves-light" id="addedit_btn" onclick="addFilament()">Agregar</a>
+						</div>
+					</div>
+				</div>
+				<div class="row">
 					<div class="col s12 l8 offset-l2">
 						<div class="file-field input-field" id="fileInput">
 							<div class="btn">
@@ -77,7 +122,7 @@
 				</div>
 				<div class="row">
 					<div class="col s12 l8 offset-l2 center">
-						<a class="waves-effect waves-light btn" id="calcularBtn" onclick="refreshStatistics()">Recalcular</a>
+						<a class="waves-effect waves-light btn" id="calcularBtn" onclick="showResults()">Recalcular</a>
 						<div class="progress" id="progress">
 							<div class="determinate" style="width: 50%" id="progressBar"></div>
 						</div>

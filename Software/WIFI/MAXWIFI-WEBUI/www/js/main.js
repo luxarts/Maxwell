@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", function(){
 	var instances = M.Tooltip.init(elems, '');
 	var elems = document.querySelectorAll('.collapsible');
 	var instances = M.Collapsible.init(elems, {accordion: false});
+	var elems = document.querySelectorAll('select');
+	var instances = M.FormSelect.init(elems, '');
+	var elems = document.querySelectorAll('.modal');
+	var instances = M.Modal.init(elems, '');
 });
 
 var eeprom = {
