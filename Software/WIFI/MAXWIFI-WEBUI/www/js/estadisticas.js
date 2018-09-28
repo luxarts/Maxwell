@@ -114,7 +114,8 @@ function showResults(){
 	//Longitud = metros
 	var masa = currentSettings.spoolDensity * 0.024052818754046853 * parseFloat(results["filamentUsage"])*100; //0.024052818754046853 = diametro 1.75mm
 	var costoMaterial = Math.round((masa * currentSettings.spoolPrice / currentSettings.spoolWeight)*100)/100;
-	document.getElementById("costoMaterial").innerHTML = "$"+costoMaterial +" ("+results["filamentUsage"]+")"; 
+	masa = Math.round(masa*100)/100;
+	document.getElementById("costoMaterial").innerHTML = "$"+costoMaterial +" ("+results["filamentUsage"]+" - "+masa+"gr)"; 
 	document.getElementById("costoInsumos").innerHTML = "$"+currentSettings.insumos;
 	document.getElementById("costoTotal").innerHTML = "$"+(parseFloat(costoEnergia) + parseFloat(costoMaterial) + parseFloat(currentSettings.insumos));
 }
