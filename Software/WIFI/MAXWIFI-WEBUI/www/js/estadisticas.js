@@ -18,11 +18,12 @@ var currentSettings = {
 	"timeScale": 1.01,
 	"fileName": "",
 	"fileSize": "",
-	"kwh": 1.998, //Precio del KWh
+	"kwhPrice": 1.998, //Precio del KWh
 	"spoolWeight": 0, //Peso del rollo en gramos
 	"spoolPrice": 0,  //Precio del rollo
 	"spoolDensity": 0, //Densidad del material
-	"insumos": 0
+	"insumos": 0,
+	"watts": 330 //Consumo de la maquina
 }
 var userData = {
 	kwh: 0,
@@ -107,7 +108,7 @@ function showResults(){
 	//Costos
 	var horas = results["printTime"].split(':').reverse().reduce((prev, curr, i) => prev + curr*Math.pow(60,i),0);
 	horas = horas/60/60;
-	var costoEnergia = Math.round(horas*currentSettings.kwh *100)/100;
+	var costoEnergia = Math.round(currentSettings.watts/1000*horas*currentSettings.kwhPrice *100)/100;
 	document.getElementById("costoEnergia").innerHTML = "$"+costoEnergia;
 	//masa = densidad * pi * radio^2 * longitud
 	//Densidad = gr/cm3
@@ -117,7 +118,7 @@ function showResults(){
 	masa = Math.round(masa*100)/100;
 	document.getElementById("costoMaterial").innerHTML = "$"+costoMaterial +" ("+results["filamentUsage"]+" - "+masa+"gr)"; 
 	document.getElementById("costoInsumos").innerHTML = "$"+currentSettings.insumos;
-	document.getElementById("costoTotal").innerHTML = "$"+(parseFloat(costoEnergia) + parseFloat(costoMaterial) + parseFloat(currentSettings.insumos));
+	document.getElementById("costoTotal").innerHTML = "$"+Math.round((parseFloat(costoEnergia) + parseFloat(costoMaterial) + parseFloat(currentSettings.insumos))*100)/100;
 }
 
 function addFilament(){
