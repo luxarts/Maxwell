@@ -11,7 +11,7 @@ var currentSettings = {
 	"firmwareUnretractLength":0,
 	"firmwareUnretractSpeed":0,
 	"lookAheadBuffer": 64,
-	"maxJerk": [27, 27, 27, 20], //XYZ, E
+	"maxJerk": [25, 25, 25, 20], //XYZ, E
 	"maxPrintAcceleration": [2000, 2000, 2000, 100], //XYZ, E 
 	"maxSpeed": [200, 200, 200, 60], //XYZ, E
 	"maxTravelAcceleration": [3000, 3000, 3000, 100],
