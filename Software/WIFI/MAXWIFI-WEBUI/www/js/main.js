@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	var elems = document.querySelectorAll('.sidenav');
 	var instances = M.Sidenav.init(elems, '');
 	var elems = document.querySelectorAll('.tooltipped');
-	var instances = M.Tooltip.init(elems, '');
+	var instances = M.Tooltip.init(elems, {outDuration: 0});
 	var elems = document.querySelectorAll('.collapsible');
 	var instances = M.Collapsible.init(elems, {accordion: false});
 	var elems = document.querySelectorAll('select');
@@ -10,6 +10,32 @@ document.addEventListener("DOMContentLoaded", function(){
 	var elems = document.querySelectorAll('.modal');
 	var instances = M.Modal.init(elems, '');
 });
+
+var printerStatus = {
+	"temp": {
+		"extruder": {
+			"actual": null,
+			"target": null
+		},
+		"bed": {
+			"actual": null,
+			"target": null
+		}
+	},
+	"layerFan": null,
+	"printing": {
+		"status": "I",
+		"percent": null,
+		"filename": "",
+		"time": null
+	},
+	"position": {
+		"x": null,
+		"y": null,
+		"z": null,
+		"e": null
+	}
+}
 
 var eeprom = {
 	"language": {"type": 0, "pos": 1028, "value": null},
@@ -78,38 +104,40 @@ var eeprom = {
 }
 var eepromLoaded = false;
 var connection;
-// try{
-// 	connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp']);
-// }catch(err){
-// 	console.log("Error" + err);
-// 	console.error("No se pudo establecer la conexion WebSocket");
-// 	connection = {onmessage: function(){}, send: function(str){console.error("Mensaje fallido: " + str)}};
-// }
+var debugServer = true;
 
-// function sendCmd(cmd){
-// 	//if(!receivedOk)return;
-// 	if(debugServer)console.log("Client>>"+cmd);
-// 	if(connection.readyState == 1){
-// 		connection.send('!MWP7 ' + cmd);
-// 		receivedOk=false;
-// 	}
-// 	else{
-// 		if(debugServer)console.log("No se pudo enviar");
-// 	}
-// }
+try{
+	connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp']);
+}catch(err){
+	console.log("Error" + err);
+	console.error("No se pudo establecer la conexion WebSocket");
+	connection = {readyState: 1, onmessage: function(){}, send: function(str){console.error("Mensaje fallido: " + str)}};
+}
 
-// connection.onmessage = function (event){
-// 	if(debugServer)console.log("Server>>"+event.data);
+function sendCmd(cmd){
+	//if(!receivedOk)return;
+	if(debugServer)console.log("Client>>"+cmd);
+	if(connection.readyState == 1){
+		connection.send('!MWP7 ' + cmd);
+		receivedOk=false;
+	}
+	else{
+		if(debugServer)console.log("No se pudo enviar");
+	}
+}
+
+connection.onmessage = function (event){
+	if(debugServer)console.log("Server>>"+event.data);
 	
-// 	if(okCheck(event.data));
-// 	else if(eepromCheck(event.data));
-// 	// else if(fwuCheck(event.data));
-// 	else if(wifiCheck(event.data));
-// 	// else if(tempCheck(event.data));
-// 	else if(sdCheck(event.data));
-// 	// else if(statusCheck(event.data));
-// 	// else if(percentageCheck(event.data));
-// }
+	if(okCheck(event.data));
+	else if(eepromCheck(event.data));
+	else if(sdCheck(event.data));
+	else if(wifiCheck(event.data));
+	// else if(fwuCheck(event.data));
+	// else if(tempCheck(event.data));
+	// else if(statusCheck(event.data));
+	// else if(percentageCheck(event.data));
+}
 function okCheck(data){
 	if(!data.startsWith("ok"))return false;
 	receivedOk = true;
@@ -133,6 +161,7 @@ function eepromCheck(data){
 		}
 	}
 	eepromLoaded = eepromIsLoaded();
+	return true;
 }
 
 function eepromIsLoaded(){
@@ -148,6 +177,44 @@ function eepromIsLoaded(){
 
 function cargarEeprom(){
 	sendCmd("M205");
+}
+
+var sdItems = [];
+sdItems = ["CALIBR~1/", "CALIBR~1/caldelta10cm.gcode 492036", "CALIBR~1/caldelta60mm.gcode 1071141", "Maxwell/", "Maxwell/Duct.gcode 419198", "Maxwell/Effector.gcode 1371175", "Maxwell/FlyingMK8.gcode 1379435", "Maxwell/Foot.gcode 1576667", "Maxwell/Hotend.gcode 1412505", "Maxwell/HotendClamp.gcode 1632055", "Maxwell/joint x12.gcode 2292749", "Maxwell/MotorBase.gcode 7330960", "Maxwell/SoporteTop.gcode 5725384", "Maxwell/SoporteTopCorto.gcode 2623209", "Maxwell/SpotLed.gcode 1960631", "Maxwell/SujetaCorrea.gcode 908033", "AIO test.gcode 2203504", "eeprom.bin 4096"];
+var sdReceiving = false;
+var sdLoaded = false;
+function sdCheck(data){
+	var matches = data.match(/Begin file list/g);
+
+	//si el inicio se encuentra -> se activa la bandera
+	if(matches){
+		sdReceiving = true;
+		sdLoaded = false;
+		sdItems = [];
+		document.getElementById("fileListProgress").style.display = "block";
+		document.getElementById("fileList").style.display = "none";
+	}
+	else{
+		//si el inicio no se encuentra y la bandera esta desactivada (no se esta recibiendo) -> vuelve
+		if(sdReceiving == false)return false;
+		//si el inicio no se encuentra y la bandera esta activada (se esta recibiendo) -> busca el final
+		matches = data.match(/End file list/g);
+		//si el final se encuentra -> desactiva la bandera
+		if(matches){
+			sdReceiving = false;
+			sdLoaded=true;
+			try{
+				actualizarLista();
+				document.getElementById("fileListProgress").style.display = "none";
+				document.getElementById("fileList").style.display = "block";
+			}catch(e){};
+		}
+		//si el final no se encuentra -> es un archivo o carpeta
+		else{
+			sdItems.push(data);
+		}
+	}
+	return true;
 }
 
 

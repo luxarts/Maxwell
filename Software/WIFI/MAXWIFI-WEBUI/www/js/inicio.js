@@ -56,6 +56,6 @@ function getTemp(){
 	actualizarTemp(Math.floor((Math.random() * 40) + 180), Math.floor((Math.random() * 10) + 180), Math.floor((Math.random() * 30) + 40), Math.floor((Math.random() * 10) + 40));
 }
 
-window.setInterval(getTemp,500);
+// window.setInterval(getTemp,500);
 
 new Chartist.Line('.ct-chart', tempData, tempOptions);

@@ -60,65 +60,49 @@
 		</ul>
 
 		<!-- Contenido -->
-		<div class="content">
+		<div class="content" id="content">
 			<div class="row">
-				<div class="col s12 m12 l6"">
+				<div class="col s12 m12 l6">
+					<div class="progress" id="fileListProgress">
+						<div class="indeterminate"></div>
+					</div>
+					<div class="progress" id="uploadProgress">
+						<div class="determinate" style="width: 0%" id="uploadProgressBar"></div>
+					</div>
+					
 					<div id="fileList">
+						<div id="printPanel">
+							<a class="btn-floating waves-effect waves-light tooltipped disabled" data-position="top" data-tooltip="Imprimir" id="playpause_btn" onclick="playPausePrint()"><i class="mwicons" id="playpause_icon">play_arrow</i></a>
+							<a class="btn-floating waves-effect waves-light tooltipped disabled" data-position="top" data-tooltip="Detener" id="stop_btn" onclick="stopPrint()"><i class="mwicons">stop</i></a>
+							<a class="btn-floating modal-trigger waves-effect waves-light tooltipped" data-position="top" data-tooltip="Crear carpeta" data-target="folderWindow"><i class="mwicons">create_new_folder</i></a>
+							<a class="btn-floating modal-trigger waves-effect waves-light tooltipped" data-position="top" data-tooltip="Subir archivo" data-target="fileWindow"><i class="mwicons">note_add</i></a>
+							<a class="btn-floating waves-effect waves-light tooltipped disabled" data-position="top" data-tooltip="Eliminar" id="delete_btn" onclick="deleteFile()"><i class="mwicons">delete</i></a>
+						</div>
+						<div class="modal" id="fileWindow">
+							<div class="modal-content">
+								<div class="file-field input-field" id="fileInput">
+									<div class="btn">
+										<span><i class="mwicons small">file_upload</i>Archivo</span>
+										<input type="file" onchange="readFile(event)" accept=".gco, .gcode, .g">
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" id="filePath" type="text" placeholder="Seleccione o arraste el archivo">
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a class="modal-close btn-flat waves-effect waves-primary">Descartar</a>
+									<a class="modal-close btn waves-effect waves-light" onclick="uploadFile()">Subir</a>
+								</div>
+							</div>
+						</div>
 						<table class="highlight">
 							<thead>
 								<tr>
 									<th colspan="2">Nombre</th>
-									<th colspan="2">Tamaño</th>
+									<th colspan="1">Tamaño</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td><i class="mwicons small">folder</i></td>
-									<td>Carpeta 1</td><td></td>
-								</tr>
-								<tr>
-									<td><i class="mwicons small">folder</i></td>
-									<td>Carpeta 2</td><td></td>
-								</tr>
-								<tr>
-									<td><i class="mwicons small">folder</i></td>
-									<td>Carpeta 3</td><td></td>
-								</tr>
-								<tr>
-									<td><i class="mwicons small">description</i></td>
-									<td>Archivo 1</td>
-									<td>123.45 MB</td>
-								</tr>
-								<tr>
-									<td><i class="mwicons small">description</i></td>
-									<td>Archivo 2</td>
-									<td>123.45 MB</td>
-								</tr>
-								<tr>
-									<td><i class="mwicons small">description</i></td>
-									<td>Archivo 2</td>
-									<td>123.45 MB</td>
-								</tr>
-								<tr>
-									<td><i class="mwicons small">description</i></td>
-									<td>Archivo 3</td>
-									<td>123.45 MB</td>
-								</tr>
-								<tr>
-									<td><i class="mwicons small">description</i></td>
-									<td>Archivo 4</td>
-									<td>123.45 MB</td>
-								</tr>
-								<tr>
-									<td><i class="mwicons small">description</i></td>
-									<td>Archivo 5</td>
-									<td>123.45 MB</td>
-								</tr>
-								<tr>
-									<td><i class="mwicons small">description</i></td>
-									<td>Archivo 6</td>
-									<td>123.45 MB</td>
-								</tr>
+							<tbody id="sdlist">
 							</tbody>
 						</table>
 					</div>
@@ -160,6 +144,7 @@
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/chartist.min.js"></script>
 	<script type="text/javascript" src="js/inicio.js"></script>
+	<script type="text/javascript" src="js/sdlist.js"></script>
 	<!-- endsmoosh -->
 </body>
 </html>

@@ -1,13 +1,4 @@
-#fileList{
-	max-height: 538px;
-	overflow-y: auto;
-}
-#fileList td{
-	padding: 10px;
-}
-#fileList td:first-child{
-	width: 1px;
-}
+/*Temperaturas*/
 /*Extrusor*/
 .ct-series-a .ct-line{
 	stroke: red;
@@ -45,4 +36,32 @@
 }
 #bedTemp{
 	color: blue;
+}
+
+/*File list*/
+#fileList{
+	max-height: 538px;
+	overflow-y: auto;
+	display: none;
+}
+#fileListProgress{
+	display: block;
+}
+#fileList td{
+	padding: 10px;
+}
+#fileList td:first-child{
+	width: 1px;
+}
+.selectedFile{
+	background-color: rgba(245,124,0,0.4);
+}
+table.highlight > tbody > tr.selectedFile:hover {
+	background-color: rgba(245,124,0,0.5);
+}
+#fileList tr > td{
+	cursor: pointer;
+}
+#uploadProgress{
+	display: none;
 }
