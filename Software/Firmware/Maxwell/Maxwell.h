@@ -595,7 +595,7 @@ inline void memcopy4(void *dest,void *source) {
 #endif
 
 #include "HAL.h"
-#define MAX_VFAT_ENTRIES (2)
+#define MAX_VFAT_ENTRIES (3)/*Maxwell*/
 /** Total size of the buffer used to store the long filenames */
 #define LONG_FILENAME_LENGTH (13*MAX_VFAT_ENTRIES+1)
 #define SD_MAX_FOLDER_DEPTH 2

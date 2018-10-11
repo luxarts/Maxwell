@@ -353,6 +353,9 @@ void Extruder::manageTemperatures() {
 }
 
 void TemperatureController::waitForTargetTemperature() {
+    /*Maxwell-start*/
+    uint8_t cmdIndex=0;
+    /*Maxwell-end*/
     if(targetTemperatureC < 30) return;
     if(Printer::debugDryrun()) return;
     bool oldReport = Printer::isAutoreportTemp();
@@ -364,6 +367,42 @@ void TemperatureController::waitForTargetTemperature() {
             Commands::printTemperatures();
             time = HAL::timeInMilliseconds();
         }*/
+        /*Maxwell-start*/
+        if(HAL::serialByteAvailable()){       //Check if byte is received
+          uint8_t inByte = HAL::serialReadByte(); //Store the byte
+          if(cmdIndex == 0){            //If its the first char
+            if(inByte == 'M' || inByte == 'm'){ //If its M or m
+              cmdIndex++;           //Next char
+            }
+          }
+          else if(cmdIndex == 1){         //If its the second char
+            if(inByte == '1'){          //If its 1
+              cmdIndex++;           //Next char
+            }
+            else{               //If isn't a 1 (eg M2)
+              cmdIndex=0;           //Reset the index
+            }
+          }
+          else if(cmdIndex == 2){         //If its the third char
+            if(inByte == '0'){          //If its 0
+              cmdIndex++;           //Next char
+            }
+            else{               //If isn't a 0 (ex M11)
+              cmdIndex=0;           //Reset the index
+            }
+          }
+          else if(cmdIndex == 3){         //If its the second char
+            if(inByte == '8'){          //If its 8
+              Printer::stopPrint();     //Stop print
+              Printer::setAutoreportTemp(oldReport);
+              return;              //Break the while loop
+            }
+            else{               //If isn't a 1 (ex M100)
+              cmdIndex=0;           //Reset the index
+            }
+          }
+        }
+        /*Maxwell-end*/
         Commands::checkForPeriodicalActions(true);
         GCode::keepAlive(WaitHeater);
         if(fabs(targetTemperatureC - currentTemperatureC) <= 1) {

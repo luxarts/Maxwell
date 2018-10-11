@@ -50,9 +50,9 @@
 #undef FAN2_PIN
     #define FAN2_PIN -1
 #undef FAN_BOARD_PIN
-#define FAN_BOARD_PIN HEATER_1_PIN
+#define FAN_BOARD_PIN -1
 #define BOARD_FAN_SPEED 255
-#define BOARD_FAN_MIN_SPEED 255
+#define BOARD_FAN_MIN_SPEED 0
 #define FAN_THERMO_PIN -1
 #define FAN_THERMO_MIN_PWM 128
 #define FAN_THERMO_MAX_PWM 255
@@ -180,7 +180,7 @@
 
 // ############# Heated bed configuration ########################
 
-#define HAVE_HEATED_BED 1
+#define HAVE_HEATED_BED 0
 #define HEATED_BED_PREHEAT_TEMP 55
 #define HEATED_BED_MAX_TEMP 130
 #define SKIP_M190_IF_WITHIN 2
@@ -858,7 +858,7 @@ Values must be in range 1..255
     "servo2Pin": -1,
     "servo3Pin": -1,
     "featureWatchdog": "0",
-    "hasHeatedBed": "1",
+    "hasHeatedBed": "0",
     "enableZProbing": "0",
     "extrudeMaxLength": 150,
     "homeOrder": "HOME_ORDER_ZXY",
