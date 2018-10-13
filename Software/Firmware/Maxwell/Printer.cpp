@@ -2275,11 +2275,12 @@ void Printer::showJSONStatus(int type) {
 	Com::printF(PSTR("}},\"layerFan\":"));
 	Com::print(getFanSpeed() / 2.55f);							//layerFan = 0 / 255
 	Com::printF(PSTR(",\"printing\":{\"status\":"));
-	if(PrintLine::linesCount == 0) {
-		Com::print("\"I\"");									//printing.status = I (idle)
-	}
-	else if(sd.sdactive){
-		if(sd.sdmode == 1){                                       
+	
+	if(sd.sdactive){
+		if(sd.sdmode == 0){
+			Com::print("\"I\"");								//printing.status = I (idle)
+		}
+		else if(sd.sdmode == 1){                                       
 			Com::print("\"P\"");								//printing.status = P (printing)  
 		}
 		else if(sd.sdmode == 2){

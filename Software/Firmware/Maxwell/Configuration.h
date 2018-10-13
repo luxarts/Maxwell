@@ -50,7 +50,7 @@
 #undef FAN2_PIN
     #define FAN2_PIN -1
 #undef FAN_BOARD_PIN
-#define FAN_BOARD_PIN HEATER_1_PIN
+#define FAN_BOARD_PIN -1
 #define BOARD_FAN_SPEED 255
 #define BOARD_FAN_MIN_SPEED 255
 #define FAN_THERMO_PIN -1
