@@ -34,8 +34,20 @@ function loadDOMValues(){
 		}
 	}
 }
-
-function testLoadEeprom(){
-	var x = "EPR:3 11 80.0000 Steps per mm";
-	eepromCheck(x);
+function saveDOMValues(){
+	for(var key in eeprom){//Recorre todos los objetos
+		if(eeprom.hasOwnProperty(key)){
+			var element = document.getElementById(key);
+			if(typeof(element) != 'undefined' && element != null){
+				if(element.value != ""){
+					if(eeprom[key].type == 3)eeprom[key].value = parseFloat(element.value);
+					else eeprom[key].value = parseInt(element.value);
+					element.classList.remove("valid");
+				}
+			}
+		}
+	}
+}
+function dataChange(element){
+	element.classList.add("valid");
 }

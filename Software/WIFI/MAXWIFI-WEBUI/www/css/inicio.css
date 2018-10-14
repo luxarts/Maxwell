@@ -62,6 +62,3 @@ table.highlight > tbody > tr.selectedFile:hover {
 #fileList tr > td{
 	cursor: pointer;
 }
-#uploadProgress{
-	display: none;
-}

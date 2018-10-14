@@ -15,11 +15,11 @@
 	<!-- Favicon -->
 	<link rel="icon" sizes="192x192" href="img/Logo.png">
 	
+	<!-- Material Design Stylesheet -->
+	<link rel="stylesheet" type="text/css" href="css/materialize.css" media="screen,projection">
 	<!-- smoosh -->
 	<!-- Google Icon Font -->
 	<link rel="stylesheet" type="text/css" href="fonts/mwicons.css">
-	<!-- Material Design Stylesheet -->
-	<link rel="stylesheet" type="text/css" href="css/materialize.css" media="screen,projection">
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/config.css">
@@ -37,11 +37,11 @@
 					<a href="" data-target="nav-mobile" class="sidenav-trigger"><i class="mwicons">menu</i></a>
 					<ul class="left hide-on-med-and-down">
 						<li><a href="index.html"><i class="mwicons left">home</i>Inicio</a></li>
-						<li><a href=""><i class="mwicons left">games</i>Control</a></li>
-						<li><a href=""><i class="mwicons left">tune</i>Calibración manual</a></li>
+						<li><a href="control.html"><i class="mwicons left">games</i>Control</a></li>
+						<li><a href="calibracion.html"><i class="mwicons left">tune</i>Calibración manual</a></li>
 						<li><a href="estadisticas.html"><i class="mwicons left">poll</i>Estadísticas</a></li>
 						<li class="active"><a href="config.html"><i class="mwicons left">settings</i>Configuración</a></li>
-						<li><a href=""><i class="mwicons left">bug_report</i>FWU</a></li>
+						<li><a href="fwu.html"><i class="mwicons left">bug_report</i>FWU</a></li>
 					</ul>
 				</div>
 			</nav>
@@ -51,11 +51,11 @@
 					<img src="img/Logo.png" width="25%">
 			</li>
 			<li><a href="index.html"><i class="mwicons left small">home</i>Inicio</a></li>
-			<li><a href=""><i class="mwicons left small">games</i>Control</a></li>
-			<li><a href=""><i class="mwicons left small">tune</i>Calibración manual</a></li>
+			<li><a href="control.html"><i class="mwicons left small">games</i>Control</a></li>
+			<li><a href="calibracion.html"><i class="mwicons left small">tune</i>Calibración manual</a></li>
 			<li><a href="estadisticas.html"><i class="mwicons left small">poll</i>Estadísticas</a></li>
 			<li class="active"><a href="config.html"><i class="mwicons left small">settings</i>Configuración</a></li>
-			<li><a href=""><i class="mwicons left small">bug_report</i>FWU</a></li>
+			<li><a href="fwu.html"><i class="mwicons left small">bug_report</i>FWU</a></li>
 		</ul>
 
 		<!-- Contenido -->
@@ -78,14 +78,14 @@
 									<tbody>
 										<tr>
 											<th>Nombre de la red WiFi</th>
-											<td><input type="text" id="wifissid"></td>
+											<td><input type="text" id="wifissid" onchange="dataChange(this)"></td>
 											<td></td>
 										</tr>
 										<tr>
 											<th>Contraseña de la red WiFi</th>
 											<td><input type="password" id="wifipswd"></td>
 											<td onclick="togglePswd()">
-												<i class="mwicons small hiddenPswd" id="pswdIcon" >visibility_off</i>
+												<i class="mwicons small hiddenPswd" id="pswdIcon" onchange="dataChange(this)">visibility_off</i>
 											</td>
 										</tr>
 									</tbody>
@@ -99,72 +99,72 @@
 									<tbody>
 										<tr>
 											<th>Pasos por milímetro</th>
-											<td><input type="number" id="stepsPerMm"></td>
+											<td><input type="number" id="stepsPerMm" onchange="dataChange(this)"></td>
 											<td>pasos</td>
 										</tr>
 										<tr>
 											<th>Altura</th>
-											<td><input type="number" id="zMaxLength"></td>
+											<td><input type="number" id="zMaxLength" onchange="dataChange(this)"></td>
 											<td>mm</td>
 										</tr>
 										<tr>
 											<th>Longitud del brazo</th>
-											<td><input type="number" id="diagonalRodLength"></td>
+											<td><input type="number" id="diagonalRodLength" onchange="dataChange(this)"></td>
 											<td>mm</td>
 										</tr>
 										<tr>
 											<th>Distancia horizontal del brazo</th>
-											<td><input type="number" id="horizontalRodRadius"></td>
+											<td><input type="number" id="horizontalRodRadius" onchange="dataChange(this)"></td>
 											<td>mm</td>
 										</tr>
 										<tr>
 											<th>Radio de impresión</th>
-											<td><input type="number" id="maxPrintableRadius"></td>
+											<td><input type="number" id="maxPrintableRadius" onchange="dataChange(this)"></td>
 											<td>mm</td>
 										</tr>
 										<tr>
 											<th>Fin de carrera A</th>
-											<td><input type="number" id="towerXendstop"></td>
+											<td><input type="number" id="towerXendstop" onchange="dataChange(this)"></td>
 											<td>pasos</td>
 										</tr>
 										<tr>
 											<th>Fin de carrera B</th>
-											<td><input type="number" id="towerYendstop"></td>
+											<td><input type="number" id="towerYendstop" onchange="dataChange(this)"></td>
 											<td>pasos</td>
 										</tr>
 										<tr>
 											<th>Fin de carrera C</th>
-											<td><input type="number" id="towerZendstop"></td>
+											<td><input type="number" id="towerZendstop" onchange="dataChange(this)"></td>
 											<td>pasos</td>
 										</tr>
 										<tr>
 											<th>Ángulo A</th>
-											<td><input type="number" id="alphaA"></td>
+											<td><input type="number" id="alphaA" onchange="dataChange(this)"></td>
 											<td>º</td>
 										</tr>
 										<tr>
 											<th>Ángulo B</th>
-											<td><input type="number" id="alphaB"></td>
+											<td><input type="number" id="alphaB" onchange="dataChange(this)"></td>
 											<td>º</td>
 										</tr>
 										<tr>
 											<th>Ángulo C</th>
-											<td><input type="number" id="alphaC"></td>
+											<td><input type="number" id="alphaC" onchange="dataChange(this)"></td>
 											<td>º</td>
 										</tr>
 										<tr>
 											<th>Correción diagonal A</th>
-											<td><input type="number" id="corrDiagonalA"></td>
+											<td><input type="number" id="corrDiagonalA" onchange="dataChange(this)"></td>
 											<td>mm</td>
 										</tr>
 										<tr>
 											<th>Correción diagonal B</th>
-											<td><input type="number" id="corrDiagonalB"></td>
+											<td><input type="number" id="corrDiagonalB" onchange="dataChange(this)"></td>
 											<td>mm</td>
 										</tr>
 										<tr>
 											<th>Corrección diagonal C</th>
-											<td><input type="number" id="corrDiagonalC"></td>
+											<td><input type="number" id="corrDiagonalC" onchange="dataChange(this)"></td>
 											<td>mm</td>
 										</tr>
 									</tbody>
@@ -178,22 +178,22 @@
 									<tbody>
 										<tr>
 											<th>Velocidad máxima</th>
-											<td><input type="number" id="maxFeedrate"></td>
+											<td><input type="number" id="maxFeedrate" onchange="dataChange(this)"></td>
 											<td>mm/s</td>
 										</tr>
 										<tr>
 											<th>Arranque</th>
-											<td><input type="number" id="maxJerk"></td>
+											<td><input type="number" id="maxJerk" onchange="dataChange(this)"></td>
 											<td>mm/s<sup>3</sup></td>
 										</tr>
 										<tr>
 											<th>Acceleración (imprimiendo)</th>
-											<td><input type="number" id="acceleration"></td>
+											<td><input type="number" id="acceleration" onchange="dataChange(this)"></td>
 											<td>mm/s<sup>2</sup></td>
 										</tr>
 										<tr>
 											<th>Aceleración (sin imprimir)</th>
-											<td><input type="number" id="travelAcceleration"></td>
+											<td><input type="number" id="travelAcceleration" onchange="dataChange(this)"></td>
 											<td>mm/s<sup>2</sup></td>
 										</tr>
 									</tbody>
@@ -207,32 +207,32 @@
 									<tbody>
 										<tr>
 											<th>Pasos por milímetro</th>
-											<td><input  type="number" id="extr1stepsPerMm"></td>
+											<td><input  type="number" id="extr1stepsPerMm" onchange="dataChange(this)"></td>
 											<td>pasos</td>
 										</tr>
 										<tr>
 											<th>Velocidad máxima</th>
-											<td><input type="number" id="extr1maxFeedrate"></td>
+											<td><input type="number" id="extr1maxFeedrate" onchange="dataChange(this)"></td>
 											<td>mm/s</td>
 										</tr>
 										<tr>
 											<th>Arranque</th>
-											<td><input type="number" id="extr1startFeedrate"></td>
+											<td><input type="number" id="extr1startFeedrate" onchange="dataChange(this)"></td>
 											<td>mm/s<sup>3</sup></td>
 										</tr>
 										<tr>
 											<th>Aceleración</th>
-											<td><input type="number" id="extr1acceleration"></td>
+											<td><input type="number" id="extr1acceleration" onchange="dataChange(this)"></td>
 											<td>mm/s<sup>2</sup></td>
 										</tr>
 										<tr>
 											<th>Temperatura de precalentamiento</th>
-											<td><input type="number" id="extr1preheatTemp"></td>
+											<td><input type="number" id="extr1preheatTemp" onchange="dataChange(this)"></td>
 											<td>ºC</td>
 										</tr>
 										<tr>
 											<th>Inercia térmica</th>
-											<td><input type="number" id="extr1PIDDgain"></td>
+											<td><input type="number" id="extr1PIDDgain" onchange="dataChange(this)"></td>
 											<td>segundos</td>
 										</tr>
 									</tbody>
@@ -246,32 +246,32 @@
 									<tbody>
 										<tr>
 											<th>Pasos por milímetro</th>
-											<td><input type="number" id=""></td>
+											<td><input type="number" id="" onchange="dataChange(this)"></td>
 											<td>pasos</td>
 										</tr>
 										<tr>
 											<th>Velocidad máxima</th>
-											<td><input type="number" id=""></td>
+											<td><input type="number" id="" onchange="dataChange(this)"></td>
 											<td>mm/s</td>
 										</tr>
 										<tr>
 											<th>Arranque</th>
-											<td><input type="number" id=""></td>
+											<td><input type="number" id="" onchange="dataChange(this)"></td>
 											<td>mm/s<sup>3</sup></td>
 										</tr>
 										<tr>
 											<th>Aceleración</th>
-											<td><input type="number" id=""></td>
+											<td><input type="number" id="" onchange="dataChange(this)"></td>
 											<td>mm/s<sup>2</sup></td>
 										</tr>
 										<tr>
 											<th>Temperatura de precalentamiento</th>
-											<td><input type="number" id=""></td>
+											<td><input type="number" id="" onchange="dataChange(this)"></td>
 											<td>ºC</td>
 										</tr>
 										<tr>
 											<th>Inercia térmica</th>
-											<td><input type="number" id=""></td>
+											<td><input type="number" id="" onchange="dataChange(this)"></td>
 											<td>segundos</td>
 										</tr>
 									</tbody>
@@ -299,11 +299,11 @@
 			</div>
 		</div>
 	</footer>
+	<!--Material Design-->
+	<script type="text/javascript" src="js/materialize.min.js"></script>
 	<!-- smoosh -->
 	<!-- Ligaduras de iconos para navegadores no compatibles -->
 	<script type="text/javascript" src="js/liga.js"></script>
-	<!--Material Design-->
-	<script type="text/javascript" src="js/materialize.min.js"></script>
 	<!-- JS -->
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/config.js"></script>

@@ -37,7 +37,7 @@ var tempOptions = {
 	}
 };
 
-function actualizarTemp(extruderCurrentTemp, extruderTargetTemp, bedCurrentTemp, bedTargetTemp){
+function updateTemp(extruderCurrentTemp, extruderTargetTemp, bedCurrentTemp, bedTargetTemp){
 	if(tempData.series[0].length>59)tempData.series[0].shift();//Saca el dato mas viejo
 	tempData.series[0].push(extruderTargetTemp);//Temperatura actual
 	if(tempData.series[1].length>59)tempData.series[1].shift();//Saca el dato mas viejo
@@ -53,7 +53,7 @@ function actualizarTemp(extruderCurrentTemp, extruderTargetTemp, bedCurrentTemp,
 
 function getTemp(){
 	//sendCmd("M105");
-	actualizarTemp(Math.floor((Math.random() * 40) + 180), Math.floor((Math.random() * 10) + 180), Math.floor((Math.random() * 30) + 40), Math.floor((Math.random() * 10) + 40));
+	updateTemp(Math.floor((Math.random() * 40) + 180), Math.floor((Math.random() * 10) + 180), Math.floor((Math.random() * 30) + 40), Math.floor((Math.random() * 10) + 40));
 }
 
 // window.setInterval(getTemp,500);

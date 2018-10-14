@@ -25,7 +25,7 @@
 	<link rel="stylesheet" type="text/css" href="css/control.css">
 	<!-- endsmoosh -->
 
-	<title>Control - Maxwell Impresora 3D</title>
+	<title>FWU - Maxwell Impresora 3D</title>
 </head>
 <body>
 	<main>
@@ -37,11 +37,11 @@
 					<a href="" data-target="nav-mobile" class="sidenav-trigger"><i class="mwicons">menu</i></a>
 					<ul class="left hide-on-med-and-down">
 						<li><a href="index.html"><i class="mwicons left">home</i>Inicio</a></li>
-						<li class="active"><a href="control.html"><i class="mwicons left">games</i>Control</a></li>
+						<li><a href="control.html"><i class="mwicons left">games</i>Control</a></li>
 						<li><a href="calibracion.html"><i class="mwicons left">tune</i>Calibración manual</a></li>
 						<li><a href="estadisticas.html"><i class="mwicons left">poll</i>Estadísticas</a></li>
 						<li><a href="config.html"><i class="mwicons left">settings</i>Configuración</a></li>
-						<li><a href="fwu.html"><i class="mwicons left">bug_report</i>FWU</a></li>
+						<li class="active"><a href="fwu.html"><i class="mwicons left">bug_report</i>FWU</a></li>
 					</ul>
 				</div>
 			</nav>
@@ -51,19 +51,34 @@
 					<img src="img/Logo.png" width="25%">
 			</li>
 			<li><a href="index.html"><i class="mwicons left small">home</i>Inicio</a></li>
-			<li class="active"><a href="control.html"><i class="mwicons left small">games</i>Control</a></li>
+			<li><a href="control.html"><i class="mwicons left small">games</i>Control</a></li>
 			<li><a href="calibracion.html"><i class="mwicons left small">tune</i>Calibración manual</a></li>
 			<li><a href="estadisticas.html"><i class="mwicons left small">poll</i>Estadísticas</a></li>
 			<li><a href="config.html"><i class="mwicons left small">settings</i>Configuración</a></li>
-			<li><a href="fwu.html"><i class="mwicons left small">bug_report</i>FWU</a></li>
+			<li class="active"><a href="fwu.html"><i class="mwicons left small">bug_report</i>FWU</a></li>
 		</ul>
 
 		<!-- Contenido -->
 		<div class="content">
 			<div class="container">
 				<div class="row">
-					<div class="col s12 m12 l8 offset-l2">
-					
+					<div class="col s12 m12 l12">
+						<h3>Actualizacion WEB</h3>
+						<p>Únicamente se admiten formatos .html, .js y .css. Para ahorrar espacio y reducir el tiempo de subida es recomendable comprimir los archivos en formato .gz.</p>
+
+						<form method="post" enctype="multipart/form-data" class="center-align">
+							<div class="file-field input-field">
+								<div class="btn">
+									<span><i class="mwicons left small">file_upload</i>Archivo</span>
+									<input type="file" name="Choose file" onchange="readFile(event)" accept=".html, .js, .css, .gz">
+								</div>
+								<div class="file-path-wrapper">
+									<input class="file-path validate" type="text" placeholder="Seleccione o arraste el archivo">
+								</div>
+							</div>
+							<!-- <input type="file" name="Choose file" onchange="readFile(event)" accept=".html, .js, .css, .gz"> -->
+							<button class="btn-large waves-effect waves-light disabled" type="submit" name="submit" id="uploadButton" value="submit">Subir</button>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -90,8 +105,7 @@
 	<!-- Ligaduras de iconos para navegadores no compatibles -->
 	<script type="text/javascript" src="js/liga.js"></script>
 	<!-- JS -->
-	<script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript" src="js/control.js"></script>
+	<script type="text/javascript" src="js/fwu.js"></script>
 	<!-- endsmoosh -->
 </body>
 </html>

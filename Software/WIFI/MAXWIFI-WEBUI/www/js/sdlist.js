@@ -1,10 +1,3 @@
-var uploaderWorker = new Worker('js/gcodeUpload.js');
-
-window.onload = function(){
-	sendCmd('M20');//Cargar SD
-	M.toast({html: '<i class="mwicons left small">sd_card</i>Cargando memoria SD...'});
-};
-
 var currentPath = "";
 
 //Comprueba si es una carpeta
@@ -62,16 +55,16 @@ function addItem(path){
 		var mult = " bytes";
 		peso = parseFloat(peso[0]);
 
-		if(peso>1024){
-			peso = peso/1024;
+		if(peso>1000){
+			peso = peso/1000;
 			mult = " KB";
 		}
-		if(peso>1024){
-			peso = peso/1024;
+		if(peso>1000){
+			peso = peso/1000;
 			mult = " MB";
 		}
-		if(peso>1024){
-			peso = peso/1024;
+		if(peso>1000){
+			peso = peso/1000;
 			mult = " GB";
 		}
 		peso = document.createTextNode(peso.toFixed(2).toString() + mult);
@@ -126,7 +119,6 @@ function showList(bool){
 	if(showList){
 		document.getElementById("fileList").style.display = "block";
 		document.getElementById("fileListProgress").style.display = "none";
-		document.getElementById("uploadProgress").style.display = "none";
 	}
 	else{
 		document.getElementById("fileList").style.display = "none";
@@ -192,7 +184,7 @@ function folderOut(){
 function deleteFile(){
 	if(selectedFile == "")return;
 	sendCmd("M30 "+currentPath+selectedFile);
-	M.toast({html: "<i class='mwicons small left'>info</i>Archivo"+selectedFile+"eliminado"});
+	M.toast({html: "<i class='mwicons small left'>info</i>Archivo "+selectedFile+" eliminado"});
 
 	var items = document.getElementsByTagName("tr");
 	for(var i=0 ; i<items.length ; i+=1){
@@ -217,8 +209,6 @@ function playPausePrint(){
 		document.getElementById("playpause_icon").innerHTML = "pause";
 		document.getElementById("playpause_btn").setAttribute("data-tooltip", "Pausar");
 		document.getElementById("delete_btn").classList.add("disabled");
-
-		printerStatus.printing.status = "P";
 	}
 	else if(printerStatus.printing.status == "P"){//Printing
 		sendCmd("M25");//Pause
@@ -226,8 +216,6 @@ function playPausePrint(){
 
 		document.getElementById("playpause_icon").innerHTML = "play_arrow";
 		document.getElementById("playpause_btn").setAttribute("data-tooltip", "Reanudar");
-
-		printerStatus.printing.status = "p";
 	}
 	else if(printerStatus.printing.status == "p"){//paused
 		sendCmd("M24");//Resume
@@ -235,79 +223,40 @@ function playPausePrint(){
 
 		document.getElementById("playpause_icon").innerHTML = "pause";
 		document.getElementById("playpause_btn").setAttribute("data-tooltip", "Pausar");
-
-		printerStatus.printing.status = "P";
 	}
 }
 
 function stopPrint(){
-	sendCmd("M25");//Pause
-	sendCmd("M25");//Stop
+	sendCmd("M108");//Stop
 	M.toast({html: "<i class='mwicons small left'>info</i>Impresión detenida"});
 
 	document.getElementById("playpause_btn").classList.add("disabled");
 	document.getElementById("stop_btn").classList.add("disabled");
 	document.getElementById("playpause_icon").innerHTML = "play_arrow";
-
-	printerStatus.printing.status = "I";
 }
 
-var fileSettings = {
-	"sizeBytes": null,
-	"sizeShort": "",
-	"fileName": ""
-}
-var gcodeLines;
-function readFile(e){
-	var f = e.target.files[0];
-	gcodeLines = undefined;
-
-	if(f){
-		if(f.name.endsWith(".gcode") || f.name.endsWith(".gco") || f.name.endsWith(".g")){
-			var size = f.size;
-			if(size>1024){
-				if(f.size / 1024 / 1024 < 1){
-					size = (f.size / 1024).toFixed(2) + " KB";
-				}
-				else{
-					size = (f.size / 1024 / 1024).toFixed(2) + " MB";
-				}
-			}else{
-				size = size + " bytes";
-			}
-			fileSettings.sizeBytes = f.size;
-			fileSettings.sizeShort = size;
-			fileSettings.fileName = f.name;
-			var r = new FileReader();
-			r.onload = function (e){
-				gcodeLines = e.target.result.split(/\s*[\r\n]+\s*/g);
-			}
-			r.readAsText(f);
-		}
-		else{
-			M.toast({html: '<i class="mwicons left small red-text">report</i>El archivo no es válido'});
-		}
+function updateButtons(){
+	if(printerStatus.printing.status == 'I'){
+		document.getElementById("playpause_icon").innerHTML = "play_arrow";
+		document.getElementById("playpause_btn").classList.add("disabled");
+		document.getElementById("stop_btn").classList.add("disabled");
+	}
+	else if(printerStatus.printing.status == 'P'){
+		document.getElementById("playpause_icon").innerHTML = "pause";
+		document.getElementById("playpause_btn").classList.remove("disabled");
+		document.getElementById("stop_btn").classList.remove("disabled");
+	}
+	else if(printerStatus.printing.status == 'p'){
+		document.getElementById("playpause_icon").innerHTML = "play_arrow";
+		document.getElementById("playpause_btn").classList.remove("disabled");
+		document.getElementById("stop_btn").classList.remove("disabled");
 	}
 }
-
-function uploadFile(){
-	if (gcodeLines != undefined){
-		showList(false);
-		document.getElementById("uploadProgress").style.display = "block";
-		setProgressBarPercent(0);
-		uploaderWorker.postMessage([gcodeLines, fileSettings]);
+function cargarSD(){
+	if(sdReceiving || sdLoaded){
+		clearInterval(sdInterval);
 	}
-}
-function setProgressBarPercent(val){
-	document.getElementById("uploadProgressBar").style = "width: " + val + "%;";
-}
-
-uploaderWorker.onmessage = function(e){
-	if ("progress" in e.data) {
-		setProgressBarPercent(e.data.progress);
-	} else if ("complete" in e.data) {
-		showList(true);
-		M.toast({html: '<i class="mwicons left small green-text">check_circle</i>Archivo subido correctamente.'});
-		sendCmd('M20');//Cargar SD
+	else{
+		sendCmd("M20");
 	}
 }

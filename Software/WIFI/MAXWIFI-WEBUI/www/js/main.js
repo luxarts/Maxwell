@@ -29,12 +29,13 @@ var printerStatus = {
 		"filename": "",
 		"time": null
 	},
-	"position": {
+	"pos": {
 		"x": null,
 		"y": null,
 		"z": null,
-		"e": null
-	}
+		"homed": null
+	},
+	"caselight": null
 }
 
 var eeprom = {
@@ -102,7 +103,7 @@ var eeprom = {
 	"extr1distanceRetract": {"type": 1, "pos": 252, "value": null},
 	"extr1coolerSpeed": {"type": 0, "pos": 254, "value": null}
 }
-var eepromLoaded = false;
+
 var connection;
 var debugServer = true;
 
@@ -113,16 +114,33 @@ try{
 	console.error("No se pudo establecer la conexion WebSocket");
 	connection = {readyState: 1, onmessage: function(){}, send: function(str){console.error("Mensaje fallido: " + str)}};
 }
-
-function sendCmd(cmd){
-	//if(!receivedOk)return;
+function sendLine(cmd){
 	if(debugServer)console.log("Client>>"+cmd);
 	if(connection.readyState == 1){
+		envioCompleto = false;
 		connection.send('!MWP7 ' + cmd);
-		receivedOk=false;
 	}
 	else{
 		if(debugServer)console.log("No se pudo enviar");
+	}
+}
+//Serial comunication with ACK
+var txBuffer = [];
+var envioCompleto = true;
+var txInterval;
+function sendCmd(dato){
+	txBuffer.push(dato); //Mete el dato al final del array
+	if(envioCompleto){
+		sendLine(txBuffer.shift()) //Saca el primer dato y lo envia
+		txInterval = setInterval(enviarResto, 1);
+	}
+}
+function enviarResto(){
+	if(txBuffer.length && envioCompleto){ //Si quedan datos por enviar
+		sendLine(txBuffer.shift()) //Saca el primer dato y lo envia
+	}
+	else if(!txBuffer.length){//Si no hay mas datos
+		clearInterval(txInterval);
 	}
 }
 
@@ -133,21 +151,22 @@ connection.onmessage = function (event){
 	else if(eepromCheck(event.data));
 	else if(sdCheck(event.data));
 	else if(wifiCheck(event.data));
+	else if(jsonCheck(event.data));
 	// else if(fwuCheck(event.data));
-	// else if(tempCheck(event.data));
-	// else if(statusCheck(event.data));
-	// else if(percentageCheck(event.data));
 }
 function okCheck(data){
 	if(!data.startsWith("ok"))return false;
-	receivedOk = true;
+
+	envioCompleto = true;
 	return true;
 }
+
+var eepromLoaded = false;
+var eepromReceiving = false;
 function eepromCheck(data){
-	var matches = data.startsWith('EPR:');
-	if(matches == null)return false; //No se encontro patron EPR:
+	if(!data.startsWith('EPR:'))return false; //No se encontro patron EPR:
 	
-	matches = data.match(/[+-]?\d+(\.\d+)?/g);//Obtiene todos los números
+	var matches = data.match(/[+-]?\d+(\.\d+)?/g);//Obtiene todos los números
 	var pos = parseInt(matches[1]); //Posicion en la EEPROM
 	var value = parseFloat(matches[2]);//Valor
 	
@@ -156,11 +175,24 @@ function eepromCheck(data){
 		if(eeprom.hasOwnProperty(key)){
 			if(eeprom[key].pos == pos){//Si la posicion coincide con la leida
 				eeprom[key].value = value;//Guarda el valor
+				eepromReceiving = true;
 				break;//Termina el bucle for
 			}
 		}
 	}
-	eepromLoaded = eepromIsLoaded();
+	if(eepromIsLoaded()){
+		eepromLoaded = true;
+	}
+	return true;
+}
+
+function wifiCheck(data){
+	if(!data.startsWith('!MWP2'))return false;
+
+	if(document.getElementById("STA_SSID")==null || document.getElementById("STA_PASSWORD") == null)return;
+	matches = data.match(/\w+/g);
+	document.getElementById("STA_SSID").value = matches[1];
+	document.getElementById("STA_PASSWORD").value = matches[2];
 	return true;
 }
 
@@ -176,11 +208,30 @@ function eepromIsLoaded(){
 }
 
 function cargarEeprom(){
-	sendCmd("M205");
+	if(eepromReceiving || eepromLoaded){
+		clearInterval(eprInterval);
+	}
+	else{
+		sendCmd("M205");
+	}
+}
+function guardarEeprom(){
+	for(var key in eeprom){//Recorre todos los objetos
+		if(eeprom.hasOwnProperty(key)){
+			if(eeprom[key].value != null){
+				var cmdString = "M206 T";
+				cmdString += eeprom[key].type.toString()+" ";
+				cmdString += eeprom[key].pos.toString()+" ";
+				if(eeprom[key].type == 3) cmdString += "X";
+				else cmdString += "S";
+				cmdString += eeprom[key].value.toString();
+				sendCmd(cmdString);
+			}
+		}
+	}
 }
 
 var sdItems = [];
-sdItems = ["CALIBR~1/", "CALIBR~1/caldelta10cm.gcode 492036", "CALIBR~1/caldelta60mm.gcode 1071141", "Maxwell/", "Maxwell/Duct.gcode 419198", "Maxwell/Effector.gcode 1371175", "Maxwell/FlyingMK8.gcode 1379435", "Maxwell/Foot.gcode 1576667", "Maxwell/Hotend.gcode 1412505", "Maxwell/HotendClamp.gcode 1632055", "Maxwell/joint x12.gcode 2292749", "Maxwell/MotorBase.gcode 7330960", "Maxwell/SoporteTop.gcode 5725384", "Maxwell/SoporteTopCorto.gcode 2623209", "Maxwell/SpotLed.gcode 1960631", "Maxwell/SujetaCorrea.gcode 908033", "AIO test.gcode 2203504", "eeprom.bin 4096"];
 var sdReceiving = false;
 var sdLoaded = false;
 function sdCheck(data){
@@ -191,8 +242,8 @@ function sdCheck(data){
 		sdReceiving = true;
 		sdLoaded = false;
 		sdItems = [];
-		document.getElementById("fileListProgress").style.display = "block";
-		document.getElementById("fileList").style.display = "none";
+		if(document.getElementById("fileListProgress")!=null)document.getElementById("fileListProgress").style.display = "block";
+		if(document.getElementById("fileList")!=null)document.getElementById("fileList").style.display = "none";
 	}
 	else{
 		//si el inicio no se encuentra y la bandera esta desactivada (no se esta recibiendo) -> vuelve
@@ -203,11 +254,8 @@ function sdCheck(data){
 		if(matches){
 			sdReceiving = false;
 			sdLoaded=true;
-			try{
-				actualizarLista();
-				document.getElementById("fileListProgress").style.display = "none";
-				document.getElementById("fileList").style.display = "block";
-			}catch(e){};
+			if(typeof(actualizarLista)!="undefined")actualizarLista();
+			if(typeof(showList)!="undefined")showList(true);
 		}
 		//si el final no se encuentra -> es un archivo o carpeta
 		else{
@@ -217,15 +265,26 @@ function sdCheck(data){
 	return true;
 }
 
+function jsonCheck(data){
+	if(!data.startsWith("JSONStatus"))return false;
+	
+	var jsonStatus = data.replace("JSONStatus", "");
+	printerStatus = JSON.parse(jsonStatus);
 
+	if(typeof(updateButtons)!="undefined")updateButtons();
+	//if(typeof(updateTemp)!=undefined)updateTemp(printerStatus.temp.extruder.actual, printerStatus.temp.extruder.target, printerStatus.temp.bed.actual, printerStatus.temp.bed.target);
+	//if(typeof(updatePos)!=undefined)updatePos();
+	return true;
+}
 
+window.onload = function(){
+	sendCmd("M205");//Cargar EEPROM
+	sendCmd("M20");//Cargar SD	
+}
 
-
-
-
-
-
-
+var jsonInterval = setInterval(function(){
+	//sendCmd("m408");
+}, 5000);
 
 
 
