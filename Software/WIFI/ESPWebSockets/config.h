@@ -26,11 +26,6 @@
 #define AP_SSID "Maxwell3D"
 #define AP_PASSWORD "mw3dpassword" //Al menos 8 caracteres
 
-//char D_STA_SSID[] = "Skynet";
-//char D_STA_PASSWORD[] = "lu29ni06";
-//char AP_SSID[] = "Maxwell3D";
-//char AP_PASSWORD[] = "mw3dpassword";//Al menos 8 caracteres
-
 //Posiciones en EEPROM
 #define EP_RESET_FLAG     0   //1 byte
 #define EP_WIFI_MODE      1   //1 byte

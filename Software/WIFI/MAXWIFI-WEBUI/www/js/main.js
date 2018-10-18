@@ -106,6 +106,7 @@ var eeprom = {
 
 var connection;
 var debugServer = true;
+var waitOk = true;
 
 try{
 	connection = new WebSocket('ws://' + location.hostname + ':8888/', ['mwp']);
@@ -129,15 +130,21 @@ var txBuffer = [];
 var envioCompleto = true;
 var txInterval;
 function sendCmd(dato){
-	txBuffer.push(dato); //Mete el dato al final del array
-	if(envioCompleto){
-		sendLine(txBuffer.shift()) //Saca el primer dato y lo envia
-		txInterval = setInterval(enviarResto, 1);
+	//if(txBuffer[txBuffer.length-1] == "M205" || txBuffer[txBuffer.length-1] == "m205")return; //Evita enviar dos veces seguidas cargar eeprom
+	if(!waitOk){
+		sendLine(dato);
+		envioCompleto=true;
+	}else{
+		txBuffer.push(dato); //Mete el dato al final del array
+		if(envioCompleto){
+			sendLine(txBuffer.shift()); //Saca el primer dato y lo envia
+			txInterval = setInterval(enviarResto, 10);
+		}
 	}
 }
 function enviarResto(){
 	if(txBuffer.length && envioCompleto){ //Si quedan datos por enviar
-		sendLine(txBuffer.shift()) //Saca el primer dato y lo envia
+		sendLine(txBuffer.shift()); //Saca el primer dato y lo envia
 	}
 	else if(!txBuffer.length){//Si no hay mas datos
 		clearInterval(txInterval);
@@ -155,7 +162,8 @@ connection.onmessage = function (event){
 	// else if(fwuCheck(event.data));
 }
 function okCheck(data){
-	if(!data.startsWith("ok"))return false;
+	var matches = data.match(/^(ok|o)$/gm);//Si empieza y termina con 'ok' o con 'o'
+	if(!matches)return false;
 
 	envioCompleto = true;
 	return true;
@@ -174,7 +182,9 @@ function eepromCheck(data){
 	for(var key in eeprom){//Recorre todos los objetos
 		if(eeprom.hasOwnProperty(key)){
 			if(eeprom[key].pos == pos){//Si la posicion coincide con la leida
-				eeprom[key].value = value;//Guarda el valor
+				//Guarda el valor
+				if(eeprom[key].type == 3)eeprom[key].value = parseFloat(value);
+				else eeprom[key].value = parseInt(value);
 				eepromReceiving = true;
 				break;//Termina el bucle for
 			}
@@ -182,6 +192,7 @@ function eepromCheck(data){
 	}
 	if(eepromIsLoaded()){
 		eepromLoaded = true;
+		M.toast({html: "<i class='mwicons small left'>info</i>Configuración cargada"});
 	}
 	return true;
 }
@@ -208,19 +219,22 @@ function eepromIsLoaded(){
 }
 
 function cargarEeprom(){
-	if(eepromReceiving || eepromLoaded){
-		clearInterval(eprInterval);
+	for(var key in eeprom){//Recorre todos los objetos
+		if(eeprom.hasOwnProperty(key)){
+			eeprom[key].value = null; //Vacia toda la configuracion actual
+		}
 	}
-	else{
-		sendCmd("M205");
-	}
+	eepromLoaded=false;
+	eepromReceiving=false;
+	sendCmd("M205");
 }
 function guardarEeprom(){
+	waitOk = false;
 	for(var key in eeprom){//Recorre todos los objetos
 		if(eeprom.hasOwnProperty(key)){
 			if(eeprom[key].value != null){
 				var cmdString = "M206 T";
-				cmdString += eeprom[key].type.toString()+" ";
+				cmdString += eeprom[key].type.toString()+" P";
 				cmdString += eeprom[key].pos.toString()+" ";
 				if(eeprom[key].type == 3) cmdString += "X";
 				else cmdString += "S";
@@ -229,6 +243,7 @@ function guardarEeprom(){
 			}
 		}
 	}
+	waitOk = true;
 }
 
 var sdItems = [];
@@ -265,6 +280,13 @@ function sdCheck(data){
 	return true;
 }
 
+function cargarSd(){
+	sdItems = [];
+	sdLoaded = false;
+	sdReceiving = false;
+	sendCmd("M20");
+}
+
 function jsonCheck(data){
 	if(!data.startsWith("JSONStatus"))return false;
 	
@@ -277,13 +299,15 @@ function jsonCheck(data){
 	return true;
 }
 
-window.onload = function(){
+window.addEventListener("load",function(){
 	sendCmd("M205");//Cargar EEPROM
-	sendCmd("M20");//Cargar SD	
-}
+});
+window.setTimeout(function(){
+	if(!eepromLoaded)cargarEeprom();
+}, 500);
 
-var jsonInterval = setInterval(function(){
-	//sendCmd("m408");
+var json_i = setInterval(function(){
+	sendCmd("m408");
 }, 5000);
 
 

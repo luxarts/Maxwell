@@ -1,12 +1,3 @@
-var loadDOMValues_i = window.setInterval(function(){
-	if(eepromLoaded){
-		loadDOMValues();
-		document.getElementById("configTable").style.display = "block";
-		document.getElementById("configLoading").style.display = "none";
-		clearInterval(loadDOMValues_i);
-	}
-}, 1000);
-
 function togglePswd(){
 	var domPswd = document.getElementById("wifipswd");
 	var domIcon = document.getElementById("pswdIcon");
@@ -50,4 +41,18 @@ function saveDOMValues(){
 }
 function dataChange(element){
 	element.classList.add("valid");
+}
+var config_i;
+window.addEventListener("load", function(){
+	clearInterval(json_i);
+	config_i = setInterval(configHandler, 500);
+});
+
+function configHandler(){
+	if(eepromLoaded){
+		loadDOMValues();
+		document.getElementById("configTable").style.display = "block";
+		document.getElementById("configLoading").style.display = "none";
+		clearInterval(config_i);
+	}
 }

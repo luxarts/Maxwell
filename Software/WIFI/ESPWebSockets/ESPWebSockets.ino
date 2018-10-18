@@ -17,6 +17,7 @@
 #include <cstring>
 //#include <ArduinoOTA.h>
 #include "config.h"
+#define WEBSOCKETS_SERVER_CLIENT_MAX  (1)
 
 //#define DEBUG
 

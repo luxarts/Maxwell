@@ -1,0 +1,26 @@
+.calib-btn{
+	fill: #F57C00;
+	cursor: pointer;
+	-webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                       supported by Chrome and Opera */
+}
+.calib-btn:hover{
+	transition: .2s fill;
+	fill: #ff8910;
+}
+.calib-btn.disabled{
+	fill: #b3b3b3 !important;
+	pointer-events: none;
+	cursor: default;
+}
+.calib-btn.active{
+	fill: #F44336 !important;
+}
+.calib-btn.saved{
+	fill: #4CAF50 !important;
+}

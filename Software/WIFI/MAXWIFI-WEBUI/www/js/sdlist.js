@@ -236,7 +236,7 @@ function stopPrint(){
 }
 
 function updateButtons(){
-	if(printerStatus.printing.status == 'I'){
+	if(printerStatus.printing.status == 'I' && selectedFile == ""){
 		document.getElementById("playpause_icon").innerHTML = "play_arrow";
 		document.getElementById("playpause_btn").classList.add("disabled");
 		document.getElementById("stop_btn").classList.add("disabled");
@@ -252,11 +252,10 @@ function updateButtons(){
 		document.getElementById("stop_btn").classList.remove("disabled");
 	}
 }
-function cargarSD(){
-	if(sdReceiving || sdLoaded){
-		clearInterval(sdInterval);
-	}
-	else{
-		sendCmd("M20");
-	}
-}
+
+window.addEventListener("load",function(){
+	sendCmd("M20");//Cargar EEPROM
+});
+window.setTimeout(function(){
+	if(!sdLoaded)cargarSd();
+}, 500);
