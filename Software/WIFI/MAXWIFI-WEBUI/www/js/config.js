@@ -38,6 +38,7 @@ function saveDOMValues(){
 			}
 		}
 	}
+	guardarEeprom();
 }
 function dataChange(element){
 	element.classList.add("valid");

@@ -14,7 +14,7 @@ var currentSettings = {
 	"maxJerk": [25, 25, 25, 20], //XYZ, E
 	"maxPrintAcceleration": [2000, 2000, 2000, 100], //XYZ, E 
 	"maxSpeed": [200, 200, 200, 60], //XYZ, E
-	"maxTravelAcceleration": [3000, 3000, 3000, 100],
+	"maxTravelAcceleration": [4000, 4000, 4000, 100],
 	"timeScale": 1.01,
 	"fileName": "",
 	"fileSize": "",

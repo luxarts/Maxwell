@@ -229,7 +229,7 @@ function cargarEeprom(){
 	sendCmd("M205");
 }
 function guardarEeprom(){
-	waitOk = false;
+	//waitOk = false;
 	for(var key in eeprom){//Recorre todos los objetos
 		if(eeprom.hasOwnProperty(key)){
 			if(eeprom[key].value != null){
@@ -243,7 +243,7 @@ function guardarEeprom(){
 			}
 		}
 	}
-	waitOk = true;
+	//waitOk = true;
 }
 
 var sdItems = [];

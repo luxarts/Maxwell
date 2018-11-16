@@ -386,13 +386,11 @@ function calibrar(){
 	var rslt = DoDeltaCalibration();
 	convertOutgoingEndstops();
 	setNewParameters();
-	waitOk=false;
 	sendCmd("M206 T1 P"+eeprom.towerXendstop.pos+" S"+eeprom.towerXendstop.value);
 	sendCmd("M206 T1 P"+eeprom.towerYendstop.pos+" S"+eeprom.towerYendstop.value);
 	sendCmd("M206 T1 P"+eeprom.towerZendstop.pos+" S"+eeprom.towerZendstop.value);
 	sendCmd("M206 T3 P"+eeprom.horizontalRodRadius.pos+" X"+eeprom.horizontalRodRadius.value);
 	sendCmd("M206 T3 P"+eeprom.zMaxLength.pos+" X"+eeprom.zMaxLength.value);
-	waitOk=true;
 	restartCalib();
 }
 function generarPuntos(){
@@ -480,6 +478,7 @@ function calibGuardarPos(){
 	}
 }
 function enableButtons(){
+	//Bed level
 	document.getElementById("z-10").classList.remove("disabled");
 	document.getElementById("z-1").classList.remove("disabled");
 	document.getElementById("z-01").classList.remove("disabled");
@@ -492,8 +491,13 @@ function enableButtons(){
 	document.getElementById("p3").classList.remove("disabled");
 	document.getElementById("p2").classList.remove("disabled");
 	document.getElementById("p1").classList.remove("disabled");
+	document.getElementById("restartBtn").classList.remove("disabled");
+
+	//Dimension
+	document.getElementById("aplicarDimensiones").classList.remove("disabled");
 }
 function disableButtons(){
+	//Bed level
 	document.getElementById("z-10").classList.add("disabled");
 	document.getElementById("z-1").classList.add("disabled");
 	document.getElementById("z-01").classList.add("disabled");
@@ -519,20 +523,30 @@ function disableButtons(){
 
 	document.getElementById("guardarPosBtn").classList.add("disabled");
 	document.getElementById("calibrarBtn").classList.add("disabled");
+	document.getElementById("restartBtn").classList.add("disabled");
+
+	//Dimension
+	document.getElementById("aplicarDimensiones").classList.add("disabled");
 }
 function resetValues(){
 	disableButtons();
+	//Bed level
 	calibPosZ = [null,null,null,null];
 	document.getElementById("p4value").innerHTML = calibPosZ[3];
 	document.getElementById("p3value").innerHTML = calibPosZ[2];
 	document.getElementById("p2value").innerHTML = calibPosZ[1];
 	document.getElementById("p1value").innerHTML = calibPosZ[0];
+
+	//Dimension
+	document.getElementById("medicionA").innerHTML = null;
+	document.getElementById("medicionB").innerHTML = null;
+	document.getElementById("medicionC").innerHTML = null;
 }
 var calib_i;
 function restartCalib(){
 	resetValues();
 	cargarEeprom();
-	calib_i = setInterval(restartCalibHandler, 500);
+	calib_i = setInterval(restartCalibHandler, 1000);
 }
 
 function restartCalibHandler(){
@@ -544,7 +558,24 @@ function restartCalibHandler(){
 	}
 }
 
+function dimensionCalc(){
+	var partSize = 100;
+	var medicionA = parseFloat(document.getElementById("medicionA").value);
+	var medicionB = parseFloat(document.getElementById("medicionB").value);
+	var medicionC = parseFloat(document.getElementById("medicionC").value);
+
+	eeprom.corrDiagonalA.value = eeprom.corrDiagonalA.value + (Math.round(((eeprom.diagonalRodLength.value+eeprom.corrDiagonalA.value)*(medicionA/partSize)-(eeprom.diagonalRodLength.value+eeprom.corrDiagonalA.value))*1000)/1000);
+	eeprom.corrDiagonalB.value = eeprom.corrDiagonalB.value + (Math.round(((eeprom.diagonalRodLength.value+eeprom.corrDiagonalB.value)*(medicionB/partSize)-(eeprom.diagonalRodLength.value+eeprom.corrDiagonalB.value))*1000)/1000);
+	eeprom.corrDiagonalC.value = eeprom.corrDiagonalC.value + (Math.round(((eeprom.diagonalRodLength.value+eeprom.corrDiagonalC.value)*(medicionC/partSize)-(eeprom.diagonalRodLength.value+eeprom.corrDiagonalC.value))*1000)/1000);
+
+	sendCmd("M206 T3 P"+eeprom.corrDiagonalA.pos+" X"+Math.round(eeprom.corrDiagonalA.value*1000)/1000);
+	sendCmd("M206 T3 P"+eeprom.corrDiagonalB.pos+" X"+Math.round(eeprom.corrDiagonalB.value*1000)/1000);
+	sendCmd("M206 T3 P"+eeprom.corrDiagonalC.pos+" X"+Math.round(eeprom.corrDiagonalC.value*1000)/1000);
+
+	restartCalib();
+}
+
+
 window.addEventListener("load", function(){
 	clearInterval(json_i);
-	calib_i = setInterval(restartCalibHandler, 500);
 });
