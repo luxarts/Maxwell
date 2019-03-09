@@ -210,33 +210,40 @@ function deleteFilament(){
 	if(selected != "add"){
 		selected = parseInt(selected);
 		userData.filamentos.splice(selected, 1); //Elimina el elemento del array
-		domselect.removeChild(domselect.childNodes[selected+3]); //Elimina el elemento del DOM		
-		for (var i = selected+1 ; i < domselect.childNodes.length-3; i++) { //Reacomoda el DOM
-			domselect.childNodes[i].setAttribute("value", i-1);
-		}
-		if(selected>0)
-			domselect.value = selected-1;
-		else
-			domselect.value = "add";
+		selected--;
+		localStorage.setItem("mw3dstats", JSON.stringify(userData));//Guarda  los datos
 
-		var elems = document.querySelectorAll('select');
-		var instances = M.FormSelect.init(elems);
-		localStorage.setItem("mw3dstats", JSON.stringify(userData));
+		while(domselect.firstChild){ //Elimina todas las opciones
+			domselect.removeChild(domselect.firstChild);
+		}
+		cargarUserData();//Carga las opciones
+		if(selected<0){
+			domselect.value="add";
+		}
+		else{
+			domselect.value=selected.toString();
+		}
 		updateDOMFilament();
+		M.FormSelect.init(document.querySelectorAll('select'));//Actualiza la vista del la lista
 	}
 }
 
 function cargarUserData(){
 	var storedUserData = localStorage.getItem("mw3dstats");
 
+	var newopt = document.createElement("option");
+	newopt.setAttribute("value", "add");
+	newopt.innerHTML = "- Nuevo -";
+	document.getElementById("filamentos").appendChild(newopt);
+
 	if(storedUserData == null)return;
 	userData = JSON.parse(storedUserData);
+
 	for(var i=0 ; i < userData.filamentos.length ; i++){
 		var newopt = document.createElement("option");
 		newopt.setAttribute("value", i);
 		newopt.innerHTML = userData.filamentos[i].marca + " (" + userData.filamentos[i].material + ")";
 		document.getElementById("filamentos").appendChild(newopt);
 	}
-	var elems = document.querySelectorAll('select');
-	var instances = M.FormSelect.init(elems);
+	var instances = M.FormSelect.init(document.querySelectorAll('select'));
 }

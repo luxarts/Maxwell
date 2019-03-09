@@ -1,5 +1,5 @@
 .calib-btn{
-	fill: #F57C00;
+	fill: #00c853;
 	cursor: pointer;
 	-webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -11,7 +11,8 @@
 }
 .calib-btn:hover{
 	transition: .2s fill;
-	fill: #ff8910;
+	/*fill: #00e676;*//*Naranja*/
+	fill: #15ff76;
 }
 .calib-btn.disabled{
 	fill: #b3b3b3 !important;
@@ -22,5 +23,5 @@
 	fill: #F44336 !important;
 }
 .calib-btn.saved{
-	fill: #4CAF50 !important;
+	fill: #1565c0 !important;
 }

@@ -16,3 +16,9 @@ main{
 #content{
 	padding-top: 20px;
 }
+.graph{
+	fill: #00c853;
+}
+.graph-disabled{
+	fill: #b3b3b3;
+}

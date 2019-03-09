@@ -138,7 +138,7 @@ function sendCmd(dato){
 		txBuffer.push(dato); //Mete el dato al final del array
 		if(envioCompleto){
 			sendLine(txBuffer.shift()); //Saca el primer dato y lo envia
-			txInterval = setInterval(enviarResto, 10);
+			txInterval = setInterval(enviarResto, 100);
 		}
 	}
 }
@@ -299,16 +299,17 @@ function jsonCheck(data){
 	return true;
 }
 
-window.addEventListener("load",function(){
-	sendCmd("M205");//Cargar EEPROM
+window.addEventListener("load", function(){
+	//sendCmd("M205");//Cargar EEPROM
+	cargarEeprom();
 });
-window.setTimeout(function(){
-	if(!eepromLoaded)cargarEeprom();
-}, 500);
+// window.setTimeout(function(){
+// 	if(!eepromLoaded)cargarEeprom();
+// }, 500);
 
-var json_i = setInterval(function(){
-	sendCmd("m408");
-}, 5000);
+// var json_i = setInterval(function(){
+// 	sendCmd("m408");
+// }, 5000);
 
 
 

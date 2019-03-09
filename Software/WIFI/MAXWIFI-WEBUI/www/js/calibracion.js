@@ -482,7 +482,8 @@ function enableButtons(){
 	document.getElementById("z-10").classList.remove("disabled");
 	document.getElementById("z-1").classList.remove("disabled");
 	document.getElementById("z-01").classList.remove("disabled");
-	document.getElementById("z").setAttribute("fill","#F57C00");
+	document.getElementById("z").classList.remove("graph-disabled");
+	//document.getElementById("z").setAttribute("fill","#00c853");
 	document.getElementById("z01").classList.remove("disabled");
 	document.getElementById("z1").classList.remove("disabled");
 	document.getElementById("z10").classList.remove("disabled");
@@ -501,7 +502,8 @@ function disableButtons(){
 	document.getElementById("z-10").classList.add("disabled");
 	document.getElementById("z-1").classList.add("disabled");
 	document.getElementById("z-01").classList.add("disabled");
-	document.getElementById("z").setAttribute("fill","#b3b3b3");
+	document.getElementById("z").classList.add("graph-disabled");
+	//document.getElementById("z").setAttribute("fill","#b3b3b3");
 	document.getElementById("z01").classList.add("disabled");
 	document.getElementById("z1").classList.add("disabled");
 	document.getElementById("z10").classList.add("disabled");
@@ -577,5 +579,5 @@ function dimensionCalc(){
 
 
 window.addEventListener("load", function(){
-	clearInterval(json_i);
+	//clearInterval(json_i);
 });
