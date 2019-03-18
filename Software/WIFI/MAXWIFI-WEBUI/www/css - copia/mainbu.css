@@ -1,0 +1,24 @@
+body{
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+main{
+	flex: 1 0 auto;
+}
+.sidenav-logo{
+	text-align: center;
+	margin: 20px;
+}
+.waves-effect.waves-primary .waves-ripple{
+	background-color: rgba(245,124,0,0.65);
+}
+#content{
+	padding-top: 20px;
+}
+.graph{
+	fill: #00c853;
+}
+.graph-disabled{
+	fill: #b3b3b3;
+}

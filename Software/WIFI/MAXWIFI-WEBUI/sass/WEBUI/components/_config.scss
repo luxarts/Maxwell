@@ -1,0 +1,23 @@
+#configTable td{
+	padding: 0px;
+}
+.disabled{
+	pointer-events: none;
+	background-color: #DFDFDF !important;
+	box-shadow: none;
+	color: #9F9F9F !important;
+	cursor: default;
+}
+#pswdIcon{
+	margin: 5px;
+	cursor: pointer;
+}
+.showedPswd{
+	color: $secondary-color;
+}
+.hiddenPswd{
+	color: #424242;
+}
+#configTable{
+	display: none;
+}

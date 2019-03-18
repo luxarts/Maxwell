@@ -12,7 +12,7 @@
 .calib-btn:hover{
 	transition: .2s fill;
 	/*fill: #00e676;*//*Naranja*/
-	fill: #15ff76;
+	fill: #0d47a1;
 }
 .calib-btn.disabled{
 	fill: #b3b3b3 !important;
