@@ -17,8 +17,34 @@ main{
 	padding-top: 20px;
 }
 .graph{
-	fill: #00c853;
+	fill: $secondary-color;
 }
 .graph-disabled{
 	fill: #b3b3b3;
+}
+.svg-btn{
+	fill: $secondary-color;
+	cursor: pointer;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+						supported by Chrome and Opera */
+}
+.svg-btn:hover{
+	transition: .2s fill;
+	fill: lighten($secondary-color, 5%);
+}
+.svg-btn.disabled{
+	fill: #b3b3b3 !important;
+	pointer-events: none;
+	cursor: default;
+}
+.svg-btn.active{
+	fill: $error-color !important;
+}
+.svg-btn.saved{
+	fill: $success-color !important;
 }

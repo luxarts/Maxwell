@@ -105,7 +105,7 @@ var eeprom = {
 }
 
 var connection;
-var debugServer = true;
+var debugServer = false;
 var waitOk = true;
 
 try{
@@ -138,7 +138,7 @@ function sendCmd(dato){
 		txBuffer.push(dato); //Mete el dato al final del array
 		if(envioCompleto){
 			sendLine(txBuffer.shift()); //Saca el primer dato y lo envia
-			txInterval = setInterval(enviarResto, 100);
+			txInterval = setInterval(enviarResto, 200);
 		}
 	}
 }
@@ -200,10 +200,10 @@ function eepromCheck(data){
 function wifiCheck(data){
 	if(!data.startsWith('!MWP2'))return false;
 
-	if(document.getElementById("STA_SSID")==null || document.getElementById("STA_PASSWORD") == null)return;
+	if(document.getElementById("wifissid")==null || document.getElementById("wifipswd") == null)return;
 	matches = data.match(/\w+/g);
-	document.getElementById("STA_SSID").value = matches[1];
-	document.getElementById("STA_PASSWORD").value = matches[2];
+	document.getElementById("wifissid").value = matches[1];
+	document.getElementById("wifipswd").value = matches[2];
 	return true;
 }
 
@@ -299,10 +299,10 @@ function jsonCheck(data){
 	return true;
 }
 
-window.addEventListener("load", function(){
-	//sendCmd("M205");//Cargar EEPROM
-	cargarEeprom();
-});
+// window.addEventListener("load", function(){
+// 	//sendCmd("M205");//Cargar EEPROM
+// 	cargarEeprom();
+// });
 // window.setTimeout(function(){
 // 	if(!eepromLoaded)cargarEeprom();
 // }, 500);

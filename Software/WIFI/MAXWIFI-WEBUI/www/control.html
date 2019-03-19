@@ -61,8 +61,122 @@
 		<div class="content">
 			<div class="container">
 				<div class="row">
-					<div class="col s12 m12 l8 offset-l2">
-					
+					<div class="col s12 m12 l8 offset-l2 valign-wrapper">
+						<div class="col s11 m8 l8">
+							<input type="text" id="cmdLine">
+						</div>
+						<div class="col s1 m4 l4">
+							<a class="btn waves-effect waves-light disabled" id="sendCtrlCmd">Enviar<i class="mwicons right small">send</i></a>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12 center">
+						<svg x="0px" y="0px" width="400px" height="400px" viewBox="0 0 974.494 812.07" enable-background="new 0 0 974.494 812.07">
+							<a class="ctrl-btn ctrl-50" onmouseover="changeMoveValue('X','-50')" onclick="sendMove('X',-50)" onmouseout="changeMoveValue('X','X/Y')">
+								<path d="M291.188,291.204l-57.42-57.453L118.929,118.912C45.442,192.398,0,293.93,0,406.042
+									C0,518.154,45.442,619.686,118.929,693.14l287.098-287.097L291.188,291.204z"/>
+							</a>
+							<a class="ctrl-btn ctrl-10" onmouseover="changeMoveValue('X','-10')" onclick="sendMove('X',-10)" onmouseout="changeMoveValue('X','X/Y')">
+								<path d="M291.188,291.204l-57.42-57.453l-57.419-57.419c-58.784,58.782-95.137,139.994-95.137,229.71
+									c0,89.717,36.353,170.895,95.137,229.68l229.678-229.68L291.188,291.204z"/>
+							</a>
+							<a class="ctrl-btn ctrl-1" onmouseover="changeMoveValue('X','-1')" onclick="sendMove('X',-1)" onmouseout="changeMoveValue('X','X/Y')">
+								<path d="M291.188,291.204l-57.42-57.453c-44.079,44.08-71.344,105.004-71.344,172.292
+									c0,67.252,27.265,128.179,71.344,172.258l172.259-172.258L291.188,291.204z"/>
+							</a>
+							<a class="ctrl-btn ctrl-01" onmouseover="changeMoveValue('X','-0.1')" onclick="sendMove('X',-0.1)" onmouseout="changeMoveValue('X','X/Y')">
+								<path d="M406.027,406.042L291.188,520.88c-29.376-29.406-47.552-69.979-47.552-114.837
+									c0-44.859,18.176-85.464,47.552-114.839L406.027,406.042z"/>
+							</a>
+							<a class="ctrl-btn ctrl-50" onmouseover="changeMoveValue('Y','+50')" onclick="sendMove('Y',50)" onmouseout="changeMoveValue('Y','X/Y')">
+								<path d="M520.863,291.172l57.453-57.421l114.839-114.839C619.67,45.427,518.138-0.016,406.025-0.016
+									c-112.113,0-213.642,45.442-287.096,118.928l287.096,287.099L520.863,291.172z"/>
+							</a>
+							<a class="ctrl-btn ctrl-10" onmouseover="changeMoveValue('Y','+10')" onclick="sendMove('Y',10)" onmouseout="changeMoveValue('Y','X/Y')">
+								<path d="M520.863,291.172l57.453-57.421l57.422-57.417c-58.785-58.784-139.995-95.139-229.713-95.139
+									c-89.715,0-170.894,36.354-229.678,95.139l229.678,229.677L520.863,291.172z"/>
+							</a>
+							<a class="ctrl-btn ctrl-1" onmouseover="changeMoveValue('Y','+1')" onclick="sendMove('Y',1)" onmouseout="changeMoveValue('Y','X/Y')">
+								<path d="M520.863,291.172l57.453-57.421c-44.079-44.079-105.003-71.343-172.291-71.343
+									c-67.254,0-128.178,27.264-172.257,71.343l172.257,172.26L520.863,291.172z"/>
+							</a>
+							<a class="ctrl-btn ctrl-01" onmouseover="changeMoveValue('Y','+0.1')" onclick="sendMove('Y',0.1)" onmouseout="changeMoveValue('Y','X/Y')">
+								<path d="M406.025,406.011L291.187,291.172c29.409-29.378,69.983-47.554,114.839-47.554
+									c44.858,0,85.464,18.176,114.838,47.554L406.025,406.011z"/>
+							</a>
+							<a class="ctrl-btn ctrl-50" onmouseover="changeMoveValue('X','+50')" onclick="sendMove('X',50)" onmouseout="changeMoveValue('X','X/Y')">
+								<path d="M520.896,520.848l57.421,57.453L693.155,693.14c73.488-73.485,118.931-175.018,118.931-287.13
+									c0-112.113-45.442-213.644-118.931-287.098L406.059,406.01L520.896,520.848z"/>
+							</a>
+							<a class="ctrl-btn ctrl-10" onmouseover="changeMoveValue('X','+10')" onclick="sendMove('X',10)" onmouseout="changeMoveValue('X','X/Y')">
+								<path d="M520.896,520.848l57.421,57.453l57.422,57.422c58.78-58.785,95.135-139.998,95.135-229.713
+									c0-89.717-36.354-170.896-95.135-229.678L406.059,406.01L520.896,520.848z"/>
+							</a>
+							<a class="ctrl-btn ctrl-1" onmouseover="changeMoveValue('X','+1')" onclick="sendMove('X',1)" onmouseout="changeMoveValue('X','X/Y')">
+								<path d="M520.896,520.848l57.421,57.453c44.08-44.079,71.344-105.006,71.344-172.291
+									c0-67.254-27.264-128.179-71.344-172.259L406.059,406.01L520.896,520.848z"/>
+							</a>
+							<a class="ctrl-btn ctrl-01" onmouseover="changeMoveValue('X','+0.1')" onclick="sendMove('X',0.1)" onmouseout="changeMoveValue('X','X/Y')">
+								<path d="M406.059,406.01l114.837-114.839c29.378,29.408,47.554,69.981,47.554,114.839
+									c0,44.858-18.176,85.464-47.554,114.838L406.059,406.01z"/>
+							</a>
+							<a class="ctrl-btn ctrl-50" onmouseover="changeMoveValue('Y','-50')" onclick="sendMove('Y',-50)" onmouseout="changeMoveValue('Y','X/Y')">
+								<path d="M291.221,520.88l-57.453,57.421L118.929,693.14C192.415,766.628,293.947,812.07,406.06,812.07
+									s213.641-45.442,287.095-118.931L406.06,406.041L291.221,520.88z"/>
+							</a>
+							<a class="ctrl-btn ctrl-10" onmouseover="changeMoveValue('Y','-10')" onclick="sendMove('Y',-10)" onmouseout="changeMoveValue('Y','X/Y')">
+								<path d="M291.221,520.88l-57.453,57.421l-57.42,57.418c58.784,58.784,139.995,95.142,229.712,95.142
+									c89.715,0,170.893-36.357,229.678-95.142L406.06,406.041L291.221,520.88z"/>
+							</a>
+							<a class="ctrl-btn ctrl-1" onmouseover="changeMoveValue('Y','-1')" onclick="sendMove('Y',-1)" onmouseout="changeMoveValue('Y','X/Y')">
+								<path d="M291.221,520.88l-57.453,57.421c44.08,44.08,105.003,71.343,172.292,71.343
+									c67.253,0,128.177-27.263,172.256-71.343L406.06,406.041L291.221,520.88z"/>
+							</a>
+							<a class="ctrl-btn ctrl-01" onmouseover="changeMoveValue('Y','-0.1')" onclick="sendMove('Y',-0.1)" onmouseout="changeMoveValue('Y','X/Y')">
+								<path d="M406.06,406.041L520.898,520.88c-29.409,29.378-69.982,47.554-114.838,47.554
+									c-44.859,0-85.464-18.176-114.839-47.554L406.06,406.041z"/>
+							</a>
+
+							<circle fill="#212121" cx="406.027" cy="406.042" r="81.214"/>
+							<text text-anchor="middle" transform="matrix(1 0 0 1 405 420)" fill="#FFFFFF" font-size="48.1635" id="moveValueXY">X/Y</text>
+							
+							<a class="ctrl-btn ctrl-50" onmouseover="changeMoveValue('Z','+50')" onclick="sendMove('Z',50)" onmouseout="changeMoveValue('Z','Z')">	
+								<path d="M974.494,6.492v74.72h-81.213V6.492c0-3.571,2.919-6.492,6.492-6.492h68.229
+									C971.604,0,974.494,2.921,974.494,6.492z"/>
+							</a>
+							<a class="ctrl-btn ctrl-10" onmouseover="changeMoveValue('Z','+10')" onclick="sendMove('Z',10)" onmouseout="changeMoveValue('Z','Z')">	
+								<rect x="893.294" y="81.217" width="81.21" height="81.191"/>
+							</a>
+							<a class="ctrl-btn ctrl-1" onmouseover="changeMoveValue('Z','+1')" onclick="sendMove('Z',1)" onmouseout="changeMoveValue('Z','Z')">	
+								<rect x="893.294" y="162.408" width="81.21" height="81.228"/>
+							</a>
+							<a class="ctrl-btn ctrl-01" onmouseover="changeMoveValue('Z','+0.1')" onclick="sendMove('Z',0.1)" onmouseout="changeMoveValue('Z','Z')">	
+								<rect x="893.294" y="243.636" width="81.21" height="81.21"/>
+							</a>
+							<a class="ctrl-btn ctrl-01" onmouseover="changeMoveValue('Z','-0.1')" onclick="sendMove('Z',-0.1)" onmouseout="changeMoveValue('Z','Z')">	
+								<rect x="893.294" y="487.262" width="81.21" height="81.213"/>
+							</a>
+							<a class="ctrl-btn ctrl-1" onmouseover="changeMoveValue('Z','-1')" onclick="sendMove('Z',-1)" onmouseout="changeMoveValue('Z','Z')">	
+								<rect x="893.294" y="568.475" width="81.21" height="81.207"/>
+							</a>
+							<a class="ctrl-btn ctrl-10" onmouseover="changeMoveValue('Z','-10')" onclick="sendMove('Z',-10)" onmouseout="changeMoveValue('Z','Z')">	
+								<rect x="893.294" y="649.682" width="81.21" height="81.176"/>
+							</a>
+							<a class="ctrl-btn ctrl-50" onmouseover="changeMoveValue('Z','-50')" onclick="sendMove('Z',-50)" onmouseout="changeMoveValue('Z','Z')">	
+								<path d="M893.281,805.592v-74.719h81.213v74.719c0,3.569-2.922,6.492-6.491,6.492h-68.229
+									C896.169,812.084,893.281,809.161,893.281,805.592z"/>
+							</a>
+							<rect x="893.294" y="324.846" fill="#212121" width="81.21" height="162.416"/>
+							<text text-anchor="middle" transform="matrix(1 0 0 1 933 420)" fill="#FFFFFF" font-size="38.1635" id="moveValueZ">Z</text>
+						</svg>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s3 m3 l3">
+						<a class="btn-floating waves-effect waves-light"><i class="mwicons">power_settings_new</i></a>
+						<a class="btn-floating waves-effect waves-light"><i class="mwicons">toys</i></a>
+						<a class="btn-floating waves-effect waves-light" onclick="toggleLights()"><i class="mwicons">wb_incandescent</i></a>
 					</div>
 				</div>
 			</div>

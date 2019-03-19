@@ -2134,43 +2134,6 @@
   color: transparent !important;
 }
 
-.calib-btn {
-  fill: #0D47A1;
-  cursor: pointer;
-  -webkit-touch-callout: none;
-  /* iOS Safari */
-  -webkit-user-select: none;
-  /* Safari */
-  -khtml-user-select: none;
-  /* Konqueror HTML */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
-  user-select: none;
-  /* Non-prefixed version, currently
-  supported by Chrome and Opera */
-}
-
-.calib-btn:hover {
-  transition: 0.2s fill;
-  fill: #0f51b9;
-}
-
-.calib-btn.disabled {
-  fill: #b3b3b3 !important;
-  pointer-events: none;
-  cursor: default;
-}
-
-.calib-btn.active {
-  fill: #F44336 !important;
-}
-
-.calib-btn.saved {
-  fill: #4CAF50 !important;
-}
-
 #configTable td {
   padding: 0px;
 }
@@ -2198,6 +2161,44 @@
 
 #configTable {
   display: none;
+}
+
+.ctrl-btn {
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+  supported by Chrome and Opera */
+}
+
+.ctrl-btn:hover {
+  transition: 0.2s fill;
+  fill: #0D47A1 !important;
+}
+
+.ctrl-50 {
+  fill: #9e9e9e;
+}
+
+.ctrl-10 {
+  fill: #757575;
+}
+
+.ctrl-1 {
+  fill: #616161;
+}
+
+.ctrl-01 {
+  fill: #424242;
 }
 
 #calcularBtn {
@@ -2332,11 +2333,48 @@ main {
 }
 
 .graph {
-  fill: #00c853;
+  fill: #0D47A1;
 }
 
 .graph-disabled {
   fill: #b3b3b3;
+}
+
+.svg-btn {
+  fill: #0D47A1;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+  supported by Chrome and Opera */
+}
+
+.svg-btn:hover {
+  transition: 0.2s fill;
+  fill: #0f51b9;
+}
+
+.svg-btn.disabled {
+  fill: #b3b3b3 !important;
+  pointer-events: none;
+  cursor: default;
+}
+
+.svg-btn.active {
+  fill: #F44336 !important;
+}
+
+.svg-btn.saved {
+  fill: #4CAF50 !important;
 }
 
 /*# sourceMappingURL=main.css.map */

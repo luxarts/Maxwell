@@ -45,7 +45,7 @@ function dataChange(element){
 }
 var config_i;
 window.addEventListener("load", function(){
-	clearInterval(json_i);
+	//clearInterval(json_i);
 	config_i = setInterval(configHandler, 500);
 });
 
@@ -57,3 +57,11 @@ function configHandler(){
 		clearInterval(config_i);
 	}
 }
+
+window.addEventListener("load", function(){
+	cargarEeprom();
+	if(connection.readyState == 1){
+		envioCompleto = false;
+		connection.send('!MWP2');
+	}
+});
